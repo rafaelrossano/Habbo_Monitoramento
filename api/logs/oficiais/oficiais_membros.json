@@ -176,7 +176,7 @@
     },
     {
         "nickname": "PudimSalgado02",
-        "mission": "[DIC] Tenente [M1] [A.SL]",
+        "mission": "[DIC] Tenente [M1] [A.SL/BME] \u00ba",
         "isAdmin": false
     },
     {
@@ -237,11 +237,6 @@
     {
         "nickname": "Dhefes",
         "mission": "[\u00d0IC] Capit\u00e3o [M2] [A.Sp] \u00ae",
-        "isAdmin": false
-    },
-    {
-        "nickname": "NEnix12",
-        "mission": "[DIC] Major [A.SL]",
         "isAdmin": false
     },
     {
@@ -446,7 +441,7 @@
     },
     {
         "nickname": "Vitordone",
-        "mission": "",
+        "mission": "[DIC] Coronel [S.Sp]",
         "isAdmin": true
     },
     {

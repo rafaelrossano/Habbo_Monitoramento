@@ -1,6 +1,6 @@
 from app import write_log_file, get_group_member_list
-from group_ids import *
-from paths import *
+from api.config.group_ids import *
+from api.config.paths import *
 
 
 try:

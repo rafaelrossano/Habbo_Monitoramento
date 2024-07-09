@@ -151,7 +151,7 @@
     },
     {
         "nickname": "Pachieri",
-        "mission": "[DIC] Cabo [TF]",
+        "mission": "[DIC] Sargento [TF]",
         "isAdmin": false
     },
     {
@@ -167,6 +167,11 @@
     {
         "nickname": "abnersoares56",
         "mission": "[\u00d0IC] Cabo [TF]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "lcmelosansei",
+        "mission": "[DIC] Cabo [TF] \u00ae",
         "isAdmin": false
     },
     {
@@ -430,6 +435,11 @@
         "isAdmin": false
     },
     {
+        "nickname": "::DarlanBdt::",
+        "mission": "[DIC] Cabo [TF]",
+        "isAdmin": false
+    },
+    {
         "nickname": "tukalino",
         "mission": "[DIC] Sargento [TF]",
         "isAdmin": false
@@ -675,6 +685,11 @@
         "isAdmin": true
     },
     {
+        "nickname": "DanX1L",
+        "mission": "[DIC] Cabo [TF]",
+        "isAdmin": false
+    },
+    {
         "nickname": "::-Arcanjo-::",
         "mission": "[DIC] Super \u00aa [15] [V.SL/Cro]",
         "isAdmin": true
@@ -836,7 +851,7 @@
     },
     {
         "nickname": "@Vitin",
-        "mission": "[DIC] Subtenente \u00ae",
+        "mission": "[DIC] Subtenente [TF] \u00ae",
         "isAdmin": false
     },
     {
@@ -886,7 +901,7 @@
     },
     {
         "nickname": ":.:Falido:.:",
-        "mission": "[DIC] Cabo [TF]",
+        "mission": "[DIC] Sargento",
         "isAdmin": false
     },
     {
@@ -966,7 +981,7 @@
     },
     {
         "nickname": "Miguera",
-        "mission": "[DIC] Subtenente [TF] [SL]",
+        "mission": "[DIC] Aspirante [SL]",
         "isAdmin": false
     },
     {
@@ -991,7 +1006,7 @@
     },
     {
         "nickname": "Vitordone",
-        "mission": "",
+        "mission": "[DIC] Coronel [S.Sp]",
         "isAdmin": true
     },
     {
@@ -1510,6 +1525,11 @@
         "isAdmin": false
     },
     {
+        "nickname": "gabriellds",
+        "mission": "[DIC] Cabo [TF]",
+        "isAdmin": false
+    },
+    {
         "nickname": ".Re-i.",
         "mission": "[DIC] Sargento [TF]",
         "isAdmin": false
@@ -1671,6 +1691,11 @@
     },
     {
         "nickname": "Princes@lind@",
+        "mission": "[DIC] Cabo [TF]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "emitelindo",
         "mission": "[DIC] Cabo [TF]",
         "isAdmin": false
     },

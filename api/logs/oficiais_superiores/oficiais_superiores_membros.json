@@ -156,7 +156,7 @@
     },
     {
         "nickname": ",Preen,",
-        "mission": "[DIC] Major [Ap] \u00ae",
+        "mission": "[DIC] Major [M3] [Ap] \u00ae",
         "isAdmin": false
     },
     {
@@ -177,11 +177,6 @@
     {
         "nickname": "Icekiss52",
         "mission": "[DIC] Major [A.SL/Ap]",
-        "isAdmin": false
-    },
-    {
-        "nickname": "NEnix12",
-        "mission": "[DIC] Major [A.SL]",
         "isAdmin": false
     },
     {
@@ -301,7 +296,7 @@
     },
     {
         "nickname": "Vitordone",
-        "mission": "",
+        "mission": "[DIC] Coronel [S.Sp]",
         "isAdmin": true
     },
     {
@@ -352,6 +347,11 @@
     {
         "nickname": "Knnd7_",
         "mission": "[DIC] Tenente-Coronel [A.Lg/BME] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "CRATOWS",
+        "mission": "[DIC] Major [Fg/X.BME/Ap] \u00ba",
         "isAdmin": false
     },
     {
