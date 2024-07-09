@@ -37,7 +37,7 @@ def get_group_member_list(group_id: str):
 
 
 def write_log_file(file_path: str, group_members_list: list):
-    with open(file_path, 'w') as log_file:
+    with open(file_path, 'w+') as log_file:
         json.dump(group_members_list, log_file, indent=4)
 
 
@@ -88,7 +88,7 @@ ID_CORPO_EXECUTIVO_SUPERIOR = 'g-hhbr-7f9e61c9ce3700323d870bf420732535'
 
 
 paths = [
-    {'corpo_executivo_membros': 'logs/corpo_executivo/corpo_executivo_membros.json'},
+    {'corpo_executivo_membros': r'C:\Users\rafae\OneDrive\Documentos\Habbo_Monitoramento\api\logs\corpo_executivo\corpo_executivo_membros.json'},
     {'corpo_executivo_check': 'logs/corpo_executivo/corpo_executivo_check.json'},
     {'corpo_executivo_atts': 'logs/corpo_executivo/corpo_executivo_atts.json'},
     {'corpo_executivo_superior_membros': 'logs/corpo_executivo_superior/corpo_executivo_superior_membros.json'},
@@ -129,6 +129,8 @@ def index():
 #@app.route('/members/<group_name>', methods=['GET'])
 #def get_group_member_list(group_name: str):
     #return jsonify(get_group_member_list(group_name))
+    
+write_log_file(paths[0]['corpo_executivo_membros'], get_group_member_list(ID_CORPO_EXECUTIVO))
 
 
 if __name__ == '__main__':
