@@ -1,6 +1,8 @@
 from flask import Flask, jsonify
 from datetime import datetime
 from pytz import timezone
+from paths import *
+from group_ids import *
 
 import contextlib
 import requests
@@ -80,35 +82,6 @@ def check_changes(log_file_name: str, log_file_check_name: str):
     return changes_dict
 
 
-ID_OFICIAIS = 'g-hhbr-247773992b2ed79b8f00e564abad2c43'
-ID_OFICIAIS_SUPERIORES = 'g-hhbr-7b5c62e80d30cd30f003eab08555a124'
-ID_PRACAS = 'g-hhbr-e45543b627d203d8caf1a4476bb42fab'
-ID_CORPO_EXECUTIVO = 'g-hhbr-da0cd92560170f5d42d0e59dd6dbc268'
-ID_CORPO_EXECUTIVO_SUPERIOR = 'g-hhbr-7f9e61c9ce3700323d870bf420732535'
-
-
-paths = [
-    {'corpo_executivo_membros': r'C:\Users\rafae\OneDrive\Documentos\Habbo_Monitoramento\api\logs\corpo_executivo\corpo_executivo_membros.json'},
-    {'corpo_executivo_check': 'logs/corpo_executivo/corpo_executivo_check.json'},
-    {'corpo_executivo_atts': 'logs/corpo_executivo/corpo_executivo_atts.json'},
-    {'corpo_executivo_superior_membros': 'logs/corpo_executivo_superior/corpo_executivo_superior_membros.json'},
-    {'corpo_executivo_superior_check': 'logs/corpo_executivo_superior/corpo_executivo_superior_check.json'},
-    {'corpo_executivo_superior_atts': 'logs/corpo_executivo_superior/corpo_executivo_superior_atts.json'},
-    {'oficiais_membros': 'logs/oficiais/oficiais_membros.json'},
-    {'oficiais_check': 'logs/oficiais/oficiais_check.json'},
-    {'oficiais_atts': 'logs/oficiais/oficiais_atts.json'},
-    {'oficiais_superiores_membros': 'logs/oficiais_superiores_membros.json'},
-    {'oficiais_superiores_check': 'logs/oficiais_superiores/oficiais_superiores_check.json'},
-    {'oficiais_superiores_atts': 'logs/oficiais_superiores/oficiais_superiores_atts.json'},
-    {'pracas_membros': 'logs/pracas/pracas_membros.json'},
-    {'pracas_check': 'logs/pracas/pracas_check.json'},
-    {'pracas_atts': 'logs/pracas/pracas_atts.json'},
-    {'acceso_a_base_membros': 'logs/acceso_a_base/acceso_a_base_membros.json'},
-    {'acceso_a_base_check': 'logs/acceso_a_base/acceso_a_base_check.json'},
-    {'acesso_a_base_atts': 'logs/acesso_a_base/acesso_a_base_atts.json'},
-]
-
-
 def get_members_oficiais():
     group_members_list = get_group_member_list(ID_OFICIAIS)
     return jsonify(group_members_list)
@@ -130,7 +103,7 @@ def index():
 #def get_group_member_list(group_name: str):
     #return jsonify(get_group_member_list(group_name))
     
-write_log_file(paths[0]['corpo_executivo_membros'], get_group_member_list(ID_CORPO_EXECUTIVO))
+write_log_file(, get_group_member_list(ID_CORPO_EXECUTIVO))
 
 
 if __name__ == '__main__':
