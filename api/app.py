@@ -32,14 +32,14 @@ def get_group_member_list(group_id: str):
 
     for member in request.json():
         group_members_list.append(
-            {'nickname': member['name'].strip(), 'motto': member['motto'], 'isAdmin': member['isAdmin']}
+            {'nickname': member['name'].strip(), 'mission': member['motto'], 'isAdmin': member['isAdmin']}
         )
 
     return group_members_list
 
 
 def write_log_file(file_path: str, group_members_list: list):
-    with open(file_path, 'w+') as log_file:
+    with open(file_path, 'w+', encoding='utf-8') as log_file:
         json.dump(group_members_list, log_file, indent=4)
 
 
@@ -82,15 +82,21 @@ def check_changes(log_file_name: str, log_file_check_name: str):
     return changes_dict
 
 
-def get_members_oficiais():
-    group_members_list = get_group_member_list(ID_OFICIAIS)
-    return jsonify(group_members_list)
-
 
 def handle_get_member_request(group_name: str):
 
     if group_name == 'oficiais':
-        return get_members_oficiais()
+        return get_group_member_list(ID_OFICIAIS)
+    if group_name == 'oficiais_superiores':
+        return get_group_member_list(ID_OFICIAIS_SUPERIORES)
+    if group_name == 'corpo_executivo':
+        return get_group_member_list(ID_CORPO_EXECUTIVO)
+    if group_name == 'corpo_executivo_superior':
+        return get_group_member_list(ID_CORPO_EXECUTIVO_SUPERIOR)
+    if group_name == 'acesso_a_base':
+        return get_group_member_list(ID_ACESSO_A_BASE)
+    if group_name == 'pracas':
+        return get_group_member_list(ID_PRACAS)
     #if group_name == 'oficiais_superiores': return get_members_oficiais_superiores()
 
 
@@ -99,11 +105,9 @@ def index():
     return 'API Running...'
 
 
-#@app.route('/members/<group_name>', methods=['GET'])
-#def get_group_member_list(group_name: str):
-    #return jsonify(get_group_member_list(group_name))
-    
-write_log_file(, get_group_member_list(ID_CORPO_EXECUTIVO))
+@app.route('/members/<group_name>', methods=['GET'])
+def get_group_member_list_endpoint(group_name):
+    return jsonify(handle_get_member_request(group_name))
 
 
 if __name__ == '__main__':
