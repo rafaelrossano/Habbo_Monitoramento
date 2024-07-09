@@ -1,1312 +1,1317 @@
 [
     {
         "nickname": "Snuler",
-        "motto": "[DIC] Supervisor [TF3] [G]",
+        "mission": "[DIC] Supervisor [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Gothenks",
-        "motto": "[\u00d0IC] Detetive [TF3] [G] \u00ae",
+        "mission": "[\u00d0IC] Detetive [TF3] [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "osamah445",
-        "motto": "[DIC] Supervisor [CFO]",
+        "mission": "[DIC] Supervisor [CFO]",
         "isAdmin": false
     },
     {
         "nickname": "Rynx",
-        "motto": "[DIC] Detetive [M3] [Ap]",
+        "mission": "[DIC] Detetive [M3] [Ap]",
         "isAdmin": false
     },
     {
         "nickname": "-War",
-        "motto": "[\u00d0IC] Supremo [01] \u2020",
+        "mission": "[\u00d0IC] Supremo [01] \u2020",
         "isAdmin": true
     },
     {
         "nickname": "g@rot@l!nd@",
-        "motto": "[DIC] Comandante-Geral \u00aa [Min.GOE]",
+        "mission": "[DIC] Comandante-Geral \u00aa [Min.GOE]",
         "isAdmin": true
     },
     {
         "nickname": "_Nicklocked",
-        "motto": "[DIC] Supervisor [TF3]",
+        "mission": "[DIC] Supervisor [TF3]",
         "isAdmin": false
     },
     {
         "nickname": ".MarceloMarinho",
-        "motto": "[\u00d0IC] Aposentado <Acionista> \u00ae",
+        "mission": "[\u00d0IC] Aposentado <Acionista> \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "jonnymeny2",
-        "motto": "[DIC] Delegado [CFO] [G/Sp] \u00ae",
+        "mission": "[DIC] Delegado [CFO] [G/Sp] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": ":Serpente:Black",
-        "motto": "[\u00d0IC] Detetive [M1] [G/Sp] \u00ae",
+        "mission": "[\u00d0IC] Detetive [M1] [G/Sp] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "marina:D:D:D",
-        "motto": "[DIC] Detetive [TF3]",
+        "mission": "[DIC] Detetive [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "hrico12",
-        "motto": "[\u00d0IC] Detetive [TF3] \u00ae",
+        "mission": "[\u00d0IC] Detetive [TF3] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "junior961",
-        "motto": "Todes \u00e9 minha roles",
+        "mission": "Todes \u00e9 minha roles",
         "isAdmin": false
     },
     {
         "nickname": "qx.sergio.xp",
-        "motto": "[DIC] L\u00edder-Executivo [TF3]",
+        "mission": "[DIC] L\u00edder-Executivo [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "emishine",
-        "motto": "Comandante da Pol\u00edcia DIC [Cro-G]",
+        "mission": "Comandante da Pol\u00edcia DIC [Cro-G]",
         "isAdmin": true
     },
     {
         "nickname": "sasukes9x",
-        "motto": "[DIC] Inspetor \u00aa [11]",
+        "mission": "[DIC] Inspetor \u00aa [11]",
         "isAdmin": true
     },
     {
         "nickname": "marcelo00bmx",
-        "motto": "[\u00d0IC] Detetive [M3] [Ap] \u00ae",
+        "mission": "[\u00d0IC] Detetive [M3] [Ap] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Traust",
-        "motto": "[DIC] Detetive [TF3] [G/EM] \u00ae",
+        "mission": "[DIC] Detetive [TF3] [G/EM] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Jiwan",
-        "motto": "[DIC] L\u00edder [CFS] [EM]",
+        "mission": "[DIC] L\u00edder [CFS] [EM]",
         "isAdmin": false
     },
     {
         "nickname": "hugoc87",
-        "motto": "[DIC] Promotor [CFO] [G/BME]",
+        "mission": "[DIC] Promotor [CFO] [G/BME]",
         "isAdmin": false
     },
     {
         "nickname": "lierbeson",
-        "motto": "[DIC] Detetive",
+        "mission": "[DIC] Detetive",
         "isAdmin": false
     },
     {
         "nickname": "Melaaauh",
-        "motto": "[DIC] Promotora [M1] [EM]",
+        "mission": "[DIC] Promotora [M1] [EM]",
         "isAdmin": false
     },
     {
         "nickname": "Leo?!",
-        "motto": "[DIC] Agente [TF2]",
+        "mission": "[DIC] Agente [TF2]",
         "isAdmin": false
     },
     {
         "nickname": "-DoritosHabbo-",
-        "motto": "[DIC] L\u00edder [TF2]",
+        "mission": "[DIC] L\u00edder [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Gstx",
-        "motto": "[DIC] Aluno do COEsp \u00aa",
+        "mission": "[DIC] Aluno do COEsp \u00aa",
         "isAdmin": false
     },
     {
         "nickname": "-Lukasz.?",
-        "motto": "[\u00d0IC] Comandante-Geral [Min.CORE] \u2020",
+        "mission": "[\u00d0IC] Comandante-Geral [Min.CORE] \u2020",
         "isAdmin": true
     },
     {
         "nickname": "Hirokawa",
-        "motto": "[DIC] Detetive [M2] [Ap]",
+        "mission": "[DIC] Detetive [M2] [Ap]",
         "isAdmin": false
     },
     {
         "nickname": "-IPhone-:",
-        "motto": "[\u0110IC] L\u00edder-Executivo [M1] \u00ae",
+        "mission": "[\u0110IC] L\u00edder-Executivo [M1] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "adiel5555",
-        "motto": "[DIC] L-E [M3] [Ap/Trn/A.Sp]",
+        "mission": "[DIC] L-E [M3] [Ap/Trn/A.Sp]",
         "isAdmin": false
     },
     {
         "nickname": "XxxHeadxShotxxX",
-        "motto": "Chanceler da \u00d0IC \u00aa [CFS]",
+        "mission": "Chanceler da \u00d0IC \u00aa [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "johnnyv1d4lok4",
-        "motto": "[DIC] Supervisor [TF3]",
+        "mission": "[DIC] Supervisor [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Mestrezurki",
-        "motto": "[DIC] Detetive [M1] [G]",
+        "mission": "[DIC] Detetive [M1] [G]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Senhor.M@theus",
+        "mission": "[DIC] Coordenador [TF2]",
         "isAdmin": false
     },
     {
         "nickname": "Druthy",
-        "motto": "[DIC] Chanceler \u00a5 \u00a5 \u00a5 [O]",
+        "mission": "[DIC] Chanceler \u00a5 \u00a5 \u00a5 [O]",
         "isAdmin": true
     },
     {
         "nickname": "domgusta9362",
-        "motto": "[DIC] Detetive [M1]",
+        "mission": "[DIC] Detetive [M1]",
         "isAdmin": false
     },
     {
         "nickname": "BielD10S.",
-        "motto": "[\u00d0IC] Supervisor [M3] [O.Trn]",
+        "mission": "[\u00d0IC] Supervisor [M3] [O.Trn]",
         "isAdmin": false
     },
     {
         "nickname": "joao50866",
-        "motto": "[DIC] Investigador [TF3] [Sp]",
+        "mission": "[DIC] Investigador [TF3] [Sp]",
         "isAdmin": false
     },
     {
         "nickname": "JOHN...JOHN",
-        "motto": "[DIC] Detetive [M2] [EM]",
+        "mission": "[DIC] Detetive [M2] [EM]",
         "isAdmin": false
     },
     {
         "nickname": "EhLaccer",
-        "motto": "L\u00edder da Pol\u00edcia \u00d0IC [M3] [Ap] \u00ae",
+        "mission": "L\u00edder da Pol\u00edcia \u00d0IC [M3] [Ap] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "X@-thiagoo-@X",
-        "motto": "[DIC] Investigador [TF3]",
+        "mission": "[DIC] Investigador [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "popstarwilt",
-        "motto": "[DIC] L\u00edder [CFO] [SL/G/Sp]",
+        "mission": "[DIC] L\u00edder [CFO] [SL/G/Sp]",
         "isAdmin": false
     },
     {
         "nickname": "icaro5735",
-        "motto": "[DIC] Supervisor \u00a5 [CC.Ap/Cons.CE]",
+        "mission": "[DIC] Supervisor \u00a5 [CC.Ap/Cons.CE]",
         "isAdmin": true
     },
     {
         "nickname": "ptodanilo",
-        "motto": "[DIC] Chanceler [M3]",
+        "mission": "[DIC] Chanceler [M3]",
         "isAdmin": false
     },
     {
         "nickname": "Lipewz",
-        "motto": "[DIC] L\u00edder-Executivo [TF3] \u00ae",
+        "mission": "[DIC] L\u00edder-Executivo [TF3] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Lyft",
-        "motto": "[DIC] Comandante",
+        "mission": "[DIC] Comandante",
         "isAdmin": true
     },
     {
         "nickname": "lluassss",
-        "motto": "[DIC] L\u00edder [CFS] [V.Trn]",
+        "mission": "[DIC] L\u00edder [CFS] [V.Trn]",
         "isAdmin": false
     },
     {
         "nickname": "Kjr",
-        "motto": "[\u0110IC] Analista [TF3] [EM/G] \u00ae",
+        "mission": "[\u0110IC] Analista [TF3] [EM/G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "bacanabondf",
-        "motto": "[DIC] Detetive [CFO]",
+        "mission": "[DIC] Detetive [CFO]",
         "isAdmin": false
     },
     {
         "nickname": "vitor45443",
-        "motto": "L\u00edder da Pol\u00edcia DIC [CFS] [S.BME] \u00ba",
+        "mission": "L\u00edder da Pol\u00edcia DIC [CFS] [S.BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "Arthur:",
-        "motto": "[DIC] Detetive [AF]",
+        "mission": "[DIC] Detetive [AF]",
         "isAdmin": false
     },
     {
         "nickname": "Jhowhanes",
-        "motto": "[DIC] Chanceler",
+        "mission": "[DIC] Chanceler",
         "isAdmin": false
     },
     {
         "nickname": "Ripvka",
-        "motto": "L\u00edder da DIC [CFS] [A.Trn] \u00ae",
+        "mission": "L\u00edder da DIC [CFS] [A.Trn] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Higwz",
-        "motto": "L\u00edder da \u00d0IC [CFO] [G] \u00ae",
+        "mission": "L\u00edder da \u00d0IC [CFO] [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "filipevaz1",
-        "motto": "[\u00d0IC] Detetive [CFO] \u00ae",
+        "mission": "[\u00d0IC] Detetive [CFO] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "kauan8610",
-        "motto": "[\u00d0IC] Detetive [M3]",
+        "mission": "[\u00d0IC] Detetive [M3]",
         "isAdmin": false
     },
     {
         "nickname": "ryan2533",
-        "motto": "[DIC] L\u00edder-Executivo [CFO] [G]",
+        "mission": "[DIC] L\u00edder-Executivo [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "lycia3",
-        "motto": "[DIC] Comandante [L.SL/Cro]",
+        "mission": "[DIC] Comandante [L.SL/Cro]",
         "isAdmin": true
     },
     {
         "nickname": "_Toretto",
-        "motto": "[DIC] Chanceler \u00ae [CFS] [Ap/EM]",
+        "mission": "[DIC] Chanceler \u00ae [CFS] [Ap/EM]",
         "isAdmin": false
     },
     {
         "nickname": "Felipe.Mafia.",
-        "motto": "[DIC] Delegado [TF3]",
+        "mission": "[DIC] Delegado [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "BlackOfficer",
-        "motto": "Viva a realidade e n\u00e3o esse jogo <3",
+        "mission": "Viva a realidade e n\u00e3o esse jogo <3",
         "isAdmin": false
     },
     {
         "nickname": "Victor30821",
-        "motto": "[DIC] Supervisor [M3] [A.EM]",
+        "mission": "[DIC] Supervisor [M3] [A.EM]",
         "isAdmin": false
     },
     {
         "nickname": "Whoozy",
-        "motto": "[\u00d0IC] Detetive [M2] [A.EM] \u00ae",
+        "mission": "[\u00d0IC] Detetive [M2] [A.EM] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Marck.",
-        "motto": "[\u00d0IC] Detetive [04] \u2020",
+        "mission": "[\u00d0IC] Detetive [04] \u2020",
         "isAdmin": true
     },
     {
         "nickname": "Pratt",
-        "motto": "not afraid to face it",
+        "mission": "not afraid to face it",
         "isAdmin": true
     },
     {
         "nickname": "Debxp",
-        "motto": "[DIC] L\u00edder [TF3]",
+        "mission": "[DIC] L\u00edder [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "-oAlemao",
-        "motto": "[DIC] Comandante [Lg] \u00ae",
+        "mission": "[DIC] Comandante [Lg] \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "iButz",
-        "motto": "[DIC] Aposentado <Cmd-G>",
+        "mission": "[DIC] Aposentado <Cmd-G>",
         "isAdmin": false
     },
     {
         "nickname": "Oficial-William",
-        "motto": "[DIC] Detetive [M2] [BME] \u00ae \u00ba",
+        "mission": "[DIC] Detetive [M2] [BME] \u00ae \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "joseedu156",
-        "motto": "[DIC] Advogado [TF3] [G]",
+        "mission": "[DIC] Advogado [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Atraapalhado",
-        "motto": "[DIC] Detetive [CFS] \u00ae",
+        "mission": "[DIC] Detetive [CFS] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Juvia__",
-        "motto": "[\u00d0IC] Detetive [CFS] [Sp/Cro] \u00ae",
+        "mission": "[\u00d0IC] Detetive [CFS] [Sp/Cro] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "alexand60520",
-        "motto": "L\u00edder da Pol\u00edcia DIC [CFS]",
+        "mission": "L\u00edder da Pol\u00edcia DIC [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "-Sankler",
-        "motto": "L\u00edder da Pol\u00edcia DIC. [TF3] [Sp]",
+        "mission": "L\u00edder da Pol\u00edcia DIC. [TF3] [Sp]",
         "isAdmin": false
     },
     {
         "nickname": "Rah_18",
-        "motto": "[\u00d0IC] Supervisora [M2] [G] \u00ae",
+        "mission": "[\u00d0IC] Supervisora [M2] [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "esciniura",
-        "motto": "[DIC] Detetive [M1]",
+        "mission": "[DIC] Detetive [M1]",
         "isAdmin": false
     },
     {
         "nickname": ".:Dr.Rafinha:.",
-        "motto": "[DIC] Investigador [TF3]",
+        "mission": "[DIC] Investigador [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Xubis-DIC",
-        "motto": "[\u00d0IC] Detetive [02] \u2020",
+        "mission": "[\u00d0IC] Detetive [02] \u2020",
         "isAdmin": true
     },
     {
         "nickname": "LucasSoares5",
-        "motto": "[\u00d0IC] L\u00edder-Executivo [CFS]",
+        "mission": "[\u00d0IC] L\u00edder-Executivo [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "xgustavoma58",
-        "motto": "asjsjAs vozes da cabe\u00e7a !",
+        "mission": "asjsjAs vozes da cabe\u00e7a !",
         "isAdmin": false
     },
     {
         "nickname": ".lucasx",
-        "motto": "[DIC] Supervisor [CFS]",
+        "mission": "[DIC] Supervisor [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "Junior.5872",
-        "motto": "[DIC] Detetive [M2] [G/Sp]",
+        "mission": "[DIC] Detetive [M2] [G/Sp]",
         "isAdmin": false
     },
     {
         "nickname": "bruuno13",
-        "motto": "[DIC] Detetive [CFS]",
+        "mission": "[DIC] Detetive [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "pedroproCaveira",
-        "motto": "[DIC] L\u00edder-Executivo [M1] [G]",
+        "mission": "[DIC] L\u00edder-Executivo [M1] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Jpuf02",
-        "motto": "[DIC] Coordenador [TF3] [SL]",
+        "mission": "[DIC] Coordenador [TF3] [SL]",
         "isAdmin": false
     },
     {
         "nickname": "yanch1:",
-        "motto": "[DIC] Comandante-Geral [06] \u2020",
+        "mission": "[DIC] Comandante-Geral [06] \u2020",
         "isAdmin": true
     },
     {
         "nickname": "Eslyzinho3110",
-        "motto": "[\u00d0IC] Agente [TF2] [SL]",
+        "mission": "[\u00d0IC] Agente [TF2] [SL]",
         "isAdmin": false
     },
     {
         "nickname": "julia54521",
-        "motto": "[DIC] Promotora [M1] [Sp/SL]",
+        "mission": "[DIC] Promotora [M1] [Sp/SL]",
         "isAdmin": false
     },
     {
         "nickname": "Croovh",
-        "motto": "[DIC] Detetive \u00ae [TF2]",
+        "mission": "[DIC] Detetive \u00ae [TF2]",
         "isAdmin": false
     },
     {
         "nickname": ".:SamSung2:.",
-        "motto": "[\u00d0IC] Detetive [M1] [G/Sp] \u00ae",
+        "mission": "[\u00d0IC] Detetive [M1] [G/Sp] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "lucas777lari",
-        "motto": "[DIC] Supervisor [CFS] [S.Trn]",
+        "mission": "[DIC] Supervisor [CFS] [S.Trn]",
         "isAdmin": false
     },
     {
         "nickname": "Mighon",
-        "motto": "[DIC] Supervisor",
+        "mission": "[DIC] Supervisor",
         "isAdmin": false
     },
     {
         "nickname": "lendario789456",
-        "motto": "[DIC] Detetive [TF3] [G]",
+        "mission": "[DIC] Detetive [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "prideloiro1",
-        "motto": "[DIC] Delegado [TF3]",
+        "mission": "[DIC] Delegado [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "tassio321g",
-        "motto": "[DIC] Administrador [M3] [G]",
+        "mission": "[DIC] Administrador [M3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "taissa990",
-        "motto": "[\u00d0IC] Detetive [M2] [G/SL/Ap] \u00ae",
+        "mission": "[\u00d0IC] Detetive [M2] [G/SL/Ap] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Ld.Mateus",
-        "motto": "[\u00d0IC] Chanceler [CFS] [G] \u00ae",
+        "mission": "[\u00d0IC] Chanceler [CFS] [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Lynes",
-        "motto": "Comandante-Geral da \u00d0IC [L.EM/Min.G] \u00ae",
+        "mission": "Comandante-Geral da \u00d0IC [L.EM/Min.G] \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "protected",
-        "motto": "[DIC] Aluno do COEsp \u00aa [054]",
+        "mission": "[DIC] Aluno do COEsp \u00aa [054]",
         "isAdmin": false
     },
     {
         "nickname": "Luccas:",
-        "motto": "[DIC] Supervisor [CFO] [G]",
+        "mission": "[DIC] Supervisor [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "-yse",
-        "motto": "[DIC] Tenente-Coronel \u00aa [17] [A.Ap]",
+        "mission": "[DIC] Tenente-Coronel \u00aa [17] [A.Ap]",
         "isAdmin": true
     },
     {
         "nickname": "pereira312",
-        "motto": "",
+        "mission": "",
         "isAdmin": false
     },
     {
         "nickname": "yLegion",
-        "motto": "[DIC] Detetive [TF3/C2]",
+        "mission": "[DIC] Detetive [TF3/C2]",
         "isAdmin": false
     },
     {
         "nickname": "El.Original",
-        "motto": "[DIC] Detetive [TF3]",
+        "mission": "[DIC] Detetive [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Estemm",
-        "motto": "[DIC] Supervisor [M3] [Sp]",
+        "mission": "[DIC] Supervisor [M3] [Sp]",
         "isAdmin": false
     },
     {
         "nickname": "sidney926",
-        "motto": "[\u0110IC] Detetive [M3] \u2020",
+        "mission": "[\u0110IC] Detetive [M3] \u2020",
         "isAdmin": false
     },
     {
         "nickname": "DIC-Treinadores",
-        "motto": "[DIC] Conta Oficial \u00ae yan",
+        "mission": "[DIC] Conta Oficial \u00ae yan",
         "isAdmin": false
     },
     {
         "nickname": ".MimaAhr",
-        "motto": "[\u00d0IC] L\u00edder [M3] \u00ae",
+        "mission": "[\u00d0IC] L\u00edder [M3] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "..Geeo..",
-        "motto": "[\u00d0IC] Tenente-Coronel [S.Sp] \u00ae",
+        "mission": "[\u00d0IC] Tenente-Coronel [S.Sp] \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "HenriqueBlack.",
-        "motto": "[DIC] Investigador [AF]",
+        "mission": "[DIC] Investigador [AF]",
         "isAdmin": false
     },
     {
         "nickname": "Diferir",
-        "motto": "[DIC] Detetive [M3] [A.Sp]",
+        "mission": "[DIC] Detetive [M3] [A.Sp]",
         "isAdmin": false
     },
     {
         "nickname": "XXDGAMERXX2005",
-        "motto": "[\u00d0IC] Detetive \u00ae [TF3] [EM]",
+        "mission": "[\u00d0IC] Detetive \u00ae [TF3] [EM]",
         "isAdmin": false
     },
     {
         "nickname": "SneviKingston",
-        "motto": "[DIC] Agente [TF]",
+        "mission": "[DIC] Agente [TF]",
         "isAdmin": false
     },
     {
         "nickname": "Johnzeira",
-        "motto": "[DIC] Supervisor [TF3] [G/EM/SL/BME] \u00ba",
+        "mission": "[DIC] Supervisor [TF3] [G/EM/SL/BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "HugoCRF81",
-        "motto": "[DIC] Detetive [CFS] [S.Sp]",
+        "mission": "[DIC] Detetive [CFS] [S.Sp]",
         "isAdmin": true
     },
     {
         "nickname": "Magnani!",
-        "motto": "[DIC] Inspetor [Sg] [O]",
+        "mission": "[DIC] Inspetor [Sg] [O]",
         "isAdmin": true
     },
     {
         "nickname": ":.LucasRalf.:",
-        "motto": "[DIC] L\u00edder-Executivo [CFO] [Sp]",
+        "mission": "[DIC] L\u00edder-Executivo [CFO] [Sp]",
         "isAdmin": false
     },
     {
         "nickname": "xgabrielsae",
-        "motto": "[\u00d0IC] Detetive [TF3] [G] \u00ae",
+        "mission": "[\u00d0IC] Detetive [TF3] [G/BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "an4log",
-        "motto": "Acesse pw-hb*com \u2022",
+        "mission": "Acesse pw-hb*com \u2022",
         "isAdmin": false
     },
     {
         "nickname": "YasuoMID",
-        "motto": " [DIC] Analista [TF3] [G] [EM]",
+        "mission": " [DIC] Analista [TF3] [G] [EM]",
         "isAdmin": false
     },
     {
         "nickname": "avelinohenr",
-        "motto": "[DIC] Detetive [TF3] [G]",
+        "mission": "[DIC] Detetive [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": ":Isaac_",
-        "motto": "[DIC] Detetive [TF3/C2]",
+        "mission": "[DIC] Detetive [TF3/C2]",
         "isAdmin": false
     },
     {
         "nickname": "Steranjs2",
-        "motto": "[DIC] Detetive [CFO] [G/BME] \u00ba",
+        "mission": "[DIC] Detetive [CFO] [G/BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "menino_gato154",
-        "motto": "[DIC] Delegado [TF3]",
+        "mission": "[DIC] Delegado [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "-.SK.-",
-        "motto": "[\u00d0IC] Detetive [M3] [A.EM/Ap]",
+        "mission": "[\u00d0IC] Detetive [M3] [A.EM/Ap]",
         "isAdmin": false
     },
     {
         "nickname": "xC.R.A.Z.Z.Yx",
-        "motto": "[DIC] Detetive [M3] [Ap]",
+        "mission": "[DIC] Detetive [M3] [Ap]",
         "isAdmin": false
     },
     {
         "nickname": "noiory44",
-        "motto": "[DIC] Supervisor [TF3]",
+        "mission": "[DIC] Supervisor [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "!Biohazard!",
-        "motto": "[DIC] L\u00edder-Executivo [CFS] [A.Ap]",
+        "mission": "[DIC] L\u00edder-Executivo [CFS] [A.Ap]",
         "isAdmin": false
     },
     {
         "nickname": "paulo_jarnei",
-        "motto": "[\u00d0IC] Detetive [CFS] [A.Trn/Ap] \u00ae",
+        "mission": "[\u00d0IC] Detetive [CFS] [A.Trn/Ap] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "luardyson47",
-        "motto": "[DIC] L\u00edder [TF3] [Fg] \u00ae",
+        "mission": "[DIC] L\u00edder [TF3] [Fg] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": ".flp",
-        "motto": "[DIC] Chanceler [CFS] [CC.Ap]",
+        "mission": "[DIC] Chanceler [CFS] [CC.Ap]",
         "isAdmin": false
     },
     {
         "nickname": ".:fiori23:.",
-        "motto": "[DIC] L\u00edder-Executivo [TF3/C2]",
+        "mission": "[DIC] L\u00edder-Executivo [TF3/C2]",
         "isAdmin": false
     },
     {
         "nickname": "neropretty",
-        "motto": "\u00baTO TRAVADO NA FRENTE DOS PEPPA\u00ba",
+        "mission": "\u00baTO TRAVADO NA FRENTE DOS PEPPA\u00ba",
         "isAdmin": false
     },
     {
         "nickname": "Tata_Major",
-        "motto": "[DIC] Detetive [M3]",
+        "mission": "[DIC] Detetive [M3]",
         "isAdmin": false
     },
     {
         "nickname": "JovemMisterioso",
-        "motto": "[\u00d0IC] Chanceler em Aval! \u00ae",
+        "mission": "[\u00d0IC] Chanceler em Aval! \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "belaisaa_",
-        "motto": "[DIC] Superintendente \u00aa [C.Ap]",
+        "mission": "[DIC] Superintendente \u00aa [C.Ap]",
         "isAdmin": true
     },
     {
         "nickname": "Thanos001",
-        "motto": "[DIC] L\u00edder-Executivo [CFO] [G/O.Trn]",
+        "mission": "[DIC] L\u00edder-Executivo [CFO] [G/O.Trn]",
         "isAdmin": false
     },
     {
         "nickname": "Wipth",
-        "motto": "[DIC] Detetive [TF3] [SL/G] \u00ae",
+        "mission": "[DIC] Detetive [TF3] [SL/G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Fibaee",
-        "motto": " [DIC] Administrador [TF1]",
+        "mission": " [DIC] Administrador [TF1]",
         "isAdmin": false
     },
     {
         "nickname": "roc-roc",
-        "motto": "[\u00d0IC] Supremo [Min.Sp] \u00ae",
+        "mission": "[\u00d0IC] Supremo [Min.Sp] \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "Byavir",
-        "motto": "[DIC] Supervisora \u00a5 [S.Sp] [O]",
+        "mission": "[DIC] Supervisora \u00a5 [S.Sp] [O]",
         "isAdmin": true
     },
     {
         "nickname": "Baueny",
-        "motto": "[DIC] L\u00edder [CFO] [G]",
+        "mission": "[DIC] L\u00edder [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Joyce.Habbo",
-        "motto": "[DIC] Detetive [TF3] [G]",
+        "mission": "[DIC] Detetive [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "bartnovaks2",
-        "motto": "[\u00d0IC] Detetive [TF3] \u00ae",
+        "mission": "[\u00d0IC] Detetive [TF3] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": ".Chaves",
-        "motto": "Presidente da Pol\u00edcia DIC \u00ae",
+        "mission": "Presidente da Pol\u00edcia DIC \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "bruna20860",
-        "motto": "[DIC] Coordenadora [TF3] [G]",
+        "mission": "[DIC] Coordenadora [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "bluiz8724",
-        "motto": "[\u00d0IC] Delegado \u00ae [TF3]",
+        "mission": "[\u00d0IC] Delegado \u00ae [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Heil.",
-        "motto": "[DIC] Acionista [Ch.CE] \u00ae",
+        "mission": "[DIC] Acionista [Ch.CE] \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "juniorroch88",
-        "motto": "[DIC] Investigador [TF3] [G] \u00ae",
+        "mission": "[DIC] Investigador [TF3] [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Oreades",
-        "motto": "ignorando o que da pra ignorar",
+        "mission": "ignorando o que da pra ignorar",
         "isAdmin": false
     },
     {
         "nickname": "TemosDoritos",
-        "motto": "[DIC] Analista [TF2]",
+        "mission": "[DIC] Analista [TF2]",
         "isAdmin": false
     },
     {
         "nickname": "Hina--",
-        "motto": "[DIC] Comandante [L.Sp] [O]",
+        "mission": "[DIC] Comandante [L.Sp] [O]",
         "isAdmin": true
     },
     {
         "nickname": "Psycx",
-        "motto": "[DIC] Supervisor [TF3]",
+        "mission": "[DIC] Supervisor [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Soier",
-        "motto": "Ce \u00e9 um TANG mano",
+        "mission": "Ce \u00e9 um TANG mano",
         "isAdmin": false
     },
     {
         "nickname": "Imperador.Marco",
-        "motto": "L\u00edder da Pol\u00edcia \u00d0IC [TF3] \u00ae",
+        "mission": "L\u00edder da Pol\u00edcia \u00d0IC [TF3] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "MrDogs",
-        "motto": "Dogs Da Gabi|",
+        "mission": "Dogs Da Gabi|",
         "isAdmin": false
     },
     {
         "nickname": "Existe-off",
-        "motto": "[DIC] L\u00edder-Executivo [M2]",
+        "mission": "[DIC] L\u00edder-Executivo [M2]",
         "isAdmin": false
     },
     {
         "nickname": "PedroVLA",
-        "motto": "L\u00edder da \u00d0IC [CFS] [Fg/Ap] \u00ae",
+        "mission": "L\u00edder da \u00d0IC [CFS] [Fg/Ap] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Helpier",
-        "motto": "[DIC] Major \u00aa [20] [S.Sp]",
+        "mission": "[DIC] Major \u00aa [20] [S.Sp]",
         "isAdmin": true
     },
     {
         "nickname": "::-Arcanjo-::",
-        "motto": "[DIC] Super \u00aa [15] [V.SL/Cro]",
+        "mission": "[DIC] Super \u00aa [15] [V.SL/Cro]",
         "isAdmin": true
     },
     {
         "nickname": "carolinehamond",
-        "motto": "Chanceler da Pol\u00edcia \u00d0IC [G] \u00ae",
+        "mission": "Chanceler da Pol\u00edcia \u00d0IC [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "HelenaAmaralll",
-        "motto": "[DIC] Detetive [M1] [G]",
+        "mission": "[DIC] Detetive [M1] [G]",
         "isAdmin": false
     },
     {
         "nickname": "grrbriela",
-        "motto": "[DIC] Superintendente \u00aa [07]",
+        "mission": "[DIC] Superintendente \u00aa [07]",
         "isAdmin": true
     },
     {
         "nickname": "Spargz",
-        "motto": "[\u0110IC] Detetive [M3] \u00ae",
+        "mission": "[\u0110IC] Detetive [M3] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Nerfandinho",
-        "motto": "[\u00d0IC] Detetive [CFS]",
+        "mission": "[\u00d0IC] Detetive [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "Danwest",
-        "motto": "[DIC] Inspetor [CC.Ap] [O]",
+        "mission": "[DIC] Inspetor [CC.Ap] [O]",
         "isAdmin": true
     },
     {
         "nickname": "1de",
-        "motto": "\u00e9 o braia ocone",
+        "mission": "\u00e9 o braia ocone",
         "isAdmin": false
     },
     {
         "nickname": "Alef_Br18",
-        "motto": "[DIC] Chanceler [CFS] [Sg.BME] \u00ba",
+        "mission": "[DIC] Chanceler [CFS] [Sg.BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "lulaslima",
-        "motto": "[DIC] Detetive [CFO] [G]",
+        "mission": "[DIC] Detetive [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "_Rafael_junior",
-        "motto": "[DIC] Investigador [TF3] [G]",
+        "mission": "[DIC] Investigador [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "DONAA",
-        "motto": "[DIC] Detetive [CFO]",
+        "mission": "[DIC] Detetive [CFO]",
         "isAdmin": false
     },
     {
         "nickname": "=.Danii=.",
-        "motto": "[DIC] Aluna do COEsp \u00aa [061]",
+        "mission": "[DIC] Aluna do COEsp \u00aa [061]",
         "isAdmin": false
     },
     {
         "nickname": "sgta0798",
-        "motto": "[\u00d0IC] Agente [TF2]",
+        "mission": "[\u00d0IC] Agente [TF2]",
         "isAdmin": false
     },
     {
         "nickname": "Merfolk",
-        "motto": "[DIC] Detetive [M2] [Sp] \u00ae",
+        "mission": "[DIC] Detetive [M2] [Sp] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "carlospyxel01",
-        "motto": "[DIC] Chanceler",
+        "mission": "[DIC] Chanceler",
         "isAdmin": false
     },
     {
         "nickname": "-iPhone3s",
-        "motto": "[DIC] Detetive [M2] [Sp]",
+        "mission": "[DIC] Detetive [M2] [Sp]",
         "isAdmin": false
     },
     {
         "nickname": "Jeffey",
-        "motto": "[DIC] Chanceler \u00ae [M2]",
+        "mission": "[DIC] Chanceler \u00ae [M2]",
         "isAdmin": false
     },
     {
         "nickname": ".Esmeraldo.",
-        "motto": "[DIC] Detetive [M2] [BME]",
+        "mission": "[DIC] Detetive [M2] [BME]",
         "isAdmin": false
     },
     {
         "nickname": "Torvi.",
-        "motto": "[DIC] Aluno do COEsp \u00aa [059]",
+        "mission": "[DIC] Aluno do COEsp \u00aa [059]",
         "isAdmin": false
     },
     {
         "nickname": ".-MrCheetos-.",
-        "motto": "[DIC] Detetive [TF3] [G]",
+        "mission": "[DIC] Detetive [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Reiz1nPrO",
-        "motto": "[DIC] Aluno do COEsp \u00aa [040]",
+        "mission": "[DIC] Aluno do COEsp \u00aa [040]",
         "isAdmin": false
     },
     {
         "nickname": "Lorran013",
-        "motto": "",
+        "mission": "",
         "isAdmin": false
     },
     {
         "nickname": "Silva_!",
-        "motto": "[DIC] Supervisor [M2] [G]",
+        "mission": "[DIC] Supervisor [M2] [G]",
         "isAdmin": false
     },
     {
         "nickname": "JulianaHb",
-        "motto": "[\u00d0IC] Promotora [TF3]",
+        "mission": "[\u00d0IC] Promotora [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Dr.AdilsonPRF",
-        "motto": "[DIC] Detetive [M2] [G] \u00ae",
+        "mission": "[DIC] Detetive [M2] [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Orestes",
-        "motto": "L\u00edder da \u00d0IC [M2] \u00ae",
+        "mission": "L\u00edder da \u00d0IC [M2] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Ghost_kill",
-        "motto": "[DIC] Detetive [TF3] [G/BME] \u00ba",
+        "mission": "[DIC] Detetive [TF3] [G/BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "estevao303:",
-        "motto": "[\u00d0IC] Chanceler \u00ae [M1]",
+        "mission": "[\u00d0IC] Chanceler \u00ae [M1]",
         "isAdmin": false
     },
     {
         "nickname": "joapedromc9090",
-        "motto": "[DIC] Detetive [TF1]",
+        "mission": "[DIC] Detetive [TF1]",
         "isAdmin": false
     },
     {
         "nickname": "-G3",
-        "motto": "[DIC] Detetive [CFS] [A.Ap]",
+        "mission": "[DIC] Detetive [CFS] [A.Ap]",
         "isAdmin": false
     },
     {
         "nickname": "=Maverick=",
-        "motto": "[DIC] Advogado [TF1]",
+        "mission": "[DIC] Advogado [TF1]",
         "isAdmin": false
     },
     {
         "nickname": "Wali!",
-        "motto": "[\u0110IC] Chanceler [E1] \u00ae",
+        "mission": "[\u0110IC] Chanceler [E1] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Yuriiw10",
-        "motto": "[\u00d0IC] Detetive [TF3] [O.Trn/G] \u00ae",
+        "mission": "[\u00d0IC] Detetive [TF3] [O.Trn/G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Gloobo",
-        "motto": ">> c a r i o c a <<",
+        "mission": ">> c a r i o c a <<",
         "isAdmin": false
     },
     {
         "nickname": "gabrielghbs",
-        "motto": "[DIC] Inspetor [S.EM] [O]",
+        "mission": "[DIC] Inspetor [S.EM] [O]",
         "isAdmin": true
     },
     {
         "nickname": "Samuzxkak",
-        "motto": "[DIC] Detetive [CFO] [G]",
+        "mission": "[DIC] Detetive [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": ",Sukuna",
-        "motto": "[DIC] L\u00edder [CFS]",
+        "mission": "[DIC] L\u00edder [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "alex77348.:",
-        "motto": "[DIC] Lider-Executivo [TF3/C2] [G]",
+        "mission": "[DIC] Lider-Executivo [TF3/C2] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Gabrielspfc",
-        "motto": "[DIC] Investigador [M2] [SL]",
+        "mission": "[DIC] Investigador [M2] [SL]",
         "isAdmin": false
     },
     {
         "nickname": "-lukzn",
-        "motto": "[DIC] Detetive [M2]",
+        "mission": "[DIC] Detetive [M2]",
         "isAdmin": false
     },
     {
         "nickname": "Dreamers__",
-        "motto": "Chanceler da Pol\u00edcia DIC \u00a5",
+        "mission": "Chanceler da Pol\u00edcia DIC \u00a5",
         "isAdmin": false
     },
     {
         "nickname": "OrochiPonthes",
-        "motto": "[DIC] Chanceler [M3]",
+        "mission": "[DIC] Chanceler [M3]",
         "isAdmin": false
     },
     {
         "nickname": "AnjinhoThaainan",
-        "motto": "Chanceler da \u0110IC [CFS] [A.Ap] \u00ae",
+        "mission": "Chanceler da \u0110IC [CFS] [A.Ap] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "julioplays06",
-        "motto": "[DIC] Delegado [M3] [S.EM]",
+        "mission": "[DIC] Delegado [M3] [S.EM]",
         "isAdmin": false
     },
     {
         "nickname": "mlkbr_22",
-        "motto": "[\u00d0IC] L\u00edder \u00aa [CFS] \u00ae",
+        "mission": "[\u00d0IC] L\u00edder \u00aa [CFS] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "CafezinhoET",
-        "motto": "[\u00d0IC] Supervisor \u00ae [M3]",
+        "mission": "[\u00d0IC] Supervisor \u00ae [M3]",
         "isAdmin": false
     },
     {
         "nickname": "GruposDIC",
-        "motto": "\u00a5 POL\u00cdCIA DIC \u00a5 Grupos \u00ae",
+        "mission": "\u00a5 POL\u00cdCIA DIC \u00a5 Grupos \u00ae",
         "isAdmin": true
     },
     {
         "nickname": "zackhanks510",
-        "motto": "[DIC] Detetive [M1] [G]",
+        "mission": "[DIC] Detetive [M1] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Luis_Insane22",
-        "motto": "[DIC] Supervisor [TF3] [G]",
+        "mission": "[DIC] Supervisor [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "iMaths",
-        "motto": "[DIC] Promotor [TF3]",
+        "mission": "[DIC] Promotor [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "dilosvakia",
-        "motto": "[DIC] Supervisor [M2] [BME] \u00ba",
+        "mission": "[DIC] Supervisor [M2] [BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "Joker_021",
-        "motto": "L\u00edder da Pol\u00edcia DIC [M3]  [G]",
+        "mission": "L\u00edder da Pol\u00edcia DIC [M3]  [G]",
         "isAdmin": false
     },
     {
         "nickname": "LarissaVital",
-        "motto": "[DIC] L\u00edder [M3] [G]",
+        "mission": "[DIC] L\u00edder [M3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "vitor_downs",
-        "motto": "[DIC] Investigador [TF3] [BME] \u00ba",
+        "mission": "[DIC] Investigador [TF3] [BME] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "BAZINGA__",
-        "motto": "[DIC] Promotor [CFO] [Sc]",
+        "mission": "[DIC] Promotor [CFO] [Sc]",
         "isAdmin": false
     },
     {
         "nickname": "_JUNIOR_155x",
-        "motto": "L\u00edder-Executivo da DIC [M3] [A.Lg]",
+        "mission": "L\u00edder-Executivo da DIC [M3] [A.Lg]",
         "isAdmin": false
     },
     {
         "nickname": "Leottelis",
-        "motto": "[DIC] Delegado [TF3] [G]",
+        "mission": "[DIC] Delegado [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "MeuMarrento",
-        "motto": "[DIC] Detetive [CFO] [G]",
+        "mission": "[DIC] Detetive [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Mr.Thomas",
-        "motto": "Chanceler da DIC [CFS] [Ap]",
+        "mission": "Chanceler da DIC [CFS] [Ap]",
         "isAdmin": false
     },
     {
         "nickname": "_Lopes",
-        "motto": "[DIC] Detetive [CFS]",
+        "mission": "[DIC] Detetive [CFS]",
         "isAdmin": false
     },
     {
         "nickname": "Vitordone",
-        "motto": "[DIC] Coronel [S.Sp]",
+        "mission": "",
         "isAdmin": true
     },
     {
         "nickname": "sweetzioon",
-        "motto": "[\u00d0IC] Detetive \u00ae [CFS] [S.EM/A.Ap]",
+        "mission": "[\u00d0IC] Detetive \u00ae [CFS] [S.EM/A.Ap]",
         "isAdmin": false
     },
     {
         "nickname": "Sherlok_ald",
-        "motto": "[DIC] Detetive [M3] [Ap]",
+        "mission": "[DIC] Detetive [M3] [Ap]",
         "isAdmin": false
     },
     {
         "nickname": ".Detestavel",
-        "motto": "[\u00d0IC] Detetive [TF3] \u00ae",
+        "mission": "[\u00d0IC] Detetive [TF3] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Daq",
-        "motto": "alguem tem um 10 pra me emprestar?",
+        "mission": "alguem tem um 10 pra me emprestar?",
         "isAdmin": false
     },
     {
         "nickname": "vitoria.N12",
-        "motto": "[DIC] Major \u00aa [24] [Sg]",
+        "mission": "[DIC] Major \u00aa [24] [Sg]",
         "isAdmin": true
     },
     {
         "nickname": "Ariano.",
-        "motto": "[DIC] Coordenador [CFO] [G]",
+        "mission": "[DIC] Coordenador [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Rodrigo015",
-        "motto": "[DIC] Detetive [TF3] [G/Sp]",
+        "mission": "[DIC] Detetive [TF3] [G/Sp]",
         "isAdmin": false
     },
     {
         "nickname": "Sr.Oculto.",
-        "motto": "[DIC] Investigador [CFO] [G]",
+        "mission": "[DIC] Investigador [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Mixrdg.",
-        "motto": "Chanceler da DIC [CFS] [G/Trn]",
+        "mission": "",
         "isAdmin": false
     },
     {
         "nickname": "NatanWilliam",
-        "motto": "O Rei de uma nova Era",
+        "mission": "O Rei de uma nova Era",
         "isAdmin": false
     },
     {
         "nickname": "._Tz_.",
-        "motto": "[\u00d0IC] Delegado [TF3] [G]",
+        "mission": "[\u00d0IC] Delegado [TF3] [G]",
         "isAdmin": false
     },
     {
         "nickname": "ViniciusFe",
-        "motto": "[DIC] Chanceler \u00a5 [A.Ap/Cons.CE]",
+        "mission": "[DIC] Chanceler \u00a5 [A.Ap/Cons.CE]",
         "isAdmin": true
     },
     {
         "nickname": "-_-:Manu:-_-",
-        "motto": "Co-Fundadora Hospital Samaritano\u00a5",
+        "mission": "Co-Fundadora Hospital Samaritano\u00a5",
         "isAdmin": false
     },
     {
         "nickname": "Hiace",
-        "motto": "[DIC] Detetive [M2] [O.Trn] \u00ae",
+        "mission": "[DIC] Detetive [M2] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "kauak808",
-        "motto": "[DIC] Detetive [M3] [Ch.BME/A.Trn] \u00ba",
+        "mission": "[DIC] Detetive [M3] [Ch.BME/A.Trn] \u00ba",
         "isAdmin": false
     },
     {
         "nickname": "CaveirinhaAudaz",
-        "motto": "[DIC] Detetive [M2] [Ap] \u00ae",
+        "mission": "[DIC] Detetive [M2] [Ap] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "BILOLArj",
-        "motto": "[DIC] Analista [TF3]",
+        "mission": "[DIC] Analista [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "LeviLanik01",
-        "motto": "[DIC] Major \u00aa [28]",
+        "mission": "[DIC] Major \u00aa [28]",
         "isAdmin": true
     },
     {
         "nickname": "jmfiel7",
-        "motto": "[\u00d0IC] Detetive \u00a5 [S.Trn] [O]",
+        "mission": "[\u00d0IC] Detetive \u00a5 [S.Trn] [O]",
         "isAdmin": true
     },
     {
         "nickname": "nico...",
-        "motto": "L\u00edder da DIC [TF2]",
+        "mission": "L\u00edder da DIC [TF2]",
         "isAdmin": false
     },
     {
         "nickname": "MagicCyph3r",
-        "motto": "[DIC] Supervisora [TF3]",
+        "mission": "[DIC] Supervisora [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Sr.Zaac",
-        "motto": "[\u00d0IC] L\u00edder [M2]",
+        "mission": "[\u00d0IC] L\u00edder [M2]",
         "isAdmin": false
     },
     {
         "nickname": "joao02019.",
-        "motto": "[DIC] Promotor [CFO] [SL/BME]",
+        "mission": "[DIC] Promotor [CFO] [SL/BME]",
         "isAdmin": false
     },
     {
         "nickname": "Ubmud",
-        "motto": "[DIC] Detetive [M2] [G/Ap]",
+        "mission": "[DIC] Detetive [M2] [G/Ap]",
         "isAdmin": false
     },
     {
         "nickname": "muel.vdlk",
-        "motto": "[\u00d0IC] Administrador [TF3] [G] \u00ae",
+        "mission": "[\u00d0IC] Administrador [TF3] [G] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Ultra_Prime_RPG",
-        "motto": "[\u00d0IC] \u00d0etetive [CFO] \u00ae",
+        "mission": "[\u00d0IC] \u00d0etetive [CFO] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "Raphtalia04",
-        "motto": "[DIC] Supervisora [M2]",
+        "mission": "[DIC] Supervisora [M2]",
         "isAdmin": false
     },
     {
         "nickname": "Rycke!!!!",
-        "motto": "L\u00edder-Executivo da DIC [M2]",
+        "mission": "L\u00edder-Executivo da DIC [M2]",
         "isAdmin": false
     },
     {
         "nickname": "pedropz7",
-        "motto": "[\u00d0IC] Supervisor [TF3]",
+        "mission": "[\u00d0IC] Supervisor [TF3]",
         "isAdmin": false
     },
     {
         "nickname": "Bochi",
-        "motto": "[DIC] Supervisor [M1] [A.Sp/G]",
+        "mission": "[DIC] Supervisor [M1] [A.Sp/G]",
         "isAdmin": false
     },
     {
         "nickname": "magice_",
-        "motto": "[DIC] L\u00edder [M3] [O.Trn]",
+        "mission": "[DIC] L\u00edder [M3] [O.Trn]",
         "isAdmin": false
     },
     {
         "nickname": "king12pedra",
-        "motto": "[DIC] Detetive [TF2]",
+        "mission": "[DIC] Detetive [TF2]",
         "isAdmin": false
     },
     {
         "nickname": "xexa.",
-        "motto": "[DIC] Agente [AF]",
+        "mission": "[DIC] Agente [AF]",
         "isAdmin": false
     },
     {
         "nickname": "Miguelzasso",
-        "motto": "[DIC] Aluno do COEsp \u00aa [055]",
+        "mission": "[DIC] Aluno do COEsp \u00aa [055]",
         "isAdmin": false
     },
     {
         "nickname": "hesdrask15",
-        "motto": "[DIC] Administrador [TF3] [SL/Sp/G]",
+        "mission": "[DIC] Administrador [TF3] [SL/Sp/G]",
         "isAdmin": false
     },
     {
         "nickname": "Joao_Belico",
-        "motto": "[DIC] Detetive [M1]",
+        "mission": "[DIC] Detetive [M1]",
         "isAdmin": false
     },
     {
         "nickname": ".Stormm",
-        "motto": "L\u00edder da \u00d0IC [CFO] [G]",
+        "mission": "L\u00edder da \u00d0IC [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Fabricio!",
-        "motto": "[\u00d0IC] Detetive [M2] [Sp] \u00ae",
+        "mission": "[\u00d0IC] Detetive [M2] [Sp] \u00ae",
         "isAdmin": false
     },
     {
         "nickname": "SoaresCF3",
-        "motto": "[DIC] Advogado [AF]",
+        "mission": "[DIC] Advogado [AF]",
         "isAdmin": false
     },
     {
         "nickname": "Khan012012",
-        "motto": "[DIC] Detetive [CFO]",
+        "mission": "[DIC] Detetive [CFO]",
         "isAdmin": false
     },
     {
         "nickname": "Arthurrzkkj",
-        "motto": "L\u00edder da \u00d0IC [CFO] [O.Trn/G]",
+        "mission": "L\u00edder da \u00d0IC [CFO] [O.Trn/G]",
         "isAdmin": false
     },
     {
         "nickname": "rnziin006",
-        "motto": "[DIC] Advogado [CFO] [G]",
+        "mission": "[DIC] Advogado [CFO] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Carloff12",
-        "motto": "[DIC] Advogado [TF3] [SL/Sp]",
+        "mission": "[DIC] Advogado [TF3] [SL/Sp]",
         "isAdmin": false
     }
 ]

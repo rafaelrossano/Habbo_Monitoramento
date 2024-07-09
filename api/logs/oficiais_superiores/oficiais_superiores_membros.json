@@ -1,0 +1,362 @@
+[
+    {
+        "nickname": "g@rot@l!nd@",
+        "mission": "[DIC] Comandante-Geral \u00aa [Min.GOE]",
+        "isAdmin": true
+    },
+    {
+        "nickname": ".MarceloMarinho",
+        "mission": "[\u00d0IC] Aposentado <Acionista> \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "emishine",
+        "mission": "Comandante da Pol\u00edcia DIC [Cro-G]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "sasukes9x",
+        "mission": "[DIC] Inspetor \u00aa [11]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "-Lukasz.?",
+        "mission": "[\u00d0IC] Comandante-Geral [Min.CORE] \u2020",
+        "isAdmin": true
+    },
+    {
+        "nickname": "luiza41418",
+        "mission": "[DIC] Coronel [Sg/Cro/EM]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Druthy",
+        "mission": "[DIC] Chanceler \u00a5 \u00a5 \u00a5 [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "-Brunna.-.",
+        "mission": "[DIC] Major [M3] [A.Trn] \u00ae",
+        "isAdmin": false
+    },
+    {
+        "nickname": "icaro5735",
+        "mission": "[DIC] Supervisor \u00a5 [CC.Ap/Cons.CE]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Lyft",
+        "mission": "[DIC] Comandante",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Pedfee",
+        "mission": "[DIC] Tenente-Coronel [A.Ap/Cons.CE]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "MeEsquece:",
+        "mission": "[DIC] Coronel [A.Lg]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "lycia3",
+        "mission": "[DIC] Comandante [L.SL/Cro]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "carlos20204",
+        "mission": "[DIC] Major [M3] [A.Ap/BME] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "ariane-drew",
+        "mission": "[DIC] Inspetora [CC.Ap] [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Marck.",
+        "mission": "[\u00d0IC] Detetive [04] \u2020",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Pratt",
+        "mission": "not afraid to face it",
+        "isAdmin": true
+    },
+    {
+        "nickname": "-oAlemao",
+        "mission": "[DIC] Comandante [Lg] \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "oskino",
+        "mission": "[\u0110IC] Major [Fg] \u00ae",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Deeh-Bathory",
+        "mission": "[DIC] Major [Ch.BME/EM] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Lunee",
+        "mission": "[DIC] T-C [CFS] [S.SL] [APR]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "olierfight",
+        "mission": "[DIC] Tenente-Coronel [A.Lg]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "junior79205",
+        "mission": "[DIC] Coronel [Sg]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Xubis-DIC",
+        "mission": "[\u00d0IC] Detetive [02] \u2020",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Dolby:",
+        "mission": "[DIC] Major [M3] [X.BME/Fg] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "yanch1:",
+        "mission": "[DIC] Comandante-Geral [06] \u2020",
+        "isAdmin": true
+    },
+    {
+        "nickname": "camillesi844",
+        "mission": "[DIC] Coronel [CC.Ap/Sg.BME] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "gui_kunz",
+        "mission": "[\u00d0IC] Major [M3] [A.Sp/A.Lg] \u00ae",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Lynes",
+        "mission": "Comandante-Geral da \u00d0IC [L.EM/Min.G] \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "-yse",
+        "mission": "[DIC] Tenente-Coronel \u00aa [17] [A.Ap]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "..Geeo..",
+        "mission": "[\u00d0IC] Tenente-Coronel [S.Sp] \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": ",Preen,",
+        "mission": "[DIC] Major [Ap] \u00ae",
+        "isAdmin": false
+    },
+    {
+        "nickname": "HugoCRF81",
+        "mission": "[DIC] Detetive [CFS] [S.Sp]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Magnani!",
+        "mission": "[DIC] Inspetor [Sg] [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Guto2219",
+        "mission": "[DIC] Major [Ap]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Icekiss52",
+        "mission": "[DIC] Major [A.SL/Ap]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "NEnix12",
+        "mission": "[DIC] Major [A.SL]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Paul0McCartney.",
+        "mission": "[DIC] Tenente-Coronel [A.Ap]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "JovemMisterioso",
+        "mission": "[\u00d0IC] Chanceler em Aval! \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "belaisaa_",
+        "mission": "[DIC] Superintendente \u00aa [C.Ap]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "roc-roc",
+        "mission": "[\u00d0IC] Supremo [Min.Sp] \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Byavir",
+        "mission": "[DIC] Supervisora \u00a5 [S.Sp] [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": ".Chaves",
+        "mission": "Presidente da Pol\u00edcia DIC \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Heil.",
+        "mission": "[DIC] Acionista [Ch.CE] \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Hina--",
+        "mission": "[DIC] Comandante [L.Sp] [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Felibeto",
+        "mission": "[DIC] Aluna do COEsp \u00aa",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Helpier",
+        "mission": "[DIC] Major \u00aa [20] [S.Sp]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "::-Arcanjo-::",
+        "mission": "[DIC] Super \u00aa [15] [V.SL/Cro]",
+        "isAdmin": true
+    },
+    {
+        "nickname": ",Tami",
+        "mission": "[DIC] Major [A.Lg]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "grrbriela",
+        "mission": "[DIC] Superintendente \u00aa [07]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Danwest",
+        "mission": "[DIC] Inspetor [CC.Ap] [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "B4s.",
+        "mission": "[DIC] Major [M3] [A.Sp]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Reved04",
+        "mission": "[\u00d0IC] Tenente-Coronel  [CFS] [S.SL]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "GBZINH19",
+        "mission": "[DIC] T-C [CFS] [Sg/X.BME] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Luna.starr",
+        "mission": "[DIC] Superintendente [C.BME] \u00ba",
+        "isAdmin": true
+    },
+    {
+        "nickname": "gabrielghbs",
+        "mission": "[DIC] Inspetor [S.EM] [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Bre.",
+        "mission": "[DIC] Major [M3] [S.EM] \u00ae",
+        "isAdmin": false
+    },
+    {
+        "nickname": "GruposDIC",
+        "mission": "\u00a5 POL\u00cdCIA DIC \u00a5 Grupos \u00ae",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Croodera",
+        "mission": "[\u00d0IC] Coronel [Sg] \u00ae",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Jonhaugust",
+        "mission": "[DIC] Inspetor [Sg]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Vitordone",
+        "mission": "",
+        "isAdmin": true
+    },
+    {
+        "nickname": "Lofzi",
+        "mission": "[DIC] Aluno do COEsp \u00aa [058]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "vitoria.N12",
+        "mission": "[DIC] Major \u00aa [24] [Sg]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "machoman23",
+        "mission": "[DIC] Major [M3] [A.SL/A.Sp]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "ViniciusFe",
+        "mission": "[DIC] Chanceler \u00a5 [A.Ap/Cons.CE]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "LeviLanik01",
+        "mission": "[DIC] Major \u00aa [28]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "jmfiel7",
+        "mission": "[\u00d0IC] Detetive \u00a5 [S.Trn] [O]",
+        "isAdmin": true
+    },
+    {
+        "nickname": "prand",
+        "mission": "[DIC] Coronel [A.EM/Ap] [APR]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Lowsz",
+        "mission": "[\u00d0IC] Coronel [S.SL] \u00ae",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Assane.Diop",
+        "mission": "[DIC] Major [M3] [G/A.Ap]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "Knnd7_",
+        "mission": "[DIC] Tenente-Coronel [A.Lg/BME] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "SpeedRay0",
+        "mission": "Boa noite",
+        "isAdmin": false
+    }
+]

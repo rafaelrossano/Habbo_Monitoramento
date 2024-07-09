@@ -9,6 +9,15 @@ import requests
 import json
 
 
+'''
+############################################################
+############################################################
+####   ANTES DE RODAR APP.PY RODE O ARQUIVO CONFIG.PY  #####
+############################################################
+############################################################
+'''
+
+
 app = Flask(__name__)
 
 
@@ -97,7 +106,6 @@ def handle_get_member_request(group_name: str):
         return get_group_member_list(ID_ACESSO_A_BASE)
     if group_name == 'pracas':
         return get_group_member_list(ID_PRACAS)
-    #if group_name == 'oficiais_superiores': return get_members_oficiais_superiores()
 
 
 @app.route('/', methods=['GET'])
@@ -108,6 +116,11 @@ def index():
 @app.route('/members/<group_name>', methods=['GET'])
 def get_group_member_list_endpoint(group_name):
     return jsonify(handle_get_member_request(group_name))
+
+
+@app.route('/atts/<group_name>', methods=['GET'])
+def get_atts_endpoints(group_name:str):
+    return 'oi'
 
 
 if __name__ == '__main__':
