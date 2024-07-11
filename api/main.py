@@ -111,6 +111,21 @@ def handle_atts(group_name):
         with open(CORPO_EXECUTIVO_ATTS_PATH, 'r', encoding='utf-8') as json_file: 
             return json.load(json_file)
         
+    if group_name == 'corpo_executivo_superior':
+        check_change(get_changes(CORPO_EXECUTIVO_SUPERIOR_MEMBROS_PATH, CORPO_EXECUTIVO_SUPERIOR_CHECK_PATH), CORPO_EXECUTIVO_SUPERIOR_ATTS_PATH)
+        with open(CORPO_EXECUTIVO_SUPERIOR_ATTS_PATH, 'r', encoding='utf-8') as json_file: 
+            return json.load(json_file)
+        
+    if group_name == 'pracas':
+        check_change(get_changes(PRACAS_MEMBROS_PATH, PRACAS_CHECK_PATH), PRACAS_ATTS_PATH)
+        with open(PRACAS_ATTS_PATH, 'r', encoding='utf-8') as json_file: 
+            return json.load(json_file)
+        
+    if group_name == 'acesso_a_base':
+        check_change(get_changes(ACESSO_A_BASE_MEMBROS_PATH, ACESSO_A_BASE_CHECK_PATH), ACESSO_A_BASE_ATTS_PATH)
+        with open(ACESSO_A_BASE_ATTS_PATH, 'r', encoding='utf-8') as json_file: 
+            return json.load(json_file)
+        
 
 def main():
     sleep(5)
