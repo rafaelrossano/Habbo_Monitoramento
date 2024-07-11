@@ -26,6 +26,7 @@ backgroundColor = "#2e2e2e"
 highlightedColor = "#7a7a7a"
 containerColor = "#474747"
 contrastColor = "#cfcfcf"
+disabledColor = "#919191"
 groups = [item for item in os.listdir('api/logs')]
 
 class GUI_MainWindow():
@@ -46,6 +47,8 @@ class GUI_MainWindow():
         self.groups = []
         self.groupsSize = windowSizeX//10 - 30
         self.groupsX = (self.groupsSize//2 - self.groupsSize//4) - 3
+
+        self.current_group = 'acesso_a_base'
 
         self.navBarSize = windowSizeX// 10 if len(groups) <= 6 else 0 # TODO : Alterar para valor correto
 
@@ -85,7 +88,7 @@ class GUI_MainWindow():
                 bgColor = backgroundColor if i > 0 else highlightedColor
                 self.group.setStyleSheet("background-color: " + bgColor + ";")
                 self.group.setScaledContents(True)
-                self.group.mousePressEvent = lambda event, i=i, group=self.group: self.highlight_group(group, groups[i])
+                self.group.mousePressEvent = lambda event, i=i, group=self.group: self.select_group(group, groups[i])
                 self.group.show()
 
                 self.groups.append(self.group)
@@ -93,6 +96,41 @@ class GUI_MainWindow():
             self.navBarSize = 0 # Algum outro valor com base no tamanho do scroll
             pass
             # TODO : Implementar o caso em que há mais de 6 grupos
+
+        # Aba de configurações/filtros de exibição
+        self.configsContainer = QtWidgets.QFrame(self.centralwidget)
+        self.configsContainer.setObjectName("configsContainer")
+        self.configsContainer.setGeometry(self.navBarSize, centralY, configsSizeX, configsSizeY)
+        self.configsContainer.setStyleSheet("background-color: " + backgroundColor + "; border-right: 1px solid; border-color: " + contrastColor + ";")
+        self.configsContainer.show()
+
+        self.admins_first = QtWidgets.QCheckBox(self.configsContainer)
+        sizePolicy = QtWidgets.QSizePolicy(
+                                        QtWidgets.QSizePolicy.Preferred,
+                                        self.admins_first.sizePolicy().verticalPolicy()
+                                        ) # Com esse comando, agora esse QLabel só tem a width necessária para o texto
+        self.admins_first.setSizePolicy(sizePolicy)
+        self.admins_first.setGeometry(configsSizeX//4 - self.admins_first.size().width()//2, 0, configsSizeX//2, configsSizeY)
+        self.admins_first.setStyleSheet("border: none;")
+        self.admins_first.setText("Admins primeiro")
+        self.admins_first.setObjectName("admins_first")
+        self.admins_first.mousePressEvent = lambda event: self.toggle_admins_first()
+        self.admins_first.show()
+
+        self.show_admins = QtWidgets.QCheckBox(self.configsContainer)
+        sizePolicy = QtWidgets.QSizePolicy(
+                        QtWidgets.QSizePolicy.Preferred,
+                        self.show_admins.sizePolicy().verticalPolicy()
+                        ) # Com esse comando, agora esse QLabel só tem a width necessária para o texto
+        self.show_admins.setSizePolicy(sizePolicy)
+        self.show_admins.setGeometry(configsSizeX//4 - self.show_admins.size().width()//2 + configsSizeX//2, 0, configsSizeX//2, configsSizeY)
+        self.show_admins.setStyleSheet("border: none;")
+        self.show_admins.setText("Mostrar admins")
+        self.show_admins.setObjectName("show_admins")
+        self.show_admins.mousePressEvent = lambda event: self.toggle_show_admins()
+        self.show_admins.setChecked(True)
+        self.show_admins.show()
+
 
         self.load_group_members('acesso_a_base') # Carrega as informações de um grupo qualquer 
         # TODO : Decidir o grupo inicial (talvez passe a ser aquele mais genérico com os logs de todos os grupos cadastrados)
@@ -105,9 +143,46 @@ class GUI_MainWindow():
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("[DIC] SIENA", "[DIC] SIENA"))
 
+    # Switch entre "Admins primeiro" ligado e desligado
+    def toggle_admins_first(self):
+        if not self.admins_first.isChecked():
+            self.admins_first.setChecked(True)
+        else:
+            self.admins_first.setChecked(False)
+        self.refresh_group_members(self.current_group)
+
+    # Switch entre "Mostrar admins" ligado e desligado
+    def toggle_show_admins(self):
+        # Esta checkbox também controla a checkbox de "Admins primeiro", pois, se não há admins, ela fica desabilitada
+        if not self.show_admins.isChecked():
+            self.show_admins.setChecked(True)
+            self.admins_first.setEnabled(True)
+            self.admins_first.setStyleSheet("color: " + fontcolor + "; border: none") # Cor da fonte normal
+
+        else:
+            self.show_admins.setChecked(False)
+            self.admins_first.setEnabled(False)
+            self.admins_first.setStyleSheet("color: " + disabledColor + "; border: none") # Cor da fonte desabilitada
+
+        self.refresh_group_members(self.current_group)
+
+    def consult_file(self, group):
+        # Consultando arquivo e carregando dados
+        with open('api/logs/' + group + '/' + group + '_membros.json', 'r', encoding='utf-8') as file:
+            members_data = json.load(file)
+        
+        if not self.show_admins.isChecked():
+            members_data = [member for member in members_data if not member['isAdmin']]
+            return members_data
+        if self.admins_first.isChecked():
+            members_data = sorted(members_data, key=lambda x: x['isAdmin'], reverse=True)
+            return members_data
+        
+        return members_data
+
     # Carrega as informações do grupo selecionado (principal função da GUI)
     def load_group_members(self, group):
-
+        members_data = self.consult_file(group)
         # Um container para os membros do grupo, o nome é bastante intuitivo
         self.groupMembersContainer = QtWidgets.QWidget(self.centralwidget)
         self.groupMembersContainer.setObjectName("groupMembersContainer")
@@ -123,12 +198,6 @@ class GUI_MainWindow():
         self.membersScrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
         self.membersScrollArea.setWidgetResizable(True)
         self.membersScrollArea.setWidget(self.groupMembersContainer)
-
-        # Abrindo a API e carregando os dados
-        with open('api/logs/' + group + '/' + group + '_membros.json', 'r', encoding='utf-8') as file:
-            members_data = json.load(file)
-
-        print('len de ' + group + ': ' + str(len(members_data)))
 
         # Aqui, é apenas setada a altura o scroll deverá cobrir
         required_height_for_msa = len(members_data) * (groupMembersContainerSizeY + groupMembersContainerMargin)
@@ -185,44 +254,14 @@ class GUI_MainWindow():
                 self.adm_crown_img.setScaledContents(True)
                 self.adm_crown_img.setObjectName("admImg" + str(i))
                 self.adm_crown_img.show()
-        
-        # Aba de configurações de exibição
-        self.configsContainer = QtWidgets.QFrame(self.centralwidget)
-        self.configsContainer.setObjectName("configsContainer")
-        self.configsContainer.setGeometry(self.navBarSize, centralY, configsSizeX, configsSizeY)
-        self.configsContainer.setStyleSheet("background-color: " + backgroundColor + "; border-right: 1px solid; border-color: " + contrastColor + ";")
-        self.configsContainer.show()
-
-        self.adms_first = QtWidgets.QCheckBox(self.configsContainer)
-        sizePolicy = QtWidgets.QSizePolicy(
-                                        QtWidgets.QSizePolicy.Preferred,
-                                        self.user_name.sizePolicy().verticalPolicy()
-                                        ) # Com esse comando, agora esse QLabel só tem a width necessária para o texto
-        self.adms_first.setSizePolicy(sizePolicy)
-        self.adms_first.setGeometry(configsSizeX//4 - self.adms_first.size().width()//2, 0, configsSizeX//2, configsSizeY)
-        self.adms_first.setStyleSheet("border: none;")
-        self.adms_first.setText("Admins primeiro")
-        self.adms_first.setObjectName("adms_first")
-        self.adms_first.show()
-
-        self.mostrar_adms = QtWidgets.QCheckBox(self.configsContainer)
-        sizePolicy = QtWidgets.QSizePolicy(
-                        QtWidgets.QSizePolicy.Preferred,
-                        self.user_name.sizePolicy().verticalPolicy()
-                        ) # Com esse comando, agora esse QLabel só tem a width necessária para o texto
-        self.mostrar_adms.setSizePolicy(sizePolicy)
-        self.mostrar_adms.setGeometry(configsSizeX//4 - self.mostrar_adms.size().width()//2 + configsSizeX//2, 0, configsSizeX//2, configsSizeY)
-        self.mostrar_adms.setStyleSheet("border: none;")
-        self.mostrar_adms.setText("Mostrar admins")
-        self.mostrar_adms.setObjectName("mostrar_adms")
-        self.mostrar_adms.show()
     
     # Move o marcador para o grupo selecionado
-    def highlight_group(self, widget, group):
+    def select_group(self, widget, group):
         for w in self.groups:
             w.setStyleSheet("background-color: " + backgroundColor + ";")
         self.selectedGroupHighlight.move(self.groupsX - 8, windowSizeY//20 + ((windowSizeY//30+self.groupsSize)*self.groups.index(widget)) - 8)
         widget.setStyleSheet("background-color: #7a7a7a;")
+        self.current_group = group
         self.refresh_group_members(group)
 
     # Atualiza a lista de membros
