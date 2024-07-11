@@ -36,7 +36,7 @@
     },
     {
         "nickname": "-Lukasz.?",
-        "mission": "[\u00d0IC] Comandante-Geral [Min.CORE] \u2020",
+        "mission": "[\u00d0IC] Comandante-Geral \u2020",
         "isAdmin": true
     },
     {
@@ -45,23 +45,13 @@
         "isAdmin": false
     },
     {
-        "nickname": "BloodOfBattle",
-        "mission": "[DIC] Tenente [M1] [Sc]",
-        "isAdmin": false
-    },
-    {
         "nickname": "luiza41418",
         "mission": "[DIC] Coronel [Sg/Cro/EM]",
         "isAdmin": false
     },
     {
-        "nickname": "Druthy",
-        "mission": "[DIC] Chanceler \u00a5 \u00a5 \u00a5 [O]",
-        "isAdmin": true
-    },
-    {
         "nickname": "odeivio991",
-        "mission": "[DIC] Tenente [BME/Sc] \u00ba",
+        "mission": "[DIC] Tenente [M1] [BME/Sc] \u00ba",
         "isAdmin": false
     },
     {
@@ -91,7 +81,7 @@
     },
     {
         "nickname": "lycia3",
-        "mission": "[DIC] Comandante [L.SL/Cro]",
+        "mission": "[DIC] Comandante [L.SL]",
         "isAdmin": true
     },
     {
@@ -106,7 +96,7 @@
     },
     {
         "nickname": "Pratt",
-        "mission": "not afraid to face it",
+        "mission": "[DIC] L\u00edder [05] \u2020",
         "isAdmin": true
     },
     {
@@ -176,7 +166,12 @@
     },
     {
         "nickname": "PudimSalgado02",
-        "mission": "[DIC] Tenente [M1] [A.SL/BME] \u00ba",
+        "mission": "[DIC] Capit\u00e3o [A.SL/BME] \u00ba",
+        "isAdmin": false
+    },
+    {
+        "nickname": "-.TheMonia",
+        "mission": "[\u00d0IC] Tenente [SL] \u00ae",
         "isAdmin": false
     },
     {
@@ -186,7 +181,7 @@
     },
     {
         "nickname": "..Geeo..",
-        "mission": "[\u00d0IC] Tenente-Coronel [S.Sp] \u00ae",
+        "mission": "[\u00d0IC] Tenente-Coronel [CFS] [S.Sp] \u00ae",
         "isAdmin": true
     },
     {
@@ -251,7 +246,7 @@
     },
     {
         "nickname": "Jeremy.ems",
-        "mission": "[DIC] Tenente [M1] [G/BME/Ap] \u00ba",
+        "mission": "[DIC] Capit\u00e3o [G/BME/Ap] \u00ba",
         "isAdmin": false
     },
     {
@@ -301,7 +296,7 @@
     },
     {
         "nickname": "kaique0834",
-        "mission": "[DIC] Capit\u00e3o [M2] [Fg]",
+        "mission": "[DIC] Major [Fg]",
         "isAdmin": false
     },
     {
@@ -315,13 +310,8 @@
         "isAdmin": true
     },
     {
-        "nickname": "Simuai",
-        "mission": "Crikey Besam\u00e9 mucho - Jo\u00e3oGilberto",
-        "isAdmin": false
-    },
-    {
         "nickname": "Starfishx",
-        "mission": "[DIC] Capit\u00e3o [G] \u00ae",
+        "mission": "[DIC] Capit\u00e3o [M2] [G] \u00ae",
         "isAdmin": false
     },
     {
@@ -351,7 +341,7 @@
     },
     {
         "nickname": "Danwest",
-        "mission": "[DIC] Inspetor [CC.Ap] [O]",
+        "mission": "[DIC] Inspetor [CC.Ap]",
         "isAdmin": true
     },
     {
@@ -381,7 +371,7 @@
     },
     {
         "nickname": "gabrielghbs",
-        "mission": "[DIC] Inspetor [S.EM] [O]",
+        "mission": "[DIC] Inspetor [S.EM]",
         "isAdmin": true
     },
     {
@@ -421,7 +411,7 @@
     },
     {
         "nickname": "xxvaleria59",
-        "mission": "[DIC] Tenente [M1] [G]",
+        "mission": "[DIC] Capit\u00e3o [G]",
         "isAdmin": false
     },
     {
@@ -441,12 +431,12 @@
     },
     {
         "nickname": "Vitordone",
-        "mission": "[DIC] Coronel [S.Sp]",
+        "mission": "",
         "isAdmin": true
     },
     {
         "nickname": "vitoria.N12",
-        "mission": "[DIC] Major \u00aa [24] [Sg]",
+        "mission": "bobba",
         "isAdmin": true
     },
     {
@@ -468,11 +458,6 @@
         "nickname": "stumpo!",
         "mission": "[DIC] Aluno do COEsp \u00aa [047]",
         "isAdmin": false
-    },
-    {
-        "nickname": "jmfiel7",
-        "mission": "[\u00d0IC] Detetive \u00a5 [S.Trn] [O]",
-        "isAdmin": true
     },
     {
         "nickname": "prand",
@@ -517,6 +502,11 @@
     {
         "nickname": "euwislley",
         "mission": "[DIC] Tenente [G/EM]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "MallyNanica",
+        "mission": "[DIC] Tenente [G/BME] \u00ba",
         "isAdmin": false
     },
     {

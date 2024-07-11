@@ -1,6 +1,26 @@
-from app import write_log_file, get_group_member_list
-from api.config.group_ids import *
-from api.config.paths import *
+from group_ids import *
+from paths import *
+
+import requests
+import json
+
+def get_group_member_list(group_id: str):
+    _url = f'https://www.habbo.com.br/api/public/groups/{group_id}/members'
+    request = requests.get(_url)
+
+    group_members_list = []
+
+    for member in request.json():
+        group_members_list.append(
+            {'nickname': member['name'].strip(), 'mission': member['motto'], 'isAdmin': member['isAdmin']}
+        )
+
+    return group_members_list
+
+
+def write_log_file(file_path: str, group_members_list: list):
+    with open(file_path, 'w+', encoding='utf-8') as log_file:
+        json.dump(group_members_list, log_file, indent=4)
 
 
 try:
