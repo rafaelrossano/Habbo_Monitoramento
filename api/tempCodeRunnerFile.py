@@ -1,2 +1,3 @@
 
-print(f'Alt: {read_table('oficiais_atts')}')
+        conn.commit()
+    finally:

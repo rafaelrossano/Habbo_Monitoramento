@@ -8,6 +8,7 @@ from flask import Flask, jsonify
 from datetime import datetime
 from pytz import timezone
 from main import *
+from db_functions import *
 
 
 '''
@@ -20,7 +21,8 @@ from main import *
 
 
 app = Flask(__name__)
-
+conn = sqlite3.connect('database.db', check_same_thread=False)
+cursor = conn.cursor()
 
 def handle_get_member_request(group_name: str):
 
@@ -39,21 +41,8 @@ def handle_get_member_request(group_name: str):
     
 
 def handle_get_atts_request(group_name: str):
-    
-    if group_name == 'oficiais':
-        check_change(get_changes(OFICIAIS_MEMBROS_PATH, OFICIAIS_CHECK_PATH), OFICIAIS_ATTS_PATH)
-        with open(OFICIAIS_ATTS_PATH, 'r', encoding='utf-8') as json_file: 
-            return json.load(json_file)
-
-    if group_name == 'oficiais_superiores':
-        check_change(get_changes(OFICIAIS_SUPERIORES_MEMBROS_PATH, OFICIAIS_SUPERIORES_CHECK_PATH), OFICIAIS_SUPERIORES_ATTS_PATH)
-        with open(OFICIAIS_SUPERIORES_ATTS_PATH, 'r', encoding='utf-8') as json_file: 
-            return json.load(json_file)
-        
-    if group_name == 'corpo_executivo':
-        check_change(get_changes(CORPO_EXECUTIVO_MEMBROS_PATH, CORPO_EXECUTIVO_CHECK_PATH), CORPO_EXECUTIVO_ATTS_PATH)
-        with open(CORPO_EXECUTIVO_ATTS_PATH, 'r', encoding='utf-8') as json_file: 
-            return json.load(json_file)
+    check_changes(group_name)
+    return read_table(f'{group_name}_atts')
 
 
 @app.route('/', methods=['GET'])
@@ -68,7 +57,7 @@ def get_group_member_list_endpoint(group_name):
 
 @app.route('/atts/<group_name>', methods=['GET'])
 def get_atts_endpoints(group_name:str):
-    return handle_get_atts_request(group_name)
+    return jsonify(handle_get_atts_request(group_name))
 
 
 if __name__ == '__main__':   
