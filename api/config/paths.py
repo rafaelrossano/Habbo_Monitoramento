@@ -20,6 +20,8 @@ OFICIAIS_CHECK_PATH = r'api\logs\oficiais\oficiais_check.json'
 
 OFICIAIS_ATTS_PATH = r'api\logs\oficiais\oficiais_atts.json'
 
+OFICIAIS_TXT_PATH = r'api\logs\oficiais\oficiais_txt.txt'
+
 
 
 OFICIAIS_SUPERIORES_MEMBROS_PATH = r'api\logs\oficiais_superiores\oficiais_superiores_membros.json'

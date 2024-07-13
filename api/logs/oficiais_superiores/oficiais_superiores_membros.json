@@ -30,11 +30,6 @@
         "isAdmin": false
     },
     {
-        "nickname": "Druthy",
-        "mission": "[DIC] Chanceler \u00a5 \u00a5 \u00a5 [O]",
-        "isAdmin": true
-    },
-    {
         "nickname": "-Brunna.-.",
         "mission": "[DIC] Major [M3] [A.Trn] \u00ae",
         "isAdmin": false
@@ -296,7 +291,7 @@
     },
     {
         "nickname": "Vitordone",
-        "mission": "[DIC] Coronel [S.Sp]",
+        "mission": "",
         "isAdmin": true
     },
     {
@@ -322,11 +317,6 @@
     {
         "nickname": "LeviLanik01",
         "mission": "[DIC] Major \u00aa [28]",
-        "isAdmin": true
-    },
-    {
-        "nickname": "jmfiel7",
-        "mission": "[\u00d0IC] Detetive \u00a5 [S.Trn] [O]",
         "isAdmin": true
     },
     {

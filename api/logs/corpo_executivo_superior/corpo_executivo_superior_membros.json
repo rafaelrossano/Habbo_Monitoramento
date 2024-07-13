@@ -135,11 +135,6 @@
         "isAdmin": false
     },
     {
-        "nickname": "Druthy",
-        "mission": "[DIC] Chanceler \u00a5 \u00a5 \u00a5 [O]",
-        "isAdmin": true
-    },
-    {
         "nickname": "domgusta9362",
         "mission": "[DIC] Detetive [M1]",
         "isAdmin": false
@@ -147,6 +142,11 @@
     {
         "nickname": "BielD10S.",
         "mission": "[\u00d0IC] Supervisor [M3] [O.Trn]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "joao50866",
+        "mission": "[DIC] Detetive [TF3] [Sp]",
         "isAdmin": false
     },
     {
@@ -756,7 +756,7 @@
     },
     {
         "nickname": "Gloobo",
-        "mission": ">> c a r i o c a <<",
+        "mission": "Carioca",
         "isAdmin": false
     },
     {
@@ -811,7 +811,7 @@
     },
     {
         "nickname": "zackhanks510",
-        "mission": "[DIC] Detetive [M1] [G]",
+        "mission": "[DIC] Detetive [CFO] [G]",
         "isAdmin": false
     },
     {
@@ -856,7 +856,7 @@
     },
     {
         "nickname": "Vitordone",
-        "mission": "[DIC] Coronel [S.Sp]",
+        "mission": "",
         "isAdmin": true
     },
     {
@@ -886,7 +886,7 @@
     },
     {
         "nickname": "Mixrdg.",
-        "mission": "",
+        "mission": "Chanceler da DIC [CFS] [G/Trn]",
         "isAdmin": false
     },
     {
@@ -917,11 +917,6 @@
     {
         "nickname": "CaveirinhaAudaz",
         "mission": "[DIC] Detetive [M2] [Ap] \u00ae",
-        "isAdmin": false
-    },
-    {
-        "nickname": "jmfiel7",
-        "mission": "[\u00d0IC] Detetive \u00a5 [S.Trn] [O]",
         "isAdmin": false
     },
     {

@@ -106,7 +106,7 @@
     },
     {
         "nickname": ",Reespeitado...",
-        "mission": "[DIC] Subtenente [TF]",
+        "mission": "[DIC] Subtenente [TF] [G]",
         "isAdmin": false
     },
     {
@@ -155,11 +155,6 @@
         "isAdmin": false
     },
     {
-        "nickname": "Druthy",
-        "mission": "[DIC] Chanceler \u00a5 \u00a5 \u00a5 [O]",
-        "isAdmin": true
-    },
-    {
         "nickname": "TheLeoo",
         "mission": "[DIC] Cabo [TF]",
         "isAdmin": false
@@ -185,6 +180,11 @@
         "isAdmin": false
     },
     {
+        "nickname": "maluuh78",
+        "mission": "[DIC] Cabo [TF]",
+        "isAdmin": false
+    },
+    {
         "nickname": "miguel1724",
         "mission": "[DIC] Cabo [TF]",
         "isAdmin": false
@@ -206,7 +206,7 @@
     },
     {
         "nickname": "claiver33",
-        "mission": "[\u00d0IC] Subtenente [TF] [G] \u00ae",
+        "mission": "[\u00d0IC] Subtenente [TF] [SL/G] \u00ae",
         "isAdmin": false
     },
     {
@@ -246,7 +246,7 @@
     },
     {
         "nickname": "Nixy,",
-        "mission": "o inverno nunca tem fim",
+        "mission": "[DIC] Aspirante [G]",
         "isAdmin": false
     },
     {
@@ -300,13 +300,18 @@
         "isAdmin": false
     },
     {
+        "nickname": "JozeItalo",
+        "mission": "[DIC] Cabo [TF]",
+        "isAdmin": false
+    },
+    {
         "nickname": "vandreas57",
         "mission": "[DIC] Subtenente [TF] [G]",
         "isAdmin": false
     },
     {
         "nickname": "thaisbritto16",
-        "mission": "[DIC] Cabo [TF]",
+        "mission": "[DIC] Sargento [TF]",
         "isAdmin": false
     },
     {
@@ -326,12 +331,12 @@
     },
     {
         "nickname": "Redeye",
-        "mission": "[DIC] Subtenente [TF]",
+        "mission": "[DIC] Subtenente [TF] [G]",
         "isAdmin": false
     },
     {
         "nickname": "Ssonick3",
-        "mission": "me ame pelo que sou, n\u00e3o pelo que v\u00ea.",
+        "mission": "[DIC] Subtenente [TF]",
         "isAdmin": false
     },
     {
@@ -505,6 +510,11 @@
         "isAdmin": false
     },
     {
+        "nickname": "gapp1",
+        "mission": "[DIC] Subtenente",
+        "isAdmin": false
+    },
+    {
         "nickname": ".:Glamurosa.:",
         "mission": "[\u00d0IC] Subtenente \u00ae [TF] [G]",
         "isAdmin": false
@@ -526,7 +536,7 @@
     },
     {
         "nickname": ",Matsu",
-        "mission": "[DIC] Sargento [TF] \u00ae",
+        "mission": "[DIC] Subtenente [TF] \u00ae",
         "isAdmin": false
     },
     {
@@ -560,6 +570,11 @@
         "isAdmin": false
     },
     {
+        "nickname": "ArthurThe-Gold",
+        "mission": "[DIC] Cabo",
+        "isAdmin": false
+    },
+    {
         "nickname": "JovemMisterioso",
         "mission": "[\u00d0IC] Chanceler em Aval! \u00ae",
         "isAdmin": true
@@ -576,7 +591,7 @@
     },
     {
         "nickname": "eunice1515",
-        "mission": "[DIC] Sargento [TF]",
+        "mission": "[DIC] Subtenente",
         "isAdmin": false
     },
     {
@@ -676,7 +691,7 @@
     },
     {
         "nickname": "limapacheco",
-        "mission": "[DIC] Aspirante [G/Sp]",
+        "mission": "[DIC] Aspirante [CFO] [G/Sp]",
         "isAdmin": false
     },
     {
@@ -696,7 +711,7 @@
     },
     {
         "nickname": "Kopavy",
-        "mission": "[DIC] Sargento [TF]",
+        "mission": "[DIC] Subtenente [TF]",
         "isAdmin": false
     },
     {
@@ -851,7 +866,7 @@
     },
     {
         "nickname": "@Vitin",
-        "mission": "[DIC] Subtenente [TF] \u00ae",
+        "mission": "[DIC] Subtenente [TF] [G]",
         "isAdmin": false
     },
     {
@@ -872,6 +887,11 @@
     {
         "nickname": "Biel00112",
         "mission": "[DIC] Aspirante [CFO] [G/BME]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "tummg",
+        "mission": "[DIC] Cabo [TF]",
         "isAdmin": false
     },
     {
@@ -941,7 +961,7 @@
     },
     {
         "nickname": "ser86r1-74",
-        "mission": "[DIC] Aspirante",
+        "mission": "[C.E.H] Psic\u00f3loga",
         "isAdmin": false
     },
     {
@@ -996,7 +1016,7 @@
     },
     {
         "nickname": "ChrisNkunku",
-        "mission": "[DIC] Cabo [TF]",
+        "mission": "[DIC] Sargento [TF]",
         "isAdmin": false
     },
     {
@@ -1006,7 +1026,7 @@
     },
     {
         "nickname": "Vitordone",
-        "mission": "[DIC] Coronel [S.Sp]",
+        "mission": "",
         "isAdmin": true
     },
     {
@@ -1036,7 +1056,7 @@
     },
     {
         "nickname": "ManoFlurry",
-        "mission": "[DIC] Sargento [TF]",
+        "mission": "[DIC] Subtenente [TF]",
         "isAdmin": false
     },
     {
@@ -1057,11 +1077,6 @@
     {
         "nickname": "iGabye",
         "mission": "[\u00d0IC] Subtenente [TF] [G]",
-        "isAdmin": false
-    },
-    {
-        "nickname": "JoYui",
-        "mission": "[DIC] Cabo [TF]",
         "isAdmin": false
     },
     {
@@ -1115,11 +1130,6 @@
         "isAdmin": false
     },
     {
-        "nickname": "jmfiel7",
-        "mission": "[\u00d0IC] Detetive \u00a5 [S.Trn] [O]",
-        "isAdmin": true
-    },
-    {
         "nickname": "Bogotar",
         "mission": "[\u00d0IC] Sargento [TF]",
         "isAdmin": false
@@ -1161,7 +1171,7 @@
     },
     {
         "nickname": "Jef10",
-        "mission": "[DIC] Sargento [TF] \u00ae",
+        "mission": "",
         "isAdmin": false
     },
     {
@@ -1291,7 +1301,7 @@
     },
     {
         "nickname": "Nathi921@",
-        "mission": "[DIC] Subtenente",
+        "mission": "[DIC] Subtenente [TF]",
         "isAdmin": false
     },
     {
@@ -1371,7 +1381,7 @@
     },
     {
         "nickname": "ser-4z5-5-6",
-        "mission": "[DIC] Subtenente [TF] [SL]",
+        "mission": "[DIC] Subtenente [TF] [SL/BME] \u00ba",
         "isAdmin": false
     },
     {
@@ -1556,7 +1566,7 @@
     },
     {
         "nickname": "Pidoninh0",
-        "mission": "[DIC] Subtenente [TF] [G]",
+        "mission": "[DIC] Aspirante [G]",
         "isAdmin": false
     },
     {
@@ -1591,7 +1601,7 @@
     },
     {
         "nickname": "Lufthansa",
-        "mission": "[DIC] Subtenente [TF] [G]",
+        "mission": "[DIC] Subtenente [G]",
         "isAdmin": false
     },
     {
@@ -1641,12 +1651,7 @@
     },
     {
         "nickname": "Sev7nlll",
-        "mission": "[DIC] Sargento [TF] \u00ae",
-        "isAdmin": false
-    },
-    {
-        "nickname": "wxn.",
-        "mission": "[DIC] Sargento [TF]",
+        "mission": "[DIC] Subtenente [TF] [BME] \u00ba",
         "isAdmin": false
     },
     {
@@ -1696,12 +1701,12 @@
     },
     {
         "nickname": "emitelindo",
-        "mission": "[DIC] Cabo [TF]",
+        "mission": "Ttk: emitelindo ( +17K )",
         "isAdmin": false
     },
     {
         "nickname": ".Reis.",
-        "mission": "[DIC] Sargento [TF]",
+        "mission": "[DIC] Subtenente [TF] [G]",
         "isAdmin": false
     },
     {
@@ -1712,11 +1717,6 @@
     {
         "nickname": "kliy",
         "mission": "[DIC] Cabo",
-        "isAdmin": false
-    },
-    {
-        "nickname": "paulinhoohf",
-        "mission": "[DIC] Soldado",
         "isAdmin": false
     },
     {
@@ -1731,7 +1731,12 @@
     },
     {
         "nickname": "luluzetesf",
-        "mission": "[DIC] Cabo [TF]",
+        "mission": "[DIC] Sargento [TF]",
+        "isAdmin": false
+    },
+    {
+        "nickname": "ser4-j752",
+        "mission": "[DIC] Cabo",
         "isAdmin": false
     }
 ]
