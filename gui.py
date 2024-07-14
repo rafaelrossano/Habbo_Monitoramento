@@ -3,7 +3,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtSvg import QSvgWidget
 import os
-
+import requests
+import socket
 windowWidth = 1070
 windowHeight = 650
 
@@ -190,6 +191,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
     # Carrega as informações do grupo selecionado (principal função da GUI)
     def load_group_members(self, group):
+        self.current_members = []
         members_data = self.consult_file(group)
         # Um container para os membros do grupo, o nome é bastante intuitivo
         self.groupMembersContainer = QtWidgets.QWidget(self.centralwidget)
@@ -291,9 +293,11 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 new_shmi = self.searched_highlighted_member_index + step
             self.searched_members[self.searched_highlighted_member_index].setStyleSheet("background-color: " + searchHighlightedColor + ";")
             self.searched_members[new_shmi].setStyleSheet("background-color: " + searchSelectedHighlightedColor + ";")
+
             index_in_members = self.current_members.index(self.searched_members[new_shmi])
             container_required_height = groupMembersContainerHeight + groupMembersContainerMargin
             y_position = index_in_members * container_required_height
+
             self.membersScrollArea.verticalScrollBar().setValue(y_position)
             self.searched_highlighted_member_index = new_shmi
 
@@ -387,6 +391,8 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.highlight_results(self.ui.searched_members)
                 self.ui.searched_highlighted_member_index = 0
                 self.ui.highlight_selected_result(0)
+            if (event.key() == Qt.Key_Escape and source is self.ui.searchBar):
+                self.ui.close_search_bar()
         return False
     
 def match_nicknames(prompt, list):
@@ -398,6 +404,52 @@ def match_nicknames(prompt, list):
             container.setStyleSheet("background-color: " + containerColor + ";")
     return results
 
+
+'''
+############################################################
+############################################################
+#####        FUNÇÕES DE COMUNICAÇÃO COM A API          #####
+############################################################
+############################################################
+'''
+def get_group_member_list(group_id: str):
+    _url = f'https://www.habbo.com.br/api/public/groups/{group_id}/members'
+    request = requests.get(_url)
+
+    group_members_list = []
+
+    for member in request.json():
+        group_members_list.append(
+            {'nickname': member['name'].strip(), 'mission': member['motto'], 'isAdmin': member['isAdmin']}
+        )
+
+    return group_members_list
+
+def run_client(): 
+    # create a socket object 
+    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+ 
+    server_ip = "127.0.0.1"  # replace with the server's IP address 
+    server_port = 8000  # replace with the server's port number 
+    # establish connection with server 
+    client.connect((server_ip, server_port)) 
+ 
+    while True: 
+        # receive message from the server 
+        response = client.recv(1024) 
+        response = response.decode("utf-8") 
+ 
+        # if server sent us "closed" in the payload, we break out of the loop and close our socket 
+        if response.lower() == "closed": 
+            break 
+ 
+        print(f"Received: {response}") 
+ 
+    # close client socket (connection to the server) 
+    client.close() 
+    print("Connection to server closed") 
+ 
+run_client()
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
