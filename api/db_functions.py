@@ -237,10 +237,3 @@ def check_if_change(group_name):
         if check_changes(group_name):
             print('Entrou ou saiu')
             
-
-is_change = check_changes('oficiais')
-
-if is_change:
-    print(f'Change: {read_table('riny_atts')}')
-else:
-    print('No')

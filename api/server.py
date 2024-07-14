@@ -1,34 +1,36 @@
 import socket
-from db_functions import check_changes
-import time
-
-# Definir o endereço e a porta do servidor
-HOST = '0.0.0.0'  # Aceitar conexões de qualquer endereço IP
-PORT = 65432      # Porta a ser usada
-
-# Criar o socket do servidor
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((HOST, PORT))
-server_socket.listen()
-
-print('Aguardando conexão do cliente...')
-
-# Aguardar conexão do cliente
-conn, addr = server_socket.accept()
-print(f'Conectado por {addr}')
-
-is_change = check_changes('riny')
 
 
-def check_if_change_and_notify(group_name):
-    if is_change:
-        message = 'Houve uma mudança no grupo.'
-        conn.sendall(message.encode())
+def run_server():
+    # create a socket object
+    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-try:
+    server_ip = "127.0.0.1"
+    port = 8000
+
+    # bind the socket to a specific address and port
+    server.bind((server_ip, port))
+    # listen for incoming connections
+    server.listen(0)
+    print(f"Listening on {server_ip}:{port}")
+
+    # accept incoming connections
+    client_socket, client_address = server.accept()
+    print(f"Accepted connection from {client_address[0]}:{client_address[1]}")
+
+    # receive data from the client
     while True:
-       check_if_change_and_notify('riny')
-       time.sleep(10)
-finally:
-    conn.close()
-    server_socket.close()
+        msg = input("Enter message: ")
+        client_socket.send(msg.encode("utf-8")[:1024])
+        
+        if msg.lower() == "closed":
+            break
+
+    # close connection socket with the client
+    client_socket.close()
+    print("Connection to client closed")
+    # close server socket
+    server.close()
+
+
+run_server()
