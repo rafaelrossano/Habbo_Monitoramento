@@ -32,11 +32,60 @@ def set_members_table(table_name):
         )            
         ''')
         
-        for member in get_group_member_list(ID_OFICIAIS):
-            cursor.execute(f'''
-            INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
-            ''', (member['nickname'], member['mission'], member['isAdmin']))
+        if table_name == 'oficiais':
+            for member in get_group_member_list(ID_OFICIAIS):
+                cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
+                ''', (member['nickname'], member['mission'], member['isAdmin']))
             
+            conn.commit()
+            
+        elif table_name == 'oficiais_superiores':
+            for member in get_group_member_list(ID_OFICIAIS_SUPERIORES):
+                cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
+                ''', (member['nickname'], member['mission'], member['isAdmin']))
+                
+            conn.commit()
+            
+        elif table_name == 'corpo_executivo':
+            for member in get_group_member_list(ID_CORPO_EXECUTIVO):
+                cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
+                ''', (member['nickname'], member['mission'], member['isAdmin']))
+                
+            conn.commit()
+            
+        elif table_name == 'corpo_executivo_superior':
+            for member in get_group_member_list(ID_CORPO_EXECUTIVO_SUPERIOR):
+                cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
+                ''', (member['nickname'], member['mission'], member['isAdmin']))
+                
+            conn.commit()
+            
+        elif table_name == 'acesso_a_base':
+            for member in get_group_member_list(ID_ACESSO_A_BASE):
+                cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
+                ''', (member['nickname'], member['mission'], member['isAdmin']))
+                
+            conn.commit()
+            
+        elif table_name == 'pracas':
+            for member in get_group_member_list(ID_PRACAS):
+                cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
+                ''', (member['nickname'], member['mission'], member['isAdmin']))
+                
+            conn.commit()
+            
+        elif table_name == 'riny':
+            for member in get_group_member_list(ID_RINY):
+                cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, missao, isAdmin) VALUES (?, ?, ?)
+                ''', (member['nickname'], member['mission'], member['isAdmin']))
+                
             conn.commit()
     finally:
         conn.close()
@@ -54,7 +103,7 @@ def read_table(table_name):
         output_list = [{'nickname': profile[0], 'missao': profile[1], 'isAdmin': profile[2]} for profile in table_output]
         
         if len(output_list) == 0:
-            return 'Empty table'
+            return []
         return output_list
     finally:
         conn.close()
@@ -90,48 +139,68 @@ def overwrite_atts_table(table_name):
         conn.close()
 
 def check_changes(group_name):
+    # Abrir a conexão no início da função
     conn = sqlite3.connect('database.db', check_same_thread=False)
     cursor = conn.cursor()
+    
+    changes = False
+    
     try:
-        table_output = []
-        if len(table_output) == 0:
-            return
+        # Ler a tabela do banco de dados
         table_output = read_table(group_name)
         
+        
+        if len(table_output) == 0:
+            return
+
+        # Inicializar a lista de membros do grupo
         group_members_dict = []
 
+        # Determinar o ID do grupo com base no nome do grupo
         if group_name == 'oficiais':
             group_members_dict = get_group_member_list(ID_OFICIAIS)
         elif group_name == 'oficiais_superiores':
-            group_members_dict == get_group_member_list(ID_OFICIAIS_SUPERIORES)
+            group_members_dict = get_group_member_list(ID_OFICIAIS_SUPERIORES)
         elif group_name == 'corpo_executivo':
-            group_members_dict == get_group_member_list(ID_CORPO_EXECUTIVO)
+            group_members_dict = get_group_member_list(ID_CORPO_EXECUTIVO)
         elif group_name == 'corpo_executivo_superior':
-            group_members_dict == get_group_member_list(ID_CORPO_EXECUTIVO_SUPERIOR)
+            group_members_dict = get_group_member_list(ID_CORPO_EXECUTIVO_SUPERIOR)
         elif group_name == 'acesso_a_base':
-            group_members_dict == get_group_member_list(ID_ACESSO_A_BASE)
+            group_members_dict = get_group_member_list(ID_ACESSO_A_BASE)
         elif group_name == 'pracas':
-            group_members_dict == get_group_member_list(ID_PRACAS)
-            
-        
+            group_members_dict = get_group_member_list(ID_PRACAS)
+        elif group_name == 'riny':
+            group_members_dict = get_group_member_list(ID_RINY)
+
+        # Extrair os nomes dos membros dos dicionários
         group_members = [member['nickname'] for member in group_members_dict]
         database_members = [member['nickname'] for member in table_output]
 
-        
+        # Verificar membros que saíram
         for member in table_output:
             if member['nickname'] not in group_members:
                 commit_changes(f'{group_name}_atts', member['nickname'], 'saiu', get_time('%d/%m/%Y - %H:%M:00'))
-        
+                changes = True
+
+        # Verificar membros que entraram
         for member in group_members_dict:
             if member['nickname'] not in database_members:
                 commit_changes(f'{group_name}_atts', member['nickname'], 'entrou', get_time('%d/%m/%Y - %H:%M:00'))
-                
+                changes = True
+
+        # Atualizar a tabela de membros
         set_members_table(group_name)
-    
-        return
-    
-    finally:
+
+        # Fechar a conexão
         conn.close()
+
+        return changes
+    
+    except Exception as e:
+        # Fechar a conexão em caso de exceção
+        conn.close()
+        raise e
+    
 
 
 def remove_profile_from_db(profile_name, table_name):
@@ -159,11 +228,19 @@ def list_tables():
         return table_list
     finally:
         conn.close()
-        
-        
-while True:
-    time.sleep(5)
-    check_changes('oficiais')
-    print(read_table('oficiais'))
-    print('----')
-    print(read_table('oficiais_atts'))
+
+
+
+def check_if_change(group_name):
+    while True:
+        print('procurando...')
+        if check_changes(group_name):
+            print('Entrou ou saiu')
+            
+
+is_change = check_changes('oficiais')
+
+if is_change:
+    print(f'Change: {read_table('riny_atts')}')
+else:
+    print('No')
