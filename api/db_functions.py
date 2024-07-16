@@ -237,3 +237,11 @@ def check_if_change(group_name):
         if check_changes(group_name):
             print('Entrou ou saiu')
             
+            
+
+set_members_table('oficiais')
+set_members_table('oficiais_superiores')
+set_members_table('corpo_executivo')
+set_members_table('corpo_executivo_superior')
+set_members_table('pracas')
+set_members_table('acesso_a_base')
