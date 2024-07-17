@@ -5,7 +5,7 @@ def run_server():
     # create a socket object
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    server_ip = "44.211.160.253"
+    server_ip = "0.0.0.0"
     port = 8000
 
     # bind the socket to a specific address and port

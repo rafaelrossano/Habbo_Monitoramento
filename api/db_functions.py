@@ -1,7 +1,7 @@
 import sqlite3
 import requests
-from config.group_ids import *
-from main import get_time
+from .config.group_ids import *
+from .main import get_time
 import time
 
 def get_group_member_list(group_id: str):
