@@ -5,6 +5,11 @@ from PyQt5.QtSvg import QSvgWidget
 import os
 import requests
 import socket
+import threading
+import time
+from api.db_functions import read_table
+
+
 windowWidth = 1070
 windowHeight = 650
 
@@ -28,7 +33,19 @@ contrastColor = "#cfcfcf"
 disabledColor = "#919191"
 searchHighlightedColor = "#696969"
 searchSelectedHighlightedColor = "#a87b13"
-groups = [item for item in os.listdir('api/logs')]
+groups = [("acesso_a_base", 'g-hhbr-d23226b5786b954f457a4dbf58fcc6ca'),
+          ("corpo_executivo", 'g-hhbr-da0cd92560170f5d42d0e59dd6dbc268'),
+          ("corpo_executivo_superior", 'g-hhbr-7f9e61c9ce3700323d870bf420732535'),
+          ("oficiais", 'g-hhbr-247773992b2ed79b8f00e564abad2c43'),
+          ("oficiais_superiores", 'g-hhbr-7b5c62e80d30cd30f003eab08555a124'),
+          ("pracas", 'g-hhbr-e45543b627d203d8caf1a4476bb42fab'),
+        ]
+
+groups_members = {}
+groups_members_lock = threading.Lock()
+
+groups_atts = {}
+group_atts_lock = threading.Lock()
 
 class GUI_MainWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -88,17 +105,17 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.navBarSize = windowWidth // 10
             for i in range(len(groups)):
                 self.group = QtWidgets.QLabel(self.centralwidget)
-                self.group.setObjectName(groups[i])
+                self.group.setObjectName(groups[i][0])
                 self.group.setGeometry(QtCore.QRect(self.groupsX,
                                                     windowHeight // 20 + ((windowHeight // 30 + self.groupsSize) * i),
                                                     self.groupsSize,
                                                     self.groupsSize
                 ))
-                self.group.setPixmap(QtGui.QPixmap('assets/images/' + groups[i] + '.png'))
+                self.group.setPixmap(QtGui.QPixmap('assets/images/' + groups[i][0] + '.png'))
                 bgColor = backgroundColor if i > 0 else highlightedColor
                 self.group.setStyleSheet("background-color: " + bgColor + ";")
                 self.group.setScaledContents(True)
-                self.group.mousePressEvent = lambda event, i=i, group=self.group: self.select_group(group, groups[i])
+                self.group.mousePressEvent = lambda event, i=i, group=self.group: self.select_group(group, groups[i][0])
                 self.group.show()
 
                 self.groups.append(self.group)
@@ -175,10 +192,10 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
         self.refresh_group_members(self.current_group)
 
-    def consult_file(self, group):
-        # Consultando arquivo e carregando dados
-        with open('api/logs/' + group + '/' + group + '_membros.json', 'r', encoding='utf-8') as file:
-            members_data = json.load(file)
+    def consult_list(self, group):
+        # Consultando lista de membros do grupo
+        with groups_members_lock:
+            members_data = groups_members[group]
 
         if not self.show_admins.isChecked():
             members_data = [member for member in members_data if not member['isAdmin']]
@@ -192,7 +209,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
     # Carrega as informações do grupo selecionado (principal função da GUI)
     def load_group_members(self, group):
         self.current_members = []
-        members_data = self.consult_file(group)
+        members_data = self.consult_list(group)
         # Um container para os membros do grupo, o nome é bastante intuitivo
         self.groupMembersContainer = QtWidgets.QWidget(self.centralwidget)
         self.groupMembersContainer.setObjectName("groupMembersContainer")
@@ -394,6 +411,7 @@ class MainWindow(QtWidgets.QMainWindow):
             if (event.key() == Qt.Key_Escape and source is self.ui.searchBar):
                 self.ui.close_search_bar()
         return False
+
     
 def match_nicknames(prompt, list):
     results = []
@@ -404,6 +422,10 @@ def match_nicknames(prompt, list):
             container.setStyleSheet("background-color: " + containerColor + ";")
     return results
 
+def get_id_of_group(group_name):
+    for group in groups:
+        if group[0] == group_name:
+            return group[1]
 
 '''
 ############################################################
@@ -425,7 +447,7 @@ def get_group_member_list(group_id: str):
 
     return group_members_list
 
-def run_client(): 
+def run_client(window): 
     # create a socket object 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
  
@@ -437,7 +459,12 @@ def run_client():
     while True: 
         # receive message from the server 
         response = client.recv(1024) 
-        response = response.decode("utf-8") 
+        response = response.decode("utf-8") # response será o grupo escrito em lower snake case. ex: "acesso_a_base"
+        if len(response) > 0:
+            with groups_members_lock:
+                groups_members[response] = read_table(response)
+            
+            # IMPLEMENTAÇÃO DAS MUDANÇAS NOS GRUPOS
  
         # if server sent us "closed" in the payload, we break out of the loop and close our socket 
         if response.lower() == "closed": 
@@ -448,11 +475,17 @@ def run_client():
     # close client socket (connection to the server) 
     client.close() 
     print("Connection to server closed") 
+
+def run_client_thread(window):
+        t = threading.Thread(target=run_client, args=(window,))
+        t.start()
  
-run_client()
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    for group in groups:
+        groups_members[group[0]] = read_table(group[1])
     main_window = MainWindow()
+    run_client_thread(main_window)
     main_window.show()
     sys.exit(app.exec_())
