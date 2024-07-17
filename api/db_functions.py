@@ -108,17 +108,19 @@ def read_table(table_name):
     finally:
         conn.close()
 
-def commit_changes(group_name, nickname, status, date_time):
+def commit_changes(table_name, nickname, status, date_time):
     conn = sqlite3.connect('database.db', check_same_thread=False)
     cursor = conn.cursor()
     try:
         cursor.execute(f'''
-        INSERT INTO {group_name} (nickname, status, date_time) VALUES (?, ?, ?)
-        ''', (nickname, status, date_time))
+                INSERT INTO {table_name} (nickname, status, date_time) VALUES (?, ?, ?)
+                ''', (nickname, status, date_time))
         
+        # Salvar (commit) as mudanças
         conn.commit()
     finally:
         conn.close() 
+        
         
         
 def overwrite_atts_table(table_name):
@@ -238,17 +240,21 @@ def check_if_change(group_name):
             print('Entrou ou saiu')
             
             
+def set_all_tables():
 
-set_members_table('oficiais')
-set_members_table('oficiais_superiores')
-set_members_table('corpo_executivo')
-set_members_table('corpo_executivo_superior')
-set_members_table('pracas')
-set_members_table('acesso_a_base')
+    set_members_table('oficiais')
+    set_members_table('oficiais_superiores')
+    set_members_table('corpo_executivo')
+    set_members_table('corpo_executivo_superior')
+    set_members_table('pracas')
+    set_members_table('acesso_a_base')
 
-overwrite_atts_table('oficiais_atts')
-overwrite_atts_table('oficiais_superiores_atts')
-overwrite_atts_table('corpo_executivo_atts')
-overwrite_atts_table('corpo_executivo_superior_atts')
-overwrite_atts_table('pracas_atts')
-overwrite_atts_table('acesso_a_base_atts')
+    overwrite_atts_table('oficiais_atts')
+    overwrite_atts_table('oficiais_superiores_atts')
+    overwrite_atts_table('corpo_executivo_atts')
+    overwrite_atts_table('corpo_executivo_superior_atts')
+    overwrite_atts_table('pracas_atts')
+    overwrite_atts_table('acesso_a_base_atts')
+    
+
+commit_changes('riny_atts', '222', 'entrou', '16/07/2024')

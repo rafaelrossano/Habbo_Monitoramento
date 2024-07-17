@@ -7,7 +7,9 @@ import requests
 import socket
 import threading
 import time
-from api.db_functions import read_table
+import sqlite3
+#from api.db_functions import read_table
+#from api.config import *
 
 
 windowWidth = 1070
@@ -446,6 +448,22 @@ def get_group_member_list(group_id: str):
         )
 
     return group_members_list
+
+def read_table(table_name):
+    conn = sqlite3.connect('database.db', check_same_thread=False)
+    cursor = conn.cursor()
+    try:
+        cursor.execute(f'SELECT * FROM {table_name}')
+        
+        table_output = cursor.fetchall()
+
+        output_list = [{'nickname': profile[0], 'missao': profile[1], 'isAdmin': profile[2]} for profile in table_output]
+        
+        if len(output_list) == 0:
+            return []
+        return output_list
+    finally:
+        conn.close()
 
 def run_client(window): 
     # create a socket object 
