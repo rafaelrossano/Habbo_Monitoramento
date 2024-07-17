@@ -1,4 +1,5 @@
 import json
+import random
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtSvg import QSvgWidget
@@ -7,8 +8,28 @@ import requests
 import socket
 import threading
 import time
-from api.db_functions import read_table
+from api.db_functions import read_table, commit_changes
 
+groups = [("acesso_a_base", '#3d0303', '[DIC] Acesso à Base ®'),
+          ("corpo_executivo", '#606060', '[DIC] Corpo Executivo ®'),
+          ("corpo_executivo_superior", '#2f2f2f', '[DIC] Corpo Executivo Superior ®'),
+          ("oficiais", '#a60909', '[DIC] Oficiais ®'),
+          ("oficiais_superiores", '#fbc900', '[DIC] Oficiais Superiores ®'),
+          ("pracas", '#069a00', '[DIC] Praças ®'),
+        ]
+
+def find_group_index(group):
+    for i in range(len(groups)):
+        if group == groups[i][0]:
+            return i
+        
+date_displays = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+
+groups_members = {}
+groups_members_lock = threading.Lock()
+
+groups_atts = {}
+group_atts_lock = threading.Lock()
 
 windowWidth = 1070
 windowHeight = 650
@@ -19,6 +40,18 @@ groupMembersWidth = 560
 configsWidth = groupMembersWidth
 configsHeight = 40
 groupMembersHeight = windowHeight - configsHeight
+
+navBarSize = windowWidth // 10 if len(groups) <= 6 else 0  # TODO : Alterar para valor correto
+groupsSize = windowWidth // 10 - 30
+groupsX = (groupsSize // 2 - groupsSize // 4) - 3
+
+attsX = navBarSize + groupMembersWidth
+attsY = 0
+attsWidth = windowWidth - (navBarSize + groupMembersWidth)
+attsHeight = windowHeight - configsHeight
+
+attContainerWidth = attsWidth
+attContainerHeight = 100
 
 centralX = 0
 centralY = 0
@@ -33,19 +66,7 @@ contrastColor = "#cfcfcf"
 disabledColor = "#919191"
 searchHighlightedColor = "#696969"
 searchSelectedHighlightedColor = "#a87b13"
-groups = [("acesso_a_base", 'g-hhbr-d23226b5786b954f457a4dbf58fcc6ca'),
-          ("corpo_executivo", 'g-hhbr-da0cd92560170f5d42d0e59dd6dbc268'),
-          ("corpo_executivo_superior", 'g-hhbr-7f9e61c9ce3700323d870bf420732535'),
-          ("oficiais", 'g-hhbr-247773992b2ed79b8f00e564abad2c43'),
-          ("oficiais_superiores", 'g-hhbr-7b5c62e80d30cd30f003eab08555a124'),
-          ("pracas", 'g-hhbr-e45543b627d203d8caf1a4476bb42fab'),
-        ]
 
-groups_members = {}
-groups_members_lock = threading.Lock()
-
-groups_atts = {}
-group_atts_lock = threading.Lock()
 
 class GUI_MainWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -56,7 +77,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(windowWidth, windowHeight)
-        MainWindow.setFixedSize(windowWidth, windowHeight)
+        # MainWindow.setFixedSize(windowWidth, windowHeight)
         MainWindow.setWindowIcon(QtGui.QIcon('assets/images/CORE.png'))
         MainWindow.setStyleSheet("background-color:" + backgroundColor + ";")
 
@@ -69,12 +90,9 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.searched_members = []
         # Grupos na barra de navegação
         self.groups = []
-        self.groupsSize = windowWidth // 10 - 30
-        self.groupsX = (self.groupsSize // 2 - self.groupsSize // 4) - 3
 
         self.current_group = 'acesso_a_base'
 
-        self.navBarSize = windowWidth // 10 if len(groups) <= 6 else 0  # TODO : Alterar para valor correto
 
         # Barra de navegação entre grupos
         self.navBar = QtWidgets.QFrame(self.centralwidget)
@@ -85,7 +103,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
         # Linha que separa a navBar do conteúdo dos grupos [UNICAMENTE COSMÉTICA]
         self.lineNavContent = QtWidgets.QFrame(self.centralwidget)
         self.lineNavContent.setGeometry(QtCore.QRect(windowWidth // 10, centralY, 5, windowHeight))
-        self.lineNavContent.setStyleSheet("QFrame { background-color: red; }")
         self.lineNavContent.setFrameShape(QtWidgets.QFrame.VLine)
         self.lineNavContent.setFrameShadow(QtWidgets.QFrame.Sunken)
         self.lineNavContent.setObjectName("line")
@@ -93,23 +110,23 @@ class GUI_MainWindow(QtWidgets.QWidget):
         # Marcador de qual grupo está selecionado para visualização
         self.selectedGroupHighlight = QtWidgets.QFrame(self.centralwidget)
         self.selectedGroupHighlight.setObjectName("selectedGroupHighlight")
-        self.selectedGroupHighlight.setGeometry(QtCore.QRect(self.groupsX - highlightedGroupThickness,
+        self.selectedGroupHighlight.setGeometry(QtCore.QRect(groupsX - highlightedGroupThickness,
                                                              windowHeight // 20 - highlightedGroupThickness,
-                                                             self.groupsSize + highlightedGroupThickness * 2,
-                                                             self.groupsSize + highlightedGroupThickness * 2))
+                                                             groupsSize + highlightedGroupThickness * 2,
+                                                             groupsSize + highlightedGroupThickness * 2))
         self.selectedGroupHighlight.setStyleSheet("background-color: " + highlightedColor + "; border-radius: 25px;")
 
         # Criação dos símbolos dos grupos na navbar
         # Depende da quantidade de grupos, se tiver até 6 não tem scroll, se tiver mais de 6, tem
         if len(groups) <= 6:
-            self.navBarSize = windowWidth // 10
+            navBarSize = windowWidth // 10
             for i in range(len(groups)):
                 self.group = QtWidgets.QLabel(self.centralwidget)
                 self.group.setObjectName(groups[i][0])
-                self.group.setGeometry(QtCore.QRect(self.groupsX,
-                                                    windowHeight // 20 + ((windowHeight // 30 + self.groupsSize) * i),
-                                                    self.groupsSize,
-                                                    self.groupsSize
+                self.group.setGeometry(QtCore.QRect(groupsX,
+                                                    windowHeight // 20 + ((windowHeight // 30 + groupsSize) * i),
+                                                    groupsSize,
+                                                    groupsSize
                 ))
                 self.group.setPixmap(QtGui.QPixmap('assets/images/' + groups[i][0] + '.png'))
                 bgColor = backgroundColor if i > 0 else highlightedColor
@@ -120,14 +137,14 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
                 self.groups.append(self.group)
         else:
-            self.navBarSize = 0  # Algum outro valor com base no tamanho do scroll
+            navBarSize = 0  # Algum outro valor com base no tamanho do scroll
             pass
             # TODO : Implementar o caso em que há mais de 6 grupos
 
         # Aba de configurações/filtros de exibição
         self.configsContainer = QtWidgets.QFrame(self.centralwidget)
         self.configsContainer.setObjectName("configsContainer")
-        self.configsContainer.setGeometry(self.navBarSize, centralY, configsWidth, configsHeight)
+        self.configsContainer.setGeometry(navBarSize, centralY, configsWidth, configsHeight)
         self.configsContainer.setStyleSheet("#configsContainer { background-color: " + backgroundColor + "; border-right: 1px solid; border-left: 1px solid; border-color: " + contrastColor + "; }")
         self.configsContainer.show()
 
@@ -159,7 +176,33 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.admins_first.show()
 
         self.load_group_members('acesso_a_base')  # Carrega as informações de um grupo qualquer 
+        self.load_atts('acesso_a_base')
         # TODO : Decidir o grupo inicial (talvez passe a ser aquele mais genérico com os logs de todos os grupos cadastrados)
+
+        self.attsTop = QtWidgets.QWidget(self.centralwidget)
+        self.attsTop.setObjectName("attsTop")
+        self.attsTop.setGeometry(attsX, attsY, attsWidth, configsHeight)
+        self.attsTop.show()
+
+        self.attsLabel = QtWidgets.QLabel("Atividade", self.attsTop)
+        self.attsLabel.setObjectName("attsLabel")
+        self.current_font.setPointSize(14)
+        # self.current_font.setBold(True)
+        self.attsLabel.setFont(self.current_font)
+        sizePolicy = QtWidgets.QSizePolicy(
+            QtWidgets.QSizePolicy.Preferred,
+            QtWidgets.QSizePolicy.Expanding   # Allow vertical expansion
+        )
+        self.attsLabel.setSizePolicy(sizePolicy)
+        self.attsLabel.setAlignment(Qt.AlignVCenter)
+        self.attsLabel.move(10, 10)
+
+        self.reloadButton = QSvgWidget("assets/images/reload_white.svg", self.attsTop)
+        self.reloadButton.setObjectName("nextButton")
+        self.reloadButton.setFixedSize(20, 20)
+        self.reloadButton.move(attsWidth - 30, configsHeight//2 - self.reloadButton.size().height()//2)
+        # self.reloadButton.mousePressEvent = lambda event: 
+        self.reloadButton.show()
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
@@ -198,10 +241,10 @@ class GUI_MainWindow(QtWidgets.QWidget):
             members_data = groups_members[group]
 
         if not self.show_admins.isChecked():
-            members_data = [member for member in members_data if not member['isAdmin']]
+            members_data = [member for member in members_data if not (member['isAdmin'] == '1')]
             return members_data
         if self.admins_first.isChecked():
-            members_data = sorted(members_data, key=lambda x: x['isAdmin'], reverse=True)
+            members_data = sorted(members_data, key=lambda x: x['isAdmin'] == '1', reverse=True)
             return members_data
 
         return members_data
@@ -213,7 +256,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
         # Um container para os membros do grupo, o nome é bastante intuitivo
         self.groupMembersContainer = QtWidgets.QWidget(self.centralwidget)
         self.groupMembersContainer.setObjectName("groupMembersContainer")
-        self.groupMembersContainer.setGeometry(self.navBarSize, configsHeight, groupMembersWidth, groupMembersHeight)
+        self.groupMembersContainer.setGeometry(navBarSize, configsHeight, groupMembersWidth, groupMembersHeight)
         self.groupMembersContainer.show()
         self.groupMembersContainer.setVisible(True)
 
@@ -221,7 +264,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.membersScrollArea = QtWidgets.QScrollArea(self.centralwidget)
         self.membersScrollArea.setObjectName("membersScrollArea")
         self.membersScrollArea.setStyleSheet("#membersScrollArea { background-color: " + backgroundColor + "; border-top: none; border-right: 1px solid; border-left: 1px solid; border-color: " + contrastColor + "; }")
-        self.membersScrollArea.setGeometry(self.navBarSize, configsHeight, groupMembersWidth, groupMembersHeight)
+        self.membersScrollArea.setGeometry(navBarSize, configsHeight, groupMembersWidth, groupMembersHeight)
         self.membersScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
         self.membersScrollArea.setWidgetResizable(True)
         self.membersScrollArea.setWidget(self.groupMembersContainer)
@@ -237,50 +280,49 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.current_font.setPointSize(14)
 
             # Container dos dados
-            self.container = QtWidgets.QFrame(self.groupMembersContainer)
-            self.container.setGeometry(0, 0 + (groupMembersContainerHeight + groupMembersContainerMargin) * i, groupMembersWidth, 80)  # Set geometry to fill the container
+            container = QtWidgets.QFrame(self.groupMembersContainer)
+            container.setGeometry(0, 0 + (groupMembersContainerHeight + groupMembersContainerMargin) * i, groupMembersWidth, 80)  # Set geometry to fill the container
             sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-            self.container.setSizePolicy(sizePolicy)
-            self.container.setStyleSheet("background-color: " + containerColor + ";")
-            self.container.show()
+            container.setSizePolicy(sizePolicy)
+            container.setStyleSheet("background-color: " + containerColor + ";")
+            container.show()
 
             # Imagem associada ao usuário (nesse momento está enchendo linguiça)
-            self.user_image = QtWidgets.QLabel(self.container)
-            self.user_image.setGeometry(QtCore.QRect(15, 5, 70, 70))
-            self.user_image.setPixmap(QtGui.QPixmap('assets/images/user_white.png'))
-            self.user_image.setScaledContents(True)
-            self.user_image.setObjectName("userImg" + str(i))
-            self.user_image.show()
+            user_image = QtWidgets.QLabel(container)
+            user_image.setGeometry(QtCore.QRect(15, 5, 70, 70))
+            user_image.setPixmap(QtGui.QPixmap('assets/images/user_white.png'))
+            user_image.setScaledContents(True)
+            user_image.setObjectName("userImg" + str(i))
+            user_image.show()
 
             # Espaço destinado ao nome do membro
-            self.user_name = QtWidgets.QLabel(self.container)
-            self.user_name.setObjectName("user_name")
-            self.user_name.move(groupMembersWidth // 5, 10)
-            self.user_name.setFont(self.current_font)
-            self.user_name.setText(member['nickname'])
-            self.user_name.setTextInteractionFlags(Qt.TextSelectableByMouse)
-            self.user_name.show()
+            user_name = QtWidgets.QLabel(container)
+            user_name.setObjectName("user_name")
+            user_name.move(groupMembersWidth // 5, 10)
+            user_name.setFont(self.current_font)
+            user_name.setText(member['nickname'])
+            user_name.setTextInteractionFlags(Qt.TextSelectableByMouse)
+            user_name.show()
 
             self.current_font.setPointSize(11)
             # Missão do membro
-            self.motto = QtWidgets.QLabel(self.container)
-            self.motto.setGeometry(groupMembersWidth // 5, 40, groupMembersWidth, 30)
-            self.motto.setFont(self.current_font)
-            self.motto.setStyleSheet("color: #c7c7c7;")
-            self.motto.setText(member['mission'])
-            self.motto.show()
+            motto = QtWidgets.QLabel(container)
+            motto.setGeometry(groupMembersWidth // 5, 40, groupMembersWidth, 30)
+            motto.setFont(self.current_font)
+            motto.setStyleSheet("color: #c7c7c7;")
+            motto.setText(member['missao'])
+            motto.show()
 
-            if member['isAdmin']:  # Caso seja adm, é adicionada a coroa ao lado do nome
-                pass
-                self.adm_crown_img = QtWidgets.QLabel(self.container)
-                self.adm_crown_img.setGeometry(QtCore.QRect(groupMembersWidth // 5 + self.user_name.size().width() + 10, 12, 20, 20))
-                self.adm_crown_img.setPixmap(QtGui.QPixmap('assets/images/adm.png'))
-                self.adm_crown_img.setScaledContents(True)
-                self.adm_crown_img.setObjectName("admImg" + str(i))
-                self.adm_crown_img.show()
+            if member['isAdmin'] == '1':  # Caso seja adm, é adicionada a coroa ao lado do nome
+                adm_crown_img = QtWidgets.QLabel(container)
+                adm_crown_img.setGeometry(QtCore.QRect(groupMembersWidth // 5 + user_name.size().width() + 10, 12, 20, 20))
+                adm_crown_img.setPixmap(QtGui.QPixmap('assets/images/adm.png'))
+                adm_crown_img.setScaledContents(True)
+                adm_crown_img.setObjectName("admImg" + str(i))
+                adm_crown_img.show()
+
+            self.current_members.append(container)
             
-            self.current_members.append(self.container)
-
     # Atualiza a lista de membros
     def refresh_group_members(self, group):
         self.load_group_members(group)
@@ -291,10 +333,87 @@ class GUI_MainWindow(QtWidgets.QWidget):
     def select_group(self, widget, group):
         for w in self.groups:
             w.setStyleSheet("background-color: " + backgroundColor + ";")
-        self.selectedGroupHighlight.move(self.groupsX - 8, windowHeight // 20 + ((windowHeight // 30 + self.groupsSize) * self.groups.index(widget)) - 8)
+        self.selectedGroupHighlight.move(groupsX - 8, windowHeight // 20 + ((windowHeight // 30 + groupsSize) * self.groups.index(widget)) - 8)
         widget.setStyleSheet("background-color: #7a7a7a;")
         self.current_group = group
         self.refresh_group_members(group)
+        self.refresh_atts(group)
+
+    def load_atts(self, group):
+        self.current_atts = []
+        atts_data = groups_atts['acesso_a_base']
+
+        self.attsContainer = QtWidgets.QWidget(self.centralwidget)
+        self.attsContainer.setObjectName("attsContainer")
+        self.attsContainer.setGeometry(attsX, attsY + configsHeight, attsWidth, attsHeight)
+        self.attsContainer.show()
+        self.attsContainer.setVisible(True)
+
+        # Área em que será possível rolar a tela para baixo (equivalente à área das atts)
+        self.attsScrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.attsScrollArea.setObjectName("attsScrollArea")
+        self.attsScrollArea.setGeometry(attsX, attsY + configsHeight, attsWidth, attsHeight)
+        self.attsScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.attsScrollArea.setWidgetResizable(True)
+        self.attsScrollArea.setWidget(self.attsContainer)
+
+        required_height_for_asa = len(atts_data) * (attContainerHeight + groupMembersContainerMargin)
+        self.attsContainer.setMinimumSize(attsWidth, required_height_for_asa)
+
+        for i, att in enumerate(atts_data):
+
+            # Container dos dados
+            container = QtWidgets.QFrame(self.attsContainer)
+            container.setGeometry(0, 0 + (attContainerHeight + groupMembersContainerMargin) * i, attContainerWidth, attContainerHeight)  # Set geometry to fill the container
+            # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+            # container.setSizePolicy(sizePolicy)
+            container.setStyleSheet("background-color: " + containerColor + ";")
+            container.show()
+
+            self.current_font.setPointSize(10)
+            # Espaço destinado ao nome do membro
+            att_nickname = att['nickname']
+            att_action = 'saiu de' if att['missao'] == 'saiu' else 'entrou em'
+            attLabel = QtWidgets.QLabel(container)
+            attLabel.setTextFormat(Qt.RichText)
+            attLabel.setObjectName("attLabel")
+            attLabel.move(attsWidth // 20, 10)
+            attLabel.setFont(self.current_font)
+            attLabel.setText(f'<b>{att_nickname}</b> {att_action}')
+            attLabel.setTextInteractionFlags(Qt.TextSelectableByMouse)
+            # attLabel.setStyleSheet("background-color: red;")
+            attLabel.show()
+
+            group_index = find_group_index(group)
+            att_group_display_name = groups[group_index][2]
+            groupLabel = QtWidgets.QLabel(container)
+            groupLabel.setTextFormat(Qt.RichText)
+            groupLabel.setObjectName("groupLabel")
+            groupLabel.move(attsWidth // 20, 10 + attLabel.size().height() + 5)
+            groupLabel.setFont(self.current_font)
+            groupLabel.setText(f'<b><font color="{groups[group_index][1]}">{att_group_display_name}</font></b>')
+            groupLabel.setTextInteractionFlags(Qt.TextSelectableByMouse)
+            groupLabel.show()
+            
+            # Data da att
+            self.current_font.setPointSize(11)
+            datetimeLabel = QtWidgets.QLabel(container)
+            datetimeLabel.setGeometry(attsWidth // 20, attContainerHeight - 30, attsWidth, 30)
+            datetimeLabel.setFont(self.current_font)
+            datetimeLabel.setStyleSheet("color: #c7c7c7;")
+            day = att['isAdmin'][:2]
+            month = date_displays[int(att['isAdmin'][3:5]) - 1]
+            year = att['isAdmin'][6:10]
+            time = att['isAdmin'][13:]
+            datetimeLabel.setText(f'{day} {month} {year} - {time}')
+            datetimeLabel.show()
+
+            self.current_atts.append(container)
+
+    def refresh_atts(self, group):
+        self.load_atts(group)
+        self.attsContainer.show()
+        self.attsScrollArea.show()
 
     def highlight_results(self, results):
         for result in results:
@@ -360,6 +479,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.searchBar.setGeometry(10, int(configsHeight*0.2), self.ui.searchBarWidth, int(configsHeight*0.6))
         self.ui.searchBar.setStyleSheet("background-color: #FFFFFF; color: #000000; padding-left: 3px;")
         self.ui.current_font.setPointSize(12)
+        self.ui.current_font.setBold(False)
         self.ui.searchBar.setFont(self.ui.current_font)
         self.ui.searchBar.installEventFilter(self)
         self.ui.searchBar.show()
@@ -377,14 +497,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.backButton = QSvgWidget("assets/images/up_arrow_disabled.svg", self.ui.ctrlFContainer)
         self.ui.backButton.setObjectName("backButton")
         self.ui.backButton.setGeometry(self.ui.searchBarSpace + 60 + 10, self.ui.searchNavUtilsY, 20, 20)
-        self.ui.backButton.setStyleSheet("background-color: " + backgroundColor + ";")
         self.ui.backButton.mousePressEvent = lambda event: self.ui.highlight_selected_result(-1)
         self.ui.backButton.show()
 
         self.ui.nextButton = QSvgWidget("assets/images/down_arrow_disabled.svg", self.ui.ctrlFContainer)
         self.ui.nextButton.setObjectName("nextButton")
         self.ui.nextButton.setGeometry(self.ui.searchBarSpace + 5 + 60 + 5 + 20 + 5, self.ui.searchNavUtilsY, 20, 20)
-        self.ui.nextButton.setStyleSheet("background-color: " + backgroundColor + ";")
         self.ui.nextButton.mousePressEvent = lambda event: self.ui.highlight_selected_result(1)
         self.ui.nextButton.show()
 
@@ -421,11 +539,6 @@ def match_nicknames(prompt, list):
         else:
             container.setStyleSheet("background-color: " + containerColor + ";")
     return results
-
-def get_id_of_group(group_name):
-    for group in groups:
-        if group[0] == group_name:
-            return group[1]
 
 '''
 ############################################################
@@ -479,12 +592,15 @@ def run_client(window):
 def run_client_thread(window):
         t = threading.Thread(target=run_client, args=(window,))
         t.start()
- 
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    for i in range(100):
+        commit_changes('acesso_a_base_atts', 'W'*random.randint(1,15), 'entrou', '21/07/2024 - 12:00:00')
     for group in groups:
-        groups_members[group[0]] = read_table(group[1])
+        groups_members[group[0]] = read_table(group[0])
+        groups_atts[group[0]] = read_table(group[0] + '_atts')
     main_window = MainWindow()
     run_client_thread(main_window)
     main_window.show()
