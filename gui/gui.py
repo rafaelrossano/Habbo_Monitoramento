@@ -6,6 +6,7 @@ from gui_widgets import SearchWidget
 import socket
 import threading
 import sqlite3
+from functools import partial
 # from api.db_functions import read_table
 # from api.config import *
 from shared_variables import groups_members, groups_members_lock, groups_atts, groups_atts_lock
@@ -70,45 +71,6 @@ contrastColor = "#cfcfcf"
 disabledColor = "#919191"
 searchHighlightedColor = "#696969"
 searchSelectedHighlightedColor = "#a87b13"
-
-class SearchWidget(QtWidgets.QFrame):
-    def __init__(self, ui, parent, x, y, width, height, object_name, background_color, search_bar_width, items_type):
-        super().__init__(parent)
-        self.setGeometry(x, y, width, height)
-        self.setObjectName(object_name)
-        self.setStyleSheet(f'background-color: {background_color}')
-        self.show()
-        self.searchBar = QtWidgets.QLineEdit(self)
-        self.searchBar.setObjectName("searchBar")
-        searchBarSpace = search_bar_width + 10
-        self.searchBar.setGeometry(10, int(height*0.2), search_bar_width, int(height*0.6))
-        self.searchBar.setStyleSheet("background-color: #FFFFFF; color: #000000; padding-left: 3px;")
-        ui.current_font.setPointSize(12)
-        ui.current_font.setBold(False)
-        self.searchBar.setFont(ui.current_font)
-        self.searchBar.installEventFilter(ui)
-        self.searchBar.setPlaceholderText("Buscar...")
-        self.searchBar.show()
-
-        searchNavUtilsY = self.size().height()//2 - 10
-        self.resultsTracker = QtWidgets.QLabel(self)
-        self.resultsTracker.setObjectName("resultsTracker")
-        self.resultsTracker.setText("---")
-        self.resultsTracker.setAlignment(Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter)
-        self.resultsTracker.setFixedSize(60, int(height*0.6))
-        self.resultsTracker.move(searchBarSpace + 5, height//2 - self.resultsTracker.size().height()//2)
-
-        self.backButton = QSvgWidget("gui/assets/images/up_arrow_disabled.svg", self)
-        self.backButton.setObjectName("backButton")
-        self.backButton.setGeometry(searchBarSpace + 60 + 10, searchNavUtilsY, 20, 20)
-        self.backButton.mousePressEvent = lambda event: ui.highlight_selected_result(-1, items_type)
-        self.backButton.show()
-
-        self.nextButton = QSvgWidget("gui/assets/images/down_arrow_disabled.svg", self)
-        self.nextButton.setObjectName("nextButton")
-        self.nextButton.setGeometry(searchBarSpace + 5 + 60 + 5 + 20 + 5, searchNavUtilsY, 20, 20)
-        self.nextButton.mousePressEvent = lambda event: ui.highlight_selected_result(1, items_type)
-        self.nextButton.show()
 
 class GUI_MainWindow(QtWidgets.QWidget):
     def __init__(self):
@@ -274,6 +236,8 @@ class GUI_MainWindow(QtWidgets.QWidget):
             search_bar_width=150,
             items_type="members",
         )
+        self.membersSearchBar = self.membersSearchWidget.findChild(QtWidgets.QLineEdit, "searchBar")
+        self.membersSearchBar.textChanged.connect(partial(self.search, "members"))
         self.attsSearchWidget = SearchWidget(
             ui=self,
             parent=self.attsTop,
@@ -286,30 +250,44 @@ class GUI_MainWindow(QtWidgets.QWidget):
             search_bar_width=120,
             items_type="atts",
         )
+        self.attsSearchBar = self.attsSearchWidget.findChild(QtWidgets.QLineEdit, "searchBar")
+        self.attsSearchBar.textChanged.connect(partial(self.search, "atts"))
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
 
     def eventFilter(self, source, event):
-        membersSearchBar = self.configsContainer.findChild(QtWidgets.QWidget, 'membersSearchWidget').findChild(QtWidgets.QLineEdit, 'searchBar')
-        attsSearchWidget = self.attsTop.findChild(QtWidgets.QWidget, 'attsSearchWidget')
-        if attsSearchWidget:
-            attsSearchBar = attsSearchWidget.findChild(QtWidgets.QLineEdit, 'searchBar')
+        if hasattr(self, 'membersSearchWidget'):
+            membersSearchBar = self.membersSearchWidget.findChild(QtWidgets.QLineEdit, 'searchBar')
+        if hasattr(self, 'attsSearchWidget'):
+            attsSearchBar = self.attsSearchWidget.findChild(QtWidgets.QLineEdit, 'searchBar')
         if (event.type() == QtCore.QEvent.Type.KeyPress):
             if (event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter):
                 if source is membersSearchBar:
-                    prompt = membersSearchBar.text()
-                    self.searched_members = match_nicknames(prompt, self.current_members, "user_name")
-                    self.highlight_results(self.searched_members)
-                    self.searched_highlighted_member_index = 0
-                    self.highlight_selected_result(0, "members")
+                    items_type = "members"
                 if source is attsSearchBar:
-                    prompt = attsSearchBar.text()
-                    self.searched_atts = match_nicknames(prompt, self.current_atts, "attLabel")
-                    self.highlight_results(self.searched_atts)
-                    self.searched_highlighted_att_index = 0
-                    self.highlight_selected_result(0, "atts")
+                    items_type = "atts"
+
+                if event.modifiers() == Qt.KeyboardModifier.ShiftModifier:
+                    self.highlight_selected_result(-1, items_type)
+                else:
+                    self.highlight_selected_result(1, items_type)
+
         return False
+    
+    def search(self, items_type):
+        if items_type == "members":
+            prompt = self.membersSearchBar.text()
+            self.searched_members = match_nicknames(prompt, self.current_members, "user_name")
+            self.highlight_results(self.searched_members)
+            self.searched_highlighted_member_index = 0
+            self.highlight_selected_result(0, "members")
+        if items_type == "atts":
+            prompt = self.attsSearchBar.text()
+            self.searched_atts = match_nicknames(prompt, self.current_atts, "attLabel")
+            self.highlight_results(self.searched_atts)
+            self.searched_highlighted_att_index = 0
+            self.highlight_selected_result(0, "atts")
 
     # Função burocrática, deixa como tá
     def retranslateUi(self, MainWindow):
@@ -482,8 +460,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
             # Container dos dados
             container = QtWidgets.QFrame(self.attsContainer)
             container.setGeometry(0, 0 + (attContainerHeight + defaultMargin) * i, attContainerWidth, attContainerHeight)  # Set geometry to fill the container
-            # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
-            # container.setSizePolicy(sizePolicy)
             container.setStyleSheet("background-color: " + containerColor + ";")
             container.show()
 
