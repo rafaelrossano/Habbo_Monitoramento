@@ -174,7 +174,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
             bgColor = backgroundColor if i > 0 else highlightedColor
             self.group.setStyleSheet(f"""
                 QLabel {{
-                    background-color: {backgroundColor};
+                    background-color: {bgColor};
                     padding: 15px;  
                 }}
                 QLabel:hover {{
@@ -591,7 +591,10 @@ class GUI_MainWindow(QtWidgets.QWidget):
             searched_highlighted_index = new_shi
 
             results_tracker.setStyleSheet("color: " + fontcolor + ";")
-            results_tracker.setText(str(searched_highlighted_index + 1) + " de " + str(len(searched_items)))
+            
+            displayed_length = str(len(searched_items)) if len(searched_items) < 1000 else "999+"
+
+            results_tracker.setText(str(searched_highlighted_index + 1) + " de " + displayed_length)
             next_button.load('gui/assets/images/down_arrow_white.svg')
             back_button.load('gui/assets/images/up_arrow_white.svg')
         else:
