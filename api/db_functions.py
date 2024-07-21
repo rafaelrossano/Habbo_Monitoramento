@@ -1,7 +1,7 @@
 import sqlite3
 import requests
-from .config.group_ids import *
-from .main import get_time
+from config.group_ids import *
+from main import get_time
 import time
 
 def get_group_member_list(group_id: str):
@@ -108,7 +108,7 @@ def read_table(table_name):
     finally:
         conn.close()
 
-def commit_changes(table_name, nickname, status, date_time):
+def insert_manually_to_atts_table(table_name, nickname, status, date_time):
     conn = sqlite3.connect('database.db', check_same_thread=False)
     cursor = conn.cursor()
     try:
@@ -123,7 +123,7 @@ def commit_changes(table_name, nickname, status, date_time):
         
         
         
-def overwrite_atts_table(table_name):
+def clear_atts_table(table_name):
     conn = sqlite3.connect('database.db', check_same_thread=False)
     cursor = conn.cursor()
     try:
@@ -181,13 +181,13 @@ def check_changes(group_name):
         # Verificar membros que saíram
         for member in table_output:
             if member['nickname'] not in group_members:
-                commit_changes(f'{group_name}_atts', member['nickname'], 'saiu', get_time('%d/%m/%Y - %H:%M:00'))
+                insert_manually_to_atts_table(f'{group_name}_atts', member['nickname'], 'saiu', get_time('%d/%m/%Y - %H:%M:00'))
                 changes = True
 
         # Verificar membros que entraram
         for member in group_members_dict:
             if member['nickname'] not in database_members:
-                commit_changes(f'{group_name}_atts', member['nickname'], 'entrou', get_time('%d/%m/%Y - %H:%M:00'))
+                insert_manually_to_atts_table(f'{group_name}_atts', member['nickname'], 'entrou', get_time('%d/%m/%Y - %H:%M:00'))
                 changes = True
 
         # Atualizar a tabela de membros
@@ -249,12 +249,10 @@ def set_all_tables():
     set_members_table('pracas')
     set_members_table('acesso_a_base')
 
-    overwrite_atts_table('oficiais_atts')
-    overwrite_atts_table('oficiais_superiores_atts')
-    overwrite_atts_table('corpo_executivo_atts')
-    overwrite_atts_table('corpo_executivo_superior_atts')
-    overwrite_atts_table('pracas_atts')
-    overwrite_atts_table('acesso_a_base_atts')
+    clear_atts_table('oficiais_atts')
+    clear_atts_table('oficiais_superiores_atts')
+    clear_atts_table('corpo_executivo_atts')
+    clear_atts_table('corpo_executivo_superior_atts')
+    clear_atts_table('pracas_atts')
+    clear_atts_table('acesso_a_base_atts')
     
-
-commit_changes('riny_atts', '222', 'entrou', '16/07/2024')

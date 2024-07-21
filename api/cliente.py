@@ -1,28 +1,38 @@
 import socket
+import threading
 
+# Configurações do cliente
+HOST = '127.0.0.1'
+PORT = 8765
 
-def run_client():
-    # create a socket object
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-    server_ip = "44.211.160.253"  # replace with the server's IP address
-    server_port = 8765  # replace with the server's port number
-    # establish connection with server
-    client.connect((server_ip, server_port))
-
+# Função para receber mensagens do servidor
+def receive_messages(client_socket):
     while True:
-        # receive message from the server
-        response = client.recv(1024)
-        response = response.decode("utf-8")
-
-        # if server sent us "closed" in the payload, we break out of the loop and close our socket
-        if response.lower() == "closed":
+        try:
+            message = client_socket.recv(1024).decode('utf-8')
+            if not message:
+                break
+            print(message)
+        except:
+            print("Erro ao receber mensagem.")
+            client_socket.close()
             break
 
-        print(f"Received: {response}")
+# Função principal do cliente
+def run_client():
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        client_socket.connect((HOST, PORT))
+        print("Conectado ao servidor.")
+    except:
+        print("Erro ao conectar ao servidor.")
+        return
 
-    # close client socket (connection to the server)
-    client.close()
-    print("Connection to server closed")
+    # Cria uma thread para receber mensagens do servidor
+    receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
+    receive_thread.start()
 
-run_client()
+    # Mantém a conexão aberta
+    while True:
+        pass
+
