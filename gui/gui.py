@@ -160,7 +160,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.groupsScrollArea.setWidget(self.navBar)
 
         # Aqui, é apenas setada a altura o scroll deverá cobrir
-        required_height_for_gsa = 10 + len(self.groups) * (groupsSize)
+        required_height_for_gsa = 10 + len(self.groups) * (groupsSize) + 10
         self.navBar.setMinimumSize(navBarWidth, required_height_for_gsa)
 
         # Aba de configurações/filtros de exibição
