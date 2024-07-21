@@ -1,6 +1,6 @@
 import socket
 import sqlite3
-import shared_variables
+from shared_variables import groups_members, groups_members_lock, groups_atts, groups_atts_lock
 
 def read_table(table_name):
     conn = sqlite3.connect('database.db', check_same_thread=False)
@@ -18,6 +18,19 @@ def read_table(table_name):
     finally:
         conn.close()
 
+def commit_changes(table_name, nickname, status, date_time):
+    conn = sqlite3.connect('database.db', check_same_thread=False)
+    cursor = conn.cursor()
+    try:
+        cursor.execute(f'''
+                INSERT INTO {table_name} (nickname, status, date_time) VALUES (?, ?, ?)
+                ''', (nickname, status, date_time))
+        
+        # Salvar (commit) as mudanças
+        conn.commit()
+    finally:
+        conn.close() 
+
 def run_client(window): 
     # create a socket object 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
@@ -32,8 +45,10 @@ def run_client(window):
         response = client.recv(1024) 
         response = response.decode("utf-8") # response será o grupo escrito em lower snake case. ex: "acesso_a_base"
         if len(response) > 0:
-            with shared_variables.groups_members_lock:
-                shared_variables.groups_members[response] = read_table(response)
+            with groups_members_lock:
+                groups_members[response] = read_table(response)
+            with groups_atts_lock:
+                groups_atts[response] = read_table(response + "_atts")
             
             # IMPLEMENTAÇÃO DAS MUDANÇAS NOS GRUPOS
  

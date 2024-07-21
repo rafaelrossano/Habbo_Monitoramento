@@ -1,13 +1,16 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtSvg import QSvgWidget
+import random
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import Qt
+from PyQt6.QtSvgWidgets import QSvgWidget
+from gui_widgets import SearchWidget
 import socket
 import threading
 import sqlite3
+from functools import partial
 # from api.db_functions import read_table
 # from api.config import *
 from shared_variables import groups_members, groups_members_lock, groups_atts, groups_atts_lock
-from gui_tools import read_table, run_client
+from gui_tools import read_table, commit_changes, run_client
 
 groups = [("acesso_a_base", '#ff3333', '[DIC] Acesso à Base ®'),
           ("corpo_executivo", '#ededed', '[DIC] Corpo Executivo ®'),
@@ -40,13 +43,14 @@ configsWidth = groupMembersWidth
 configsHeight = 40
 groupMembersHeight = windowHeight - configsHeight
 
-navBarSize = windowWidth // 10 if len(groups) <= 6 else 0  # TODO : Alterar para valor correto
-groupsSize = navBarSize - 30
-groupsX = int(navBarSize/2 - groupsSize/2)
+navBarWidth = windowWidth // 10
+groupsSize = navBarWidth
+# groupsX = int(navBarWidth/2 - groupsSize/2)
+groupsX = 0
 
-attsX = navBarSize + groupMembersWidth
+attsX = navBarWidth + groupMembersWidth
 attsY = 0
-attsWidth = windowWidth - (navBarSize + groupMembersWidth)
+attsWidth = windowWidth - (navBarWidth + groupMembersWidth)
 attsHeight = windowHeight - configsHeight
 
 attContainerWidth = attsWidth
@@ -54,6 +58,8 @@ attContainerHeight = 100
 
 centralX = 0
 centralY = 0
+
+random_colors = ["red", "yellow", "green", "blue", "purple", "orange", "pink", "brown", "cyan", "magenta", "teal", "lavender", "maroon", "navy", "olive", "lime", "beige", "crimson", "coral", "indigo", "gold", "silver", "violet", "turquoise", "tan", "plum", "salmon", "orchid", "khaki", "aquamarine", "chartreuse", "chocolate", "wheat", "azure", "lavender", "ivory", "gray", "black", "white"]
 
 groupMembersContainerHeight = 80
 defaultMargin = 15
@@ -66,49 +72,10 @@ disabledColor = "#919191"
 searchHighlightedColor = "#696969"
 searchSelectedHighlightedColor = "#a87b13"
 
-class SearchWidget(QtWidgets.QFrame):
-    def __init__(self, ui, parent, x, y, width, height, object_name, background_color, search_bar_width, items_type):
-        super().__init__(parent)
-        self.setGeometry(x, y, width, height)
-        self.setObjectName(object_name)
-        self.setStyleSheet(f'background-color: {background_color}')
-        self.show()
-        self.searchBar = QtWidgets.QLineEdit(self)
-        self.searchBar.setObjectName("searchBar")
-        searchBarSpace = search_bar_width + 10
-        self.searchBar.setGeometry(10, int(height*0.2), search_bar_width, int(height*0.6))
-        self.searchBar.setStyleSheet("background-color: #FFFFFF; color: #000000; padding-left: 3px;")
-        ui.current_font.setPointSize(12)
-        ui.current_font.setBold(False)
-        self.searchBar.setFont(ui.current_font)
-        self.searchBar.installEventFilter(ui)
-        self.searchBar.setPlaceholderText("Buscar...")
-        self.searchBar.show()
-
-        searchNavUtilsY = self.size().height()//2 - 10
-        self.resultsTracker = QtWidgets.QLabel(self)
-        self.resultsTracker.setObjectName("resultsTracker")
-        self.resultsTracker.setText("---")
-        self.resultsTracker.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        self.resultsTracker.setFixedSize(60, int(height*0.6))
-        self.resultsTracker.move(searchBarSpace + 5, height//2 - self.resultsTracker.size().height()//2)
-
-        self.backButton = QSvgWidget("gui/assets/images/up_arrow_disabled.svg", self)
-        self.backButton.setObjectName("backButton")
-        self.backButton.setGeometry(searchBarSpace + 60 + 10, searchNavUtilsY, 20, 20)
-        self.backButton.mousePressEvent = lambda event: ui.highlight_selected_result(-1, items_type)
-        self.backButton.show()
-
-        self.nextButton = QSvgWidget("gui/assets/images/down_arrow_disabled.svg", self)
-        self.nextButton.setObjectName("nextButton")
-        self.nextButton.setGeometry(searchBarSpace + 5 + 60 + 5 + 20 + 5, searchNavUtilsY, 20, 20)
-        self.nextButton.mousePressEvent = lambda event: ui.highlight_selected_result(1, items_type)
-        self.nextButton.show()
-
 class GUI_MainWindow(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
-        self.setFocusPolicy(Qt.StrongFocus)
+        self.setFocusPolicy(Qt.FocusPolicy.StrongFocus)
         self.setFocus()
 
     def setupUi(self, MainWindow):
@@ -141,11 +108,12 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.navBar.setGeometry(QtCore.QRect(centralX, centralY, windowWidth // 10, windowHeight))
         self.navBar.setStyleSheet("background-color:" + backgroundColor + ";")
 
+
         # Linha que separa a navBar do conteúdo dos grupos [UNICAMENTE COSMÉTICA]
         self.lineNavContent = QtWidgets.QFrame(self.centralwidget)
         self.lineNavContent.setGeometry(QtCore.QRect(windowWidth // 10, centralY, 5, windowHeight))
-        self.lineNavContent.setFrameShape(QtWidgets.QFrame.VLine)
-        self.lineNavContent.setFrameShadow(QtWidgets.QFrame.Sunken)
+        self.lineNavContent.setFrameShape(QtWidgets.QFrame.Shape.VLine)
+        self.lineNavContent.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
         self.lineNavContent.setObjectName("line")
 
         # Marcador de qual grupo está selecionado para visualização
@@ -159,39 +127,52 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
         # Criação dos símbolos dos grupos na navbar
         # Depende da quantidade de grupos, se tiver até 6 não tem scroll, se tiver mais de 6, tem
-        if len(groups) <= 6:
-            navBarSize = windowWidth // 10
-            for i in range(len(groups)):
-                self.group = QtWidgets.QLabel(self.centralwidget)
-                self.group.setObjectName(groups[i][0])
-                self.group.setGeometry(QtCore.QRect(groupsX,
-                                                    windowHeight // 20 + ((windowHeight // 30 + groupsSize) * i),
-                                                    groupsSize,
-                                                    groupsSize
-                ))
-                self.group.setPixmap(QtGui.QPixmap('gui/assets/images/' + groups[i][0] + '.png'))
-                bgColor = backgroundColor if i > 0 else highlightedColor
-                self.group.setStyleSheet("background-color: " + bgColor + ";")
-                self.group.setScaledContents(True)
-                self.group.mousePressEvent = lambda event, i=i, group=self.group: self.select_group(group, groups[i][0])
-                self.group.show()
 
-                self.groups.append(self.group)
-        else:
-            navBarSize = 0  # Algum outro valor com base no tamanho do scroll
-            pass
-            # TODO : Implementar o caso em que há mais de 6 grupos
+        for i in range(len(groups)):
+            self.group = QtWidgets.QLabel(self.navBar)
+            self.group.setObjectName(groups[i][0])
+            self.group.setGeometry(QtCore.QRect(0, 10 + navBarWidth*i, navBarWidth, navBarWidth))
+            self.group.setPixmap(QtGui.QPixmap('gui/assets/images/' + groups[i][0] + '.png'))
+            bgColor = backgroundColor if i > 0 else highlightedColor
+            self.group.setStyleSheet(f"""
+                QLabel {{
+                    background-color: {bgColor};
+                    padding: 15px;  
+                }}
+                QLabel:hover {{
+                    padding: 10px;
+                }}
+            """)
+            self.group.setScaledContents(True)
+            self.group.mousePressEvent = lambda event, i=i, group=self.group: self.select_group(group, groups[i][0])
+            self.group.show()
+
+            self.groups.append(self.group)
+
+        self.groupsScrollArea = QtWidgets.QScrollArea(self.centralwidget)
+        self.groupsScrollArea.setObjectName("groupsScrollArea")
+        self.style_scroll_bar(self.groupsScrollArea)
+        self.groupsScrollArea.update()
+        self.groupsScrollArea.setGeometry(0, 0, navBarWidth, windowHeight)
+        self.groupsScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.groupsScrollArea.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        self.groupsScrollArea.setWidgetResizable(True)
+        self.groupsScrollArea.setWidget(self.navBar)
+
+        # Aqui, é apenas setada a altura o scroll deverá cobrir
+        required_height_for_gsa = 10 + len(self.groups) * (groupsSize)
+        self.navBar.setMinimumSize(navBarWidth, required_height_for_gsa)
 
         # Aba de configurações/filtros de exibição
         self.configsContainer = QtWidgets.QFrame(self.centralwidget)
         self.configsContainer.setObjectName("configsContainer")
-        self.configsContainer.setGeometry(navBarSize, centralY, configsWidth, configsHeight)
+        self.configsContainer.setGeometry(navBarWidth, centralY, configsWidth, configsHeight)
         self.configsContainer.setStyleSheet("#configsContainer { background-color: " + backgroundColor + "; border-right: 1px solid; border-left: 1px solid; border-color: " + contrastColor + "; }")
         self.configsContainer.show()
 
         self.show_admins = QtWidgets.QCheckBox(self.configsContainer)
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred,
+            QtWidgets.QSizePolicy.Policy.Preferred,
             self.show_admins.sizePolicy().verticalPolicy()
         )  # Com esse comando, agora esse QLabel só tem a width necessária para o texto
         self.show_admins.setSizePolicy(sizePolicy)
@@ -205,7 +186,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
         self.admins_first = QtWidgets.QCheckBox(self.configsContainer)
         sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred,
+            QtWidgets.QSizePolicy.Policy.Preferred,
             self.admins_first.sizePolicy().verticalPolicy()
         )  # Com esse comando, agora esse QLabel só tem a width necessária para o texto
         self.admins_first.setSizePolicy(sizePolicy)
@@ -216,59 +197,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.admins_first.mousePressEvent = lambda event: self.toggle_admins_first()
         self.admins_first.setChecked(True)
         self.admins_first.show()
-
-
-        # self.membersSearchContainer = QtWidgets.QFrame(self.configsContainer)
-        # self.membersSearchContainer.setGeometry(15 + self.show_admins.size().width() + 15 + self.admins_first.size().width() + 10,
-        #                                    0,
-        #                                    configsWidth - (30 + self.show_admins.size().width() + 15 + self.admins_first.size().width() + 15),
-        #                                    configsHeight)
-        # self.membersSearchContainer.setObjectName("membersSearchContainer")
-        # self.membersSearchContainer.setStyleSheet("#membersSearchContainer { background-color: " + backgroundColor + ";}")
-        # self.membersSearchContainer.show()
-        # self.membersSearchBar = QtWidgets.QLineEdit(self.membersSearchContainer)
-        # self.membersSearchBar.setObjectName("membersSearchBar")
-        # self.membersSearchBarWidth = 150
-        # self.membersSearchBarSpace = self.membersSearchBarWidth + 10
-        # self.membersSearchBar.setGeometry(10, int(configsHeight*0.2), self.membersSearchBarWidth, int(configsHeight*0.6))
-        # self.membersSearchBar.setStyleSheet("background-color: #FFFFFF; color: #000000; padding-left: 3px;")
-        # self.current_font.setPointSize(12)
-        # self.current_font.setBold(False)
-        # self.membersSearchBar.setFont(self.current_font)
-        # self.membersSearchBar.installEventFilter(self)
-        # self.membersSearchBar.setPlaceholderText("buscar...")
-        # self.membersSearchBar.show()
-
-        # self.searchNavUtilsY = self.membersSearchContainer.size().height()//2 - 10
-        # self.membersResultsTracker = QtWidgets.QLabel(self.membersSearchContainer)
-        # self.membersResultsTracker.setText("---")
-        # self.membersResultsTracker.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-        # self.membersResultsTracker.setFixedSize(60, int(configsHeight*0.6))
-        # self.membersResultsTracker.move(self.membersSearchBarSpace + 5, configsHeight//2 - self.membersResultsTracker.size().height()//2)
-        # self.membersResultsTracker.show()
-
-        
-        # self.membersBackButton = QSvgWidget("gui/assets/images/up_arrow_disabled.svg", self.membersSearchContainer)
-        # self.membersBackButton.setObjectName("membersBackButton")
-        # self.membersBackButton.setGeometry(self.membersSearchBarSpace + 60 + 10, self.searchNavUtilsY, 20, 20)
-        # self.membersBackButton.mousePressEvent = lambda event: self.highlight_selected_result(-1)
-        # self.membersBackButton.show()
-
-        # self.membersNextButton = QSvgWidget("gui/assets/images/down_arrow_disabled.svg", self.membersSearchContainer)
-        # self.membersNextButton.setObjectName("membersNextButton")
-        # self.membersNextButton.setGeometry(self.membersSearchBarSpace + 5 + 60 + 5 + 20 + 5, self.searchNavUtilsY, 20, 20)
-        # self.membersNextButton.mousePressEvent = lambda event: self.highlight_selected_result(1)
-        # self.membersNextButton.show()
-
-        # self.closeCtrlFButton = QSvgWidget("gui/assets/images/close_x_white.svg", self.membersSearchContainer)
-        # self.closeCtrlFButton.setObjectName("closeCtrlFButton")
-        # self.closeCtrlFButton.setFixedSize(15, 20)
-        # self.closeCtrlFButton.move(self.membersSearchBarSpace + 5 + 60 + 10 + (20 + 5)*2,
-        #                               configsHeight//2 - self.closeCtrlFButton.size().height()//2
-        # )
-        # self.closeCtrlFButton.setStyleSheet("background-color: " + backgroundColor + ";")
-        # self.closeCtrlFButton.mousePressEvent = lambda event: self.close_search_bar()
-        # self.closeCtrlFButton.show()
 
         self.load_group_members('acesso_a_base')  # Carrega as informações de um grupo qualquer 
         self.load_atts('acesso_a_base')
@@ -282,15 +210,12 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.attsLabel = QtWidgets.QLabel("Atividade", self.attsTop)
         self.attsLabel.setObjectName("attsLabel")
         self.current_font.setPointSize(14)
-        # self.current_font.setBold(True)
+        self.current_font.setBold(True)
         self.attsLabel.setFont(self.current_font)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Preferred,
-            QtWidgets.QSizePolicy.Expanding   # Allow vertical expansion
-        )
+        self.attsLabel.setFixedSize(115, configsHeight)
         self.attsLabel.setSizePolicy(sizePolicy)
-        self.attsLabel.setAlignment(Qt.AlignVCenter)
-        self.attsLabel.move(10, 10)
+        self.attsLabel.setAlignment(Qt.AlignmentFlag.AlignVCenter)
+        self.attsLabel.move(10, 0)
 
         self.refreshButton = QSvgWidget("gui/assets/images/refresh_white.svg", self.attsTop)
         self.refreshButton.setObjectName("refreshButton")
@@ -311,6 +236,8 @@ class GUI_MainWindow(QtWidgets.QWidget):
             search_bar_width=150,
             items_type="members",
         )
+        self.membersSearchBar = self.membersSearchWidget.findChild(QtWidgets.QLineEdit, "searchBar")
+        self.membersSearchBar.textChanged.connect(partial(self.search, "members"))
         self.attsSearchWidget = SearchWidget(
             ui=self,
             parent=self.attsTop,
@@ -323,30 +250,44 @@ class GUI_MainWindow(QtWidgets.QWidget):
             search_bar_width=120,
             items_type="atts",
         )
+        self.attsSearchBar = self.attsSearchWidget.findChild(QtWidgets.QLineEdit, "searchBar")
+        self.attsSearchBar.textChanged.connect(partial(self.search, "atts"))
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
 
     def eventFilter(self, source, event):
-        membersSearchBar = self.configsContainer.findChild(QtWidgets.QWidget, 'membersSearchWidget').findChild(QtWidgets.QLineEdit, 'searchBar')
-        attsSearchWidget = self.attsTop.findChild(QtWidgets.QWidget, 'attsSearchWidget')
-        if attsSearchWidget:
-            attsSearchBar = attsSearchWidget.findChild(QtWidgets.QLineEdit, 'searchBar')
-        if (event.type() == QtCore.QEvent.KeyPress):
-            if (event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter):
+        if hasattr(self, 'membersSearchWidget'):
+            membersSearchBar = self.membersSearchWidget.findChild(QtWidgets.QLineEdit, 'searchBar')
+        if hasattr(self, 'attsSearchWidget'):
+            attsSearchBar = self.attsSearchWidget.findChild(QtWidgets.QLineEdit, 'searchBar')
+        if (event.type() == QtCore.QEvent.Type.KeyPress):
+            if (event.key() == Qt.Key.Key_Return or event.key() == Qt.Key.Key_Enter):
                 if source is membersSearchBar:
-                    prompt = membersSearchBar.text()
-                    self.searched_members = match_nicknames(prompt, self.current_members, "user_name")
-                    self.highlight_results(self.searched_members)
-                    self.searched_highlighted_member_index = 0
-                    self.highlight_selected_result(0, "members")
+                    items_type = "members"
                 if source is attsSearchBar:
-                    prompt = attsSearchBar.text()
-                    self.searched_atts = match_nicknames(prompt, self.current_atts, "attLabel")
-                    self.highlight_results(self.searched_atts)
-                    self.searched_highlighted_att_index = 0
-                    self.highlight_selected_result(0, "atts")
+                    items_type = "atts"
+
+                if event.modifiers() == Qt.KeyboardModifier.ShiftModifier:
+                    self.highlight_selected_result(-1, items_type)
+                else:
+                    self.highlight_selected_result(1, items_type)
+
         return False
+    
+    def search(self, items_type):
+        if items_type == "members":
+            prompt = self.membersSearchBar.text()
+            self.searched_members = match_nicknames(prompt, self.current_members, "user_name")
+            self.highlight_results(self.searched_members)
+            self.searched_highlighted_member_index = 0
+            self.highlight_selected_result(0, "members")
+        if items_type == "atts":
+            prompt = self.attsSearchBar.text()
+            self.searched_atts = match_nicknames(prompt, self.current_atts, "attLabel")
+            self.highlight_results(self.searched_atts)
+            self.searched_highlighted_att_index = 0
+            self.highlight_selected_result(0, "atts")
 
     # Função burocrática, deixa como tá
     def retranslateUi(self, MainWindow):
@@ -363,7 +304,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
     # Switch entre "Mostrar admins" ligado e desligado
     def toggle_show_admins(self):
-        # Esta checkbox também controla a checkbox de "Admins primeiro", pois, se não há admins, ela fica desabilitada
+        # Esta checkbox também controla a checkbox de "Admins primeiro", já que, se não há admins, ela perde o sentido
         if not self.show_admins.isChecked():
             self.show_admins.setChecked(True)
             self.admins_first.setEnabled(True)
@@ -394,22 +335,25 @@ class GUI_MainWindow(QtWidgets.QWidget):
     # Carrega as informações do grupo selecionado (principal função da GUI)
     def load_group_members(self, group):
         self.current_members = []
+        if hasattr(self, 'membersSearchWidget'):
+            self.clear_search_bar(self.membersSearchWidget)
+
         members_data = self.consult_list(group)
 
         if members_data:
             # Um container para os membros do grupo, o nome é bastante intuitivo
             self.groupMembersContainer = QtWidgets.QWidget(self.centralwidget)
             self.groupMembersContainer.setObjectName("groupMembersContainer")
-            self.groupMembersContainer.setGeometry(navBarSize, configsHeight, groupMembersWidth, groupMembersHeight)
+            self.groupMembersContainer.setGeometry(navBarWidth, configsHeight, groupMembersWidth, groupMembersHeight)
             self.groupMembersContainer.show()
             self.groupMembersContainer.setVisible(True)
 
             # Área em que será possível rolar a tela para baixo (equivalente à área dos membros)
             self.membersScrollArea = QtWidgets.QScrollArea(self.centralwidget)
             self.membersScrollArea.setObjectName("membersScrollArea")
-            self.membersScrollArea.setStyleSheet("#membersScrollArea { background-color: " + backgroundColor + "; border-top: none; border-right: 1px solid; border-left: 1px solid; border-color: " + contrastColor + "; }")
-            self.membersScrollArea.setGeometry(navBarSize, configsHeight, groupMembersWidth, groupMembersHeight)
-            self.membersScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+            self.style_scroll_bar(self.membersScrollArea)
+            self.membersScrollArea.setGeometry(navBarWidth, configsHeight, groupMembersWidth, groupMembersHeight)
+            self.membersScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
             self.membersScrollArea.setWidgetResizable(True)
             self.membersScrollArea.setWidget(self.groupMembersContainer)
 
@@ -425,7 +369,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 # Container dos dados
                 container = QtWidgets.QFrame(self.groupMembersContainer)
                 container.setGeometry(0, 0 + (groupMembersContainerHeight + defaultMargin) * i, groupMembersWidth, 80)  # Set geometry to fill the container
-                sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+                sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Fixed, QtWidgets.QSizePolicy.Policy.Fixed)
                 container.setSizePolicy(sizePolicy)
                 container.setStyleSheet("background-color: " + containerColor + ";")
                 container.show()
@@ -444,7 +388,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 user_name.move(groupMembersWidth // 5, 10)
                 user_name.setFont(self.current_font)
                 user_name.setText(member['nickname'])
-                user_name.setTextInteractionFlags(Qt.TextSelectableByMouse)
+                user_name.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
                 user_name.show()
 
                 self.current_font.setPointSize(11)
@@ -479,15 +423,18 @@ class GUI_MainWindow(QtWidgets.QWidget):
     # Move o marcador para o grupo selecionado
     def select_group(self, widget, group):
         for w in self.groups:
-            w.setStyleSheet("background-color: " + backgroundColor + ";")
+            w.setStyleSheet("background-color: " + backgroundColor + "; padding: 15px;")
         self.selectedGroupHighlight.move(groupsX - 8, windowHeight // 20 + ((windowHeight // 30 + groupsSize) * self.groups.index(widget)) - 8)
-        widget.setStyleSheet("background-color: #7a7a7a;")
+        widget.setStyleSheet("background-color: #7a7a7a; padding: 15px;")
         self.current_group = group
         self.refresh_group_members(group)
         self.refresh_atts(group)
 
     def load_atts(self, group):
         self.current_atts = []
+        if hasattr(self, 'attsSearchWidget'):
+            self.clear_search_bar(self.attsSearchWidget)
+
         atts_data = groups_atts['acesso_a_base']
 
         self.attsContainer = QtWidgets.QWidget(self.centralwidget)
@@ -500,7 +447,8 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.attsScrollArea = QtWidgets.QScrollArea(self.centralwidget)
         self.attsScrollArea.setObjectName("attsScrollArea")
         self.attsScrollArea.setGeometry(attsX, attsY + configsHeight, attsWidth, attsHeight)
-        self.attsScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.style_scroll_bar(self.attsScrollArea)
+        self.attsScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         self.attsScrollArea.setWidgetResizable(True)
         self.attsScrollArea.setWidget(self.attsContainer)
 
@@ -512,8 +460,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
             # Container dos dados
             container = QtWidgets.QFrame(self.attsContainer)
             container.setGeometry(0, 0 + (attContainerHeight + defaultMargin) * i, attContainerWidth, attContainerHeight)  # Set geometry to fill the container
-            # sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-            # container.setSizePolicy(sizePolicy)
             container.setStyleSheet("background-color: " + containerColor + ";")
             container.show()
 
@@ -528,11 +474,11 @@ class GUI_MainWindow(QtWidgets.QWidget):
             att_nickname = att['nickname']
             att_action = 'entrou' if att['missao'] == 'entrou' else 'saiu'
             attLabel = QtWidgets.QLabel(container)
-            attLabel.setTextFormat(Qt.RichText)
+            attLabel.setTextFormat(Qt.TextFormat.RichText)
             attLabel.setObjectName("attLabel")
             attLabel.setFont(self.current_font)
             attLabel.setText(f'<b>{att_nickname}</b> {att_action}')
-            attLabel.setTextInteractionFlags(Qt.TextSelectableByMouse)
+            attLabel.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             attLabel.move(attsWidth // 20 + 45 + 20, int(15 + (45)/2 - attLabel.size().height()/2))
             # attLabel.setStyleSheet("background-color: red;")
             attLabel.show()
@@ -540,12 +486,12 @@ class GUI_MainWindow(QtWidgets.QWidget):
             # group_index = find_group_index(group)
             # att_group_display_name = groups[group_index][2]
             # groupLabel = QtWidgets.QLabel(container)
-            # groupLabel.setTextFormat(Qt.RichText)
+            # groupLabel.setTextFormat(Qt.TextFormat.RichText)
             # groupLabel.setObjectName("groupLabel")
             # groupLabel.move(attsWidth // 20, 10 + attLabel.size().height() + 5)
             # groupLabel.setFont(self.current_font)
             # groupLabel.setText(f'<b><font color="{groups[group_index][1]}">{att_group_display_name}</font></b>')
-            # groupLabel.setTextInteractionFlags(Qt.TextSelectableByMouse)
+            # groupLabel.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
             # groupLabel.show()
             
             # Data da att
@@ -621,7 +567,10 @@ class GUI_MainWindow(QtWidgets.QWidget):
             searched_highlighted_index = new_shi
 
             results_tracker.setStyleSheet("color: " + fontcolor + ";")
-            results_tracker.setText(str(searched_highlighted_index + 1) + " de " + str(len(searched_items)))
+            
+            displayed_length = str(len(searched_items)) if len(searched_items) < 1000 else "999+"
+
+            results_tracker.setText(str(searched_highlighted_index + 1) + " de " + displayed_length)
             next_button.load('gui/assets/images/down_arrow_white.svg')
             back_button.load('gui/assets/images/up_arrow_white.svg')
         else:
@@ -629,6 +578,38 @@ class GUI_MainWindow(QtWidgets.QWidget):
             results_tracker.setText("0 de 0")
             next_button.load('gui/assets/images/down_arrow_disabled.svg')
             back_button.load('gui/assets/images/up_arrow_disabled.svg')
+
+    def style_scroll_bar(self, scroll_bar):
+        scroll_bar.setStyleSheet("""
+    QScrollBar:vertical {
+        border: none;
+        background: #f0f0f0;
+        width: 10px;
+    }
+    QScrollBar::handle:vertical {
+        background: #c0c0c0; 
+        min-height: 20px;
+    }
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+        background: none;
+    }
+    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+        background: none;
+    }
+""")
+        
+    def clear_search_bar(self, widget):
+        results_tracker = widget.findChild(QtWidgets.QLabel, "resultsTracker")
+        next_button = widget.findChild(QSvgWidget, "nextButton")
+        back_button = widget.findChild(QSvgWidget, "backButton")
+
+        widget.findChild(QtWidgets.QLineEdit, "searchBar").setText('')
+
+        results_tracker.setStyleSheet("color: " + fontcolor + ";")
+        results_tracker.setText('---')
+
+        next_button.load('gui/assets/images/down_arrow_disabled.svg')
+        back_button.load('gui/assets/images/up_arrow_disabled.svg')
 
     def refresh_screen(self, group):
         self.refresh_group_members(group)
@@ -640,77 +621,6 @@ class MainWindow(QtWidgets.QMainWindow):
         super().__init__()
         self.ui = GUI_MainWindow()
         self.ui.setupUi(self)
-
-    # def keyPressEvent(self, event):
-    #     if event.key() == Qt.Key_F and event.modifiers() == Qt.ControlModifier:
-    #         self.handleCtrlF()
-    #         event.accept()
-
-    # def handleCtrlF(self):
-    #     self.ui.ctrlFContainer = QtWidgets.QFrame(self.ui.configsContainer)
-    #     self.ui.ctrlFContainer.setGeometry(15 + self.ui.show_admins.size().width() + 15 + self.ui.admins_first.size().width() + 10,
-    #                                        0,
-    #                                        configsWidth - (30 + self.ui.show_admins.size().width() + 15 + self.ui.admins_first.size().width() + 15),
-    #                                        configsHeight)
-    #     self.ui.ctrlFContainer.setObjectName("ctrlFContainer")
-    #     self.ui.ctrlFContainer.setStyleSheet("#ctrlFContainer { background-color: " + backgroundColor + ";}")
-    #     self.ui.ctrlFContainer.show()
-    #     self.ui.searchBar = QtWidgets.QLineEdit(self.ui.ctrlFContainer)
-    #     self.ui.searchBarWidth = 150
-    #     self.ui.searchBarSpace = self.ui.searchBarWidth + 10
-    #     self.ui.searchBar.setGeometry(10, int(configsHeight*0.2), self.ui.searchBarWidth, int(configsHeight*0.6))
-    #     self.ui.searchBar.setStyleSheet("background-color: #FFFFFF; color: #000000; padding-left: 3px;")
-    #     self.ui.current_font.setPointSize(12)
-    #     self.ui.current_font.setBold(False)
-    #     self.ui.searchBar.setFont(self.ui.current_font)
-    #     self.ui.searchBar.installEventFilter(self)
-    #     self.ui.searchBar.show()
-
-    #     self.ui.searchNavUtilsY = self.ui.ctrlFContainer.size().height()//2 - 10
-    #     self.ui.resultsTracker = QtWidgets.QLabel(self.ui.ctrlFContainer)
-    #     self.ui.resultsTracker.setText("---")
-    #     self.ui.resultsTracker.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
-    #     self.ui.resultsTracker.setFixedSize(60, int(configsHeight*0.6))
-    #     self.ui.resultsTracker.move(self.ui.searchBarSpace + 5, configsHeight//2 - self.ui.resultsTracker.size().height()//2)
-    #     self.ui.resultsTracker.show()
-
-        
-    #     self.ui.backButton = QSvgWidget("gui/assets/images/up_arrow_disabled.svg", self.ui.ctrlFContainer)
-    #     self.ui.backButton.setObjectName("backButton")
-    #     self.ui.backButton.setGeometry(self.ui.searchBarSpace + 60 + 10, self.ui.searchNavUtilsY, 20, 20)
-    #     self.ui.backButton.mousePressEvent = lambda event: self.ui.highlight_selected_result(-1)
-    #     self.ui.backButton.show()
-
-    #     self.ui.nextButton = QSvgWidget("gui/assets/images/down_arrow_disabled.svg", self.ui.ctrlFContainer)
-    #     self.ui.nextButton.setObjectName("nextButton")
-    #     self.ui.nextButton.setGeometry(self.ui.searchBarSpace + 5 + 60 + 5 + 20 + 5, self.ui.searchNavUtilsY, 20, 20)
-    #     self.ui.nextButton.mousePressEvent = lambda event: self.ui.highlight_selected_result(1)
-    #     self.ui.nextButton.show()
-
-    #     self.ui.closeCtrlFButton = QSvgWidget("gui/assets/images/close_x_white.svg", self.ui.ctrlFContainer)
-    #     self.ui.closeCtrlFButton.setObjectName("closeCtrlFButton")
-    #     self.ui.closeCtrlFButton.setFixedSize(15, 20)
-    #     self.ui.closeCtrlFButton.move(self.ui.searchBarSpace + 5 + 60 + 10 + (20 + 5)*2,
-    #                                   configsHeight//2 - self.ui.closeCtrlFButton.size().height()//2
-    #     )
-    #     self.ui.closeCtrlFButton.setStyleSheet("background-color: " + backgroundColor + ";")
-    #     self.ui.closeCtrlFButton.mousePressEvent = lambda event: self.ui.close_search_bar()
-    #     self.ui.closeCtrlFButton.show()
-
-    #     self.ui.searchBar.setFocus()
-
-    # # def eventFilter(self, source, event):
-    # #     if (event.type() == QtCore.QEvent.KeyPress and source is self.ui.searchBar):
-    # #         if (event.key() == Qt.Key_Return or event.key() == Qt.Key_Enter):
-    # #             prompt = self.ui.searchBar.text()
-    # #             self.ui.searched_members = match_nicknames(prompt, self.ui.current_members)
-    # #             self.ui.highlight_results(self.ui.searched_members)
-    # #             self.ui.searched_highlighted_member_index = 0
-    # #             self.ui.highlight_selected_result(0)
-    # #         if (event.key() == Qt.Key_Escape and source is self.ui.searchBar):
-    # #             self.ui.close_search_bar()
-    # #     return False
-
     
 def match_nicknames(prompt, lst, attribute):
     results = []
@@ -742,15 +652,15 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     groups_members['acesso_a_base'] = read_table('acesso_a_base')
     groups_atts['acesso_a_base'] = read_table('acesso_a_base_atts')
+    # for i in range(4):
+    #     commit_changes('acesso_a_base_atts', 'Nick-aleatorio', 'entrou', '21/07/2024 - 12:00:00')
     for i in range(1, len(groups)):
         t_group = threading.Thread(target=update_realtime_list, args=(groups[i][0], groups_members, groups[i][0]))
         t_group.start()
         t_atts = threading.Thread(target=update_realtime_list, args=(groups[i][0] + '_atts', groups_atts, groups[i][0]))
         t_atts.start()
-        # groups_members[group[0]] = read_table(group[0])
-        # groups_atts[group[0]] = read_table(group[0] + '_atts')
     main_window = MainWindow()
     run_client_thread(main_window)
     main_window.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
