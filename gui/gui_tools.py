@@ -33,8 +33,8 @@ def commit_changes(table_name, nickname, status, date_time):
         conn.close() 
 
 # Configurações do cliente
-HOST = '127.0.0.1'
-PORT = 8765
+HOST = '54.84.253.156'
+PORT = 8975
 
 # Função principal do cliente
 def run_client():

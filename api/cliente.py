@@ -2,8 +2,8 @@ import socket
 import threading
 
 # Configurações do cliente
-HOST = '127.0.0.1'
-PORT = 8765
+HOST = '54.84.253.156'
+PORT = 8000
 
 # Função para receber mensagens do servidor
 def receive_messages(client_socket):
@@ -13,8 +13,8 @@ def receive_messages(client_socket):
             if not message:
                 break
             print(message)
-        except:
-            print("Erro ao receber mensagem.")
+        except Exception as e:
+            print(e)
             client_socket.close()
             break
 
@@ -24,8 +24,8 @@ def run_client():
     try:
         client_socket.connect((HOST, PORT))
         print("Conectado ao servidor.")
-    except:
-        print("Erro ao conectar ao servidor.")
+    except Exception as e:
+        print(e)
         return
 
     # Cria uma thread para receber mensagens do servidor
