@@ -59,9 +59,11 @@ def run_client():
         return
 
     # Cria uma thread para receber mensagens do servidor
-    receive_thread = threading.Thread(target=receive_messages, args=(client_socket,))
+    receive_thread = threading.Thread(target=run_client)
     receive_thread.start()
 
     # Mantém a conexão aberta
     while True:
         pass
+    
+run_client()

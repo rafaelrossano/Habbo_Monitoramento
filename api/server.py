@@ -24,6 +24,8 @@ def periodic_broadcast():
     while True:
         time.sleep(10)  # Envia a cada 10 segundos (ajuste conforme necessário)
         message = input("> ")
+        if message == '!DISCONNECT':
+            break
         print("Enviando: ", message)
         broadcast(message)
 
