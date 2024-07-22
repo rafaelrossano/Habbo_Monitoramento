@@ -1,6 +1,8 @@
 import socket
 import threading
 import time
+from db_functions import check_changes
+from config.group_ids import *
 
 # Configurações do servidor
 HOST = '127.0.0.1'
@@ -51,7 +53,7 @@ def main():
     print(f"Servidor ouvindo em {HOST}:{PORT}")
 
     # Inicia a thread de broadcast periódico
-    broadcast_thread = threading.Thread(target=periodic_broadcast)
+    broadcast_thread = threading.Thread(target=changes_loop)
     broadcast_thread.daemon = True
     broadcast_thread.start()
 
@@ -65,6 +67,26 @@ def main():
         else:
             print("Máximo de clientes atingido. Conexão rejeitada.")
             client_socket.close()
+            
+            
+def changes_loop():
+    while True:
+        if check_changes('oficiais'):
+            broadcast('oficiais')
+        if check_changes('oficiais_superiores'):
+            broadcast('oficiais_superiores')
+        if check_changes('corpo_executivo'):
+            broadcast('corpo_executivo')
+        if check_changes('corpo_executivo_superior'):
+            broadcast('corpo_executivo_superior')
+        if check_changes('pracas'):
+            broadcast('pracas')
+        if check_changes('acesso_a_base'):
+            broadcast('acesso_a_base')
+        
+        time.sleep(10)
 
 if __name__ == "__main__":
+    #thread = threading.Thread(target=changes_loop, daemon=True)
+    #thread.start()
     main()
