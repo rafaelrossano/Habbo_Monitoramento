@@ -14,7 +14,7 @@ from gui_tools import read_table, commit_changes, run_client
 
 groups = [("acesso_a_base", '#ff3333', '[DIC] Acesso à Base ®', '[DIC] Acesso à Base ®'),
           ("corpo_executivo", '#ededed', '[DIC] Corpo Executivo ®', '[DIC] Corpo Executivo ®'),
-          ("corpo_executivo_superior", '#cfcfcf', '[DIC] Corpo Executivo Superior ®', '[DIC] Corpo Exec. Superior ®'),
+          ("corpo_executivo_superior", '#cfcfcf', '[DIC] Corpo Executivo Superior ®', '[DIC] CE Superior ®'),
           ("oficiais", '#fc5b5b', '[DIC] Oficiais ®', '[DIC] Oficiais ®'),
           ("oficiais_superiores", '#fbc900', '[DIC] Oficiais Superiores ®', '[DIC] Oficiais Superiores ®'),
           ("pracas", '#0acf02', '[DIC] Praças ®', '[DIC] Praças ®'),
@@ -107,15 +107,15 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.navBar = QtWidgets.QFrame(self.centralwidget)
         self.navBar.setObjectName("navBar")
         self.navBar.setGeometry(QtCore.QRect(centralX, centralY, windowWidth // 10, windowHeight))
-        self.navBar.setStyleSheet("background-color:" + backgroundColor + ";")
+        self.navBar.setStyleSheet(f"QFrame {{ background-color: {backgroundColor}; }}")
 
 
-        # Linha que separa a navBar do conteúdo dos grupos [UNICAMENTE COSMÉTICA]
-        self.lineNavContent = QtWidgets.QFrame(self.centralwidget)
-        self.lineNavContent.setGeometry(QtCore.QRect(windowWidth // 10, centralY, 5, windowHeight))
-        self.lineNavContent.setFrameShape(QtWidgets.QFrame.Shape.VLine)
-        self.lineNavContent.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
-        self.lineNavContent.setObjectName("line")
+        # # Linha que separa a navBar do conteúdo dos grupos [UNICAMENTE COSMÉTICA]
+        # self.lineNavContent = QtWidgets.QFrame(self.centralwidget)
+        # self.lineNavContent.setGeometry(QtCore.QRect(windowWidth // 10, centralY, 5, windowHeight))
+        # self.lineNavContent.setFrameShape(QtWidgets.QFrame.Shape.VLine)
+        # self.lineNavContent.setFrameShadow(QtWidgets.QFrame.Shadow.Sunken)
+        # self.lineNavContent.setObjectName("line")
 
         # Marcador de qual grupo está selecionado para visualização
         self.selectedGroupHighlight = QtWidgets.QFrame(self.centralwidget)
@@ -139,7 +139,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
             bgColor = backgroundColor if i > 0 else highlightedColor
             self.group.setStyleSheet(f"""
                 QLabel {{
-                    background-color: {bgColor};
+                    background-color: none;
                     padding: 15px;  
                 }}
                 QLabel:hover {{
@@ -431,6 +431,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.highlight_results(self.searched_atts)
             self.searched_highlighted_att_index = 0
             self.highlight_selected_result(0, "atts")
+            self.attsFilterContainer.raise_()
 
     # Função burocrática, deixa como tá
     def retranslateUi(self, MainWindow):
@@ -524,7 +525,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.groupNameLabel.show()
 
         displayed_length = str(len(members_data)) if len(members_data) < 1000 else "999+"
-        self.groupNameLabel.setText(groups[find_group_index(self.current_group)][3] + "(" + displayed_length + ")")
+        self.groupNameLabel.setText(groups[find_group_index(self.current_group)][3] + " (" + displayed_length + ")")
 
         self.current_font.setBold(False)
 
@@ -539,6 +540,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.groupMembersContainer = QtWidgets.QWidget(self.centralwidget)
             self.groupMembersContainer.setObjectName("groupMembersContainer")
             self.groupMembersContainer.setGeometry(navBarWidth, configsHeight, groupMembersWidth, groupMembersHeight)
+            self.groupMembersContainer.setStyleSheet("border: none;")
             self.groupMembersContainer.show()
             self.groupMembersContainer.setVisible(True)
 
@@ -796,6 +798,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
         else:
             displayed_length = str(len(current_items)) if len(current_items) < 1000 else "999+"
             # results_tracker.setStyleSheet("color: #d96868;")
+            for item in current_items: item.setStyleSheet(f"background-color: {containerColor};")
             results_tracker.setText("---")
             next_button.load('gui/assets/images/down_arrow_disabled.svg')
             back_button.load('gui/assets/images/up_arrow_disabled.svg')
@@ -804,7 +807,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
         scroll_bar.setStyleSheet(f"""
     QScrollBar:vertical {{
         border: none;
-        background: #f0f0f0;
+        background: {contrastColor};
         width: 10px;
     }}
     QScrollBar::handle:vertical {{
@@ -862,7 +865,7 @@ def match_nicknames(prompt, lst, attributes):
 '''
 ############################################################
 ############################################################
-#####        FUNÇÕES DE COMUNICAÇÃO COM A API          #####
+#####    FUNÇÕES DE COMUNICAÇÃO COM O BANCO DE DADOS    ####
 ############################################################
 ############################################################
 '''
