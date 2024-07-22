@@ -10,14 +10,21 @@ from functools import partial
 # from api.db_functions import read_table
 # from api.config import *
 from shared_variables import groups_members, groups_members_lock, groups_atts, groups_atts_lock
-from gui_tools import read_table, commit_changes, run_client
+from gui_tools import get_group_members, get_group_atts
 
-groups = [("acesso_a_base", '#ff3333', '[DIC] Acesso à Base ®', '[DIC] Acesso à Base ®'),
-          ("corpo_executivo", '#ededed', '[DIC] Corpo Executivo ®', '[DIC] Corpo Executivo ®'),
-          ("corpo_executivo_superior", '#cfcfcf', '[DIC] Corpo Executivo Superior ®', '[DIC] CE Superior ®'),
-          ("oficiais", '#fc5b5b', '[DIC] Oficiais ®', '[DIC] Oficiais ®'),
-          ("oficiais_superiores", '#fbc900', '[DIC] Oficiais Superiores ®', '[DIC] Oficiais Superiores ®'),
-          ("pracas", '#0acf02', '[DIC] Praças ®', '[DIC] Praças ®'),
+ID_OFICIAIS = 'g-hhbr-247773992b2ed79b8f00e564abad2c43'
+ID_OFICIAIS_SUPERIORES = 'g-hhbr-7b5c62e80d30cd30f003eab08555a124'
+ID_PRACAS = 'g-hhbr-e45543b627d203d8caf1a4476bb42fab'
+ID_CORPO_EXECUTIVO = 'g-hhbr-da0cd92560170f5d42d0e59dd6dbc268'
+ID_CORPO_EXECUTIVO_SUPERIOR = 'g-hhbr-7f9e61c9ce3700323d870bf420732535'
+ID_ACESSO_A_BASE = 'g-hhbr-d23226b5786b954f457a4dbf58fcc6ca'
+
+groups = [("acesso_a_base", ID_ACESSO_A_BASE, '[DIC] Acesso à Base ®', '[DIC] Acesso à Base ®', '#ff3333'),
+          ("corpo_executivo", ID_CORPO_EXECUTIVO, '[DIC] Corpo Executivo ®', '[DIC] Corpo Executivo ®', '#ededed'),
+          ("corpo_executivo_superior", ID_CORPO_EXECUTIVO_SUPERIOR, '[DIC] Corpo Executivo Superior ®', '[DIC] CE Superior ®', '#cfcfcf'),
+          ("pracas", ID_PRACAS, '[DIC] Praças ®', '[DIC] Praças ®', '#0acf02'),
+          ("oficiais", ID_OFICIAIS, '[DIC] Oficiais ®', '[DIC] Oficiais ®', '#fc5b5b'),
+          ("oficiais_superiores", ID_OFICIAIS_SUPERIORES, '[DIC] Oficiais Superiores ®', '[DIC] Oficiais Superiores ®', '#fbc900'),
         ]
 
 def find_group_index(group):
@@ -865,29 +872,69 @@ def match_nicknames(prompt, lst, attributes):
 '''
 ############################################################
 ############################################################
-#####    FUNÇÕES DE COMUNICAÇÃO COM O BANCO DE DADOS    ####
+#####         FUNÇÕES DE COMUNICAÇÃO COM A API         #####
 ############################################################
 ############################################################
 '''
+HOST = '127.0.0.1'
+PORT = 8765
+
+def run_client():
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        client_socket.connect((HOST, PORT))
+        print("Conectado ao servidor.")
+        
+        while True:
+            try:
+                message = client_socket.recv(1024).decode('utf-8')
+                if not message:
+                    break
+                t_group = threading.Thread(target=update_realtime_group_members, args=(message,))
+                t_group.start()
+                t_atts = threading.Thread(target=update_realtime_atts, args=(message,))
+                t_atts.start()
+            except:
+                print("Erro ao receber mensagem.")
+                client_socket.close()
+                break
+        
+    except:
+        print("Erro ao conectar ao servidor.")
+        return
+
+    # Cria uma thread para receber mensagens do servidor
+    receive_thread = threading.Thread(target=run_client)
+    receive_thread.start()
+
+    # Mantém a conexão aberta
+    while True:
+        pass
 
 def run_client_thread(window):
         t = threading.Thread(target=run_client, args=(window,))
         t.start()
 
-def update_realtime_list(table, lst, key):
-    lst[key] = read_table(table)
+def update_realtime_group_members(group):
+    group_id = groups[find_group_index(group)][1]
+    with groups_members_lock:
+        groups_members[group] = get_group_members(group_id)
+
+def update_realtime_atts(group):
+    with groups_atts_lock:
+        groups_atts[group] = get_group_atts(group)
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    groups_members['acesso_a_base'] = read_table('acesso_a_base')
-    groups_atts['acesso_a_base'] = read_table('acesso_a_base_atts')
+    groups_members['acesso_a_base'] = get_group_members(groups[0][1])
+    groups_atts['acesso_a_base'] = get_group_atts(groups[0][0])
 
     for i in range(1, len(groups)):
-        t_group = threading.Thread(target=update_realtime_list, args=(groups[i][0], groups_members, groups[i][0]))
+        t_group = threading.Thread(target=update_realtime_group_members, args=(groups[i][0],))
         t_group.start()
-        t_atts = threading.Thread(target=update_realtime_list, args=(groups[i][0] + '_atts', groups_atts, groups[i][0]))
+        t_atts = threading.Thread(target=update_realtime_atts, args=(groups[i][0] + '_atts', groups_atts, groups[i][0]))
         t_atts.start()
     main_window = MainWindow()
     run_client_thread(main_window)
