@@ -16,7 +16,7 @@ groups = [("acesso_a_base", '#ff3333', '[DIC] Acesso à Base ®', '[DIC] Acesso 
           ("corpo_executivo", '#ededed', '[DIC] Corpo Executivo ®', '[DIC] Corpo Executivo ®'),
           ("corpo_executivo_superior", '#cfcfcf', '[DIC] Corpo Executivo Superior ®', '[DIC] Corpo Exec. Superior ®'),
           ("oficiais", '#fc5b5b', '[DIC] Oficiais ®', '[DIC] Oficiais ®'),
-          ("oficiais_superiores", '#fbc900', '[DIC] Oficiais Superiores ®', '[DIC] Oficiais Superiores ®'),
+          ("oficiais_superiores", '#fbc900', '[DIC] Oficiais Superiores ®', '[DIC] Oficiais Sup. ®'),
           ("pracas", '#0acf02', '[DIC] Praças ®', '[DIC] Praças ®'),
         ]
 
@@ -27,8 +27,11 @@ def find_group_index(group):
         
 date_displays = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 
+# groups_members = {}
 groups_members_lock = threading.Lock()
-groups_atts_lock = threading.Lock()
+
+# groups_atts = {}
+group_atts_lock = threading.Lock()
 
 windowWidth = 1130
 windowHeight = 650
@@ -90,12 +93,10 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.current_members = []
         self.searched_members = []
         self.members_filter = ["user_name"]
-        self.searched_highlighted_member_index = 0
 
         self.current_atts = []
         self.searched_atts = []
         self.atts_filter = ["attName"]
-        self.searched_highlighted_att_index = 0
         # Grupos na barra de navegação
         self.groups = []
 
@@ -133,8 +134,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.group = QtWidgets.QLabel(self.navBar)
             self.group.setObjectName(groups[i][0])
             self.group.setGeometry(QtCore.QRect(0, 10 + navBarWidth*i, navBarWidth, navBarWidth))
-            self.group.setCursor(Qt.CursorShape.PointingHandCursor)
-
             self.group.setPixmap(QtGui.QPixmap('gui/assets/images/' + groups[i][0] + '.png'))
             bgColor = backgroundColor if i > 0 else highlightedColor
             self.group.setStyleSheet(f"""
@@ -143,7 +142,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
                     padding: 15px;  
                 }}
                 QLabel:hover {{
-                    background-color: {containerColor};
+                    padding: 10px;
                 }}
             """)
             self.group.setScaledContents(True)
@@ -190,37 +189,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.admins_first.show()
 
         self.load_group_members('acesso_a_base')  # Carrega as informações de um grupo qualquer 
-
-        self.joined_filter = QtWidgets.QCheckBox()
-        self.joined_filter.setText("Entradas")
-        self.joined_filter.setObjectName("joined_filter")
-        self.joined_filter.mousePressEvent = lambda event: self.toggle_atts_checkboxes(self.joined_filter)
-        self.joined_filter.setChecked(True)
-        self.joined_filter.show()
-
-        self.left_filter = QtWidgets.QCheckBox()
-        self.left_filter.setText("Saídas")
-        self.left_filter.setObjectName("left_filter")
-        self.left_filter.mousePressEvent = lambda event: self.toggle_atts_checkboxes(self.left_filter)
-        self.left_filter.setChecked(True)
-        self.left_filter.show()
-
-        self.turned_adm_filter = QtWidgets.QCheckBox()
-        self.turned_adm_filter.setText("Recebeu admin")
-        self.turned_adm_filter.setObjectName("turned_adm_filter")
-        self.turned_adm_filter.mousePressEvent = lambda event: self.toggle_atts_checkboxes(self.turned_adm_filter)
-        self.turned_adm_filter.setChecked(True)
-        self.turned_adm_filter.setEnabled(False)
-        self.turned_adm_filter.show()
-
-        self.not_adm_filter = QtWidgets.QCheckBox()
-        self.not_adm_filter.setText("Perdeu admin")
-        self.not_adm_filter.setObjectName("not_adm_filter")
-        self.not_adm_filter.mousePressEvent = lambda event: self.toggle_atts_checkboxes(self.not_adm_filter)
-        self.not_adm_filter.setChecked(True)
-        self.not_adm_filter.setDisabled(True)
-        self.not_adm_filter.show()
-
         self.load_atts('acesso_a_base')
         # TODO : Decidir o grupo inicial (talvez passe a ser aquele mais genérico com os logs de todos os grupos cadastrados)
 
@@ -241,12 +209,12 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
         self.refreshButton = QSvgWidget("gui/assets/images/refresh_white.svg", self.attsTop)
         self.refreshButton.setObjectName("refreshButton")
-        self.refreshButton.setCursor(Qt.CursorShape.PointingHandCursor)
         self.refreshButton.setFixedSize(20, 20)
         self.refreshButton.mousePressEvent = lambda event: self.refresh_screen(self.current_group)
         self.refreshButton.move(attsWidth - 30, int(configsHeight/2 - self.refreshButton.size().height()/2))        # self.refreshButton.mousePressEvent = lambda event: 
         self.refreshButton.show()
 
+        rt_display = str(len(self.current_members)) if len(self.current_members) < 1000 else "999+"
         self.membersSearchWidget = SearchWidget(
             ui=self, 
             parent=self.configsContainer,
@@ -263,6 +231,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.membersSearchBar = self.membersSearchWidget.findChild(QtWidgets.QLineEdit, "searchBar")
         self.membersSearchBar.textChanged.connect(partial(self.search, "members"))
 
+        rt_display = str(len(self.current_atts)) if len(self.current_atts) < 1000 else "999+"
         self.attsSearchWidget = SearchWidget(
             ui=self,
             parent=self.attsTop,
@@ -283,29 +252,29 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.membersFilterButton.setObjectName("membersFilterButton")
         self.membersFilterButton.setGeometry(
             15 + self.show_admins.size().width() + 15 + self.admins_first.size().width() + 10 + self.membersSearchWidget.size().width() + 10, 
-            int(configsHeight/2 - 10),
+            int(self.configsContainer.size().height()/2 - 10),
             20,
             20)
-        self.membersFilterButton.setCursor(Qt.CursorShape.PointingHandCursor)
         self.membersFilterButton.mousePressEvent = lambda event: self.toggle_members_filter()
         self.membersFilterButton.show()
 
         self.membersFilterContainer = QtWidgets.QFrame(self.centralwidget)
         self.membersFilterContainer.setObjectName("membersFilterContainer")
-        self.membersFilterContainer.setStyleSheet("#membersFilterContainer { border-width: 0 0 1px 1px; border-radius: 5px; border-style: solid; border-color: white; }")
+        self.membersFilterContainer.setStyleSheet("#membersFilterContainer { border-width: 0 0 1px 1px; border-radius: 5px; border-style: solid; border-color: white; } position: fixed;")
         self.membersFilterContainer.setFixedSize(200, 150)
         self.membersFilterContainer.move(navBarWidth + groupMembersWidth - self.membersFilterContainer.size().width(), configsHeight)
         self.membersFilterContainer.hide()
 
-        self.members_display_filters_label = QtWidgets.QLabel("Filtros de exibição", self.membersFilterContainer)
-        self.members_display_filters_label.setObjectName("members_display_filters_label")
-        self.members_display_filters_label.move(15, 10)
+        self.show_filters_label = QtWidgets.QLabel("Filtros de exibição", self.membersFilterContainer)
+        self.show_filters_label.setObjectName("show_filters_label")
+        self.show_filters_label.move(15, 10)
 
-        self.search_filter_label = QtWidgets.QLabel("Pesquisar por", self.membersFilterContainer)
+        self.search_filter_label = QtWidgets.QLabel("Filtros de pesquisa", self.membersFilterContainer)
         self.search_filter_label.setObjectName("search_filter_label")
         self.search_filter_label.move(15, 10 + (5+self.show_admins.size().height())*3)
 
         self.members_by_name_filter = QtWidgets.QCheckBox()
+        self.members_by_name_filter.setStyleSheet("border: none;")
         self.members_by_name_filter.setText("Nickname")
         self.members_by_name_filter.setObjectName("members_by_name_filter")
         self.members_by_name_filter.mousePressEvent = lambda event: self.toggle_members_by_name_filter()
@@ -313,6 +282,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.members_by_name_filter.show()
 
         self.members_by_motto_filter = QtWidgets.QCheckBox()
+        self.members_by_motto_filter.setStyleSheet("border: none;")
         self.members_by_motto_filter.setText("Missão")
         self.members_by_motto_filter.setObjectName("members_by_motto_filter")
         self.members_by_motto_filter.mousePressEvent = lambda event: self.toggle_members_by_motto_filter()
@@ -329,51 +299,8 @@ class GUI_MainWindow(QtWidgets.QWidget):
         self.members_by_name_filter.move(15 + 10, 10+ (5+self.show_admins.size().height())*4)
         self.members_by_motto_filter.move(15 + 10, 10 + (5+self.show_admins.size().height())*5)
 
-        self.attsFilterButton = QSvgWidget("gui/assets/images/filter_white.svg", self.attsTop)
-        self.attsFilterButton.setObjectName("attsFilterButton")
-        self.attsFilterButton.setGeometry(
-            attsWidth - (self.refreshButton.size().width() + 10 + 20 + 20),
-            int(self.attsTop.size().height()/2 - 10),
-            20,
-            20
-            )
-        self.attsFilterButton.setCursor(Qt.CursorShape.PointingHandCursor)
-        self.attsFilterButton.mousePressEvent = lambda event: self.toggle_atts_filter()
-        self.attsFilterButton.show()
-
-        self.attsFilterContainer = QtWidgets.QFrame(self.centralwidget)
-        self.attsFilterContainer.setObjectName("attsFilterContainer")
-        self.attsFilterContainer.setStyleSheet("#attsFilterContainer { border-width: 0 0 1px 1px; border-radius: 5px; border-style: solid; border-color: white; }")
-
-        self.attsFilterContainer.setFixedSize(150, 150)
-        self.attsFilterContainer.move(navBarWidth + groupMembersWidth + attsWidth - self.attsFilterContainer.size().width(), configsHeight)
-        self.attsFilterContainer.hide() # trocar para hide depois
-
-        self.atts_display_filters_label = QtWidgets.QLabel("Mostrar", self.attsFilterContainer)
-        self.atts_display_filters_label.setObjectName("atts_display_filters_label")
-        self.atts_display_filters_label.move(15, 10)
-
-        self.joined_filter.setParent(self.attsFilterContainer)
-        self.left_filter.setParent(self.attsFilterContainer)
-        self.turned_adm_filter.setParent(self.attsFilterContainer)
-        self.not_adm_filter.setParent(self.attsFilterContainer)
-
-        self.joined_filter.move(15 + 10, 10 + (5+self.joined_filter.size().height())*1)
-        self.left_filter.move(15 + 10, 10 + (5+self.joined_filter.size().height())*2)
-        self.turned_adm_filter.move(15 + 10, 10+ (5+self.joined_filter.size().height())*3)
-        self.not_adm_filter.move(15 + 10, 10 + (5+self.joined_filter.size().height())*4)
-
         MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
-
-    def toggle_atts_checkboxes(self, widget):
-        if widget.isChecked():
-            widget.setChecked(False)
-        else:
-            widget.setChecked(True)
-        prompt = self.attsSearchBar.text()
-        self.refresh_atts(self.current_group)
-        self.attsSearchBar.setText(prompt)
 
 
     def toggle_members_filter(self):
@@ -382,13 +309,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
         else:
             self.membersFilterContainer.raise_()
             self.membersFilterContainer.show()
-
-    def toggle_atts_filter(self):
-        if self.attsFilterContainer.isVisible():
-            self.attsFilterContainer.hide()
-        else:
-            self.attsFilterContainer.raise_()
-            self.attsFilterContainer.show()
 
     def eventFilter(self, source, event):
         if hasattr(self, 'membersSearchWidget'):
@@ -406,14 +326,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
                     self.highlight_selected_result(-1, items_type)
                 else:
                     self.highlight_selected_result(1, items_type)
-            if (event.key() == Qt.Key.Key_F and event.modifiers() == Qt.KeyboardModifier.ControlModifier):
-                print("source: ", source)
-                if source is membersSearchBar:
-                    self.attsSearchBar.setFocus()
-                elif source is attsSearchBar:
-                    self.membersSearchBar.setFocus()
-                else:
-                    self.membersSearchBar.setFocus()
 
         return False
     
@@ -443,10 +355,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.admins_first.setChecked(True)
         else:
             self.admins_first.setChecked(False)
-
-        prompt = self.membersSearchBar.text()
         self.refresh_group_members(self.current_group)
-        self.membersSearchBar.setText(prompt)
 
     # Switch entre "Mostrar admins" ligado e desligado
     def toggle_show_admins(self):
@@ -486,7 +395,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 self.members_filter.remove("motto")
         self.search("members")
 
-    def consult_group(self, group):
+    def consult_list(self, group):
         # Consultando lista de membros do grupo
         with groups_members_lock:
             members_data = groups_members.get(group)
@@ -494,39 +403,30 @@ class GUI_MainWindow(QtWidgets.QWidget):
         if members_data is not None:
             if not self.show_admins.isChecked():
                 members_data = [member for member in members_data if not (member['isAdmin'] == '1')]
+                return members_data
             if self.admins_first.isChecked():
                 members_data = sorted(members_data, key=lambda x: x['isAdmin'] == '1', reverse=True)
+                return members_data
+
         return members_data
-    
-    def consult_atts(self, group):
-        with groups_atts_lock:
-            atts_data = groups_atts.get(group)
-        if atts_data is not None:
-            if not self.joined_filter.isChecked():
-                atts_data = [att for att in atts_data if not att['missao'] == 'entrou']
-            if not self.left_filter.isChecked():
-                atts_data = [att for att in atts_data if not att['missao'] == 'saiu']
-        return atts_data
 
     # Carrega as informações do grupo selecionado (principal função da GUI)
     def load_group_members(self, group):
         self.current_members = []
 
-        members_data = self.consult_group(group)
+        members_data = self.consult_list(group)
         if not hasattr(self, 'groupNameLabel'):
             self.groupNameLabel = QtWidgets. QLabel(self.configsContainer)
             self.groupNameLabel.setObjectName("groupNameLabel")
+            self.groupNameLabel.setStyleSheet("background-color: red;")
             self.current_font.setPointSize(11)
-            self.current_font.setBold(True)
             self.groupNameLabel.setFont(self.current_font)
-            self.groupNameLabel.setFixedSize(270, configsHeight)
+            self.groupNameLabel.setFixedSize(260, configsHeight)
             self.groupNameLabel.move(10, int(configsHeight/2 - self.groupNameLabel.size().height()/2))
             self.groupNameLabel.show()
 
-        displayed_length = str(len(members_data)) if len(members_data) < 1000 else "999+"
-        self.groupNameLabel.setText(groups[find_group_index(self.current_group)][3] + "(" + displayed_length + ")")
+        self.groupNameLabel.setText(groups[find_group_index(self.current_group)][3] + "(" + str(len(members_data)) + ")")
 
-        self.current_font.setBold(False)
 
         if hasattr(self, 'membersSearchWidget'):
             self.clear_search_bar(self.membersSearchWidget)
@@ -597,9 +497,12 @@ class GUI_MainWindow(QtWidgets.QWidget):
             self.membersScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
             self.membersScrollArea.setWidgetResizable(True)
             self.membersScrollArea.setWidget(self.groupMembersContainer)
-        # else:
-        #     self.membersScrollArea.setWidget(self.groupMembersContainer)
+        else:
+            self.membersScrollArea.setWidget(self.groupMembersContainer)
+            self.membersScrollArea.show()
 
+        self.membersScrollArea.update()
+        self.membersScrollArea.viewport().update()
         if hasattr(self, "membersFilterContainer"):
             self.membersFilterContainer.raise_()
 
@@ -615,24 +518,17 @@ class GUI_MainWindow(QtWidgets.QWidget):
     # Move o marcador para o grupo selecionado
     def select_group(self, widget, group):
         for w in self.groups:
-            w.setStyleSheet(f"""
-                QLabel {{
-                    background-color: {backgroundColor};
-                    padding: 15px;  
-                }}
-                QLabel:hover {{
-                    background-color: {containerColor};
-                }}
-            """)
+            w.setStyleSheet("background-color: " + backgroundColor + "; padding: 15px;")
         self.selectedGroupHighlight.move(groupsX - 8, windowHeight // 20 + ((windowHeight // 30 + groupsSize) * self.groups.index(widget)) - 8)
         widget.setStyleSheet("background-color: #7a7a7a; padding: 15px;")
         self.current_group = group
-        self.refresh_screen(group)
+        self.refresh_group_members(group)
+        self.refresh_atts(group)
 
     def load_atts(self, group):
         self.current_atts = []
 
-        atts_data = self.consult_atts(group)
+        atts_data = groups_atts[group]
         
         if hasattr(self, 'attsSearchWidget'):
             self.clear_search_bar(self.attsSearchWidget)
@@ -650,9 +546,20 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
         if atts_data:
 
-            self.attsContainer.setMinimumSize(attsWidth, len(atts_data) * (attContainerHeight + defaultMargin))
+            # Área em que será possível rolar a tela para baixo (equivalente à área das atts)
+            self.attsScrollArea = QtWidgets.QScrollArea(self.centralwidget)
+            self.attsScrollArea.setObjectName("attsScrollArea")
+            self.attsScrollArea.setGeometry(attsX, attsY + configsHeight, attsWidth, attsHeight)
+            self.style_scroll_bar(self.attsScrollArea)
+            self.attsScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+            self.attsScrollArea.setWidgetResizable(True)
+            self.attsScrollArea.setWidget(self.attsContainer)
+
+            required_height_for_asa = len(atts_data) * (attContainerHeight + defaultMargin)
+            self.attsContainer.setMinimumSize(attsWidth, required_height_for_asa)
 
             for i, att in enumerate(atts_data):
+
                 # Container dos dados
                 container = QtWidgets.QFrame(self.attsContainer)
                 container.setObjectName("attContainer")
@@ -712,19 +619,6 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 datetimeLabel.show()
 
                 self.current_atts.append(container)
-        if not hasattr(self, 'attsScrollArea'):
-            # Área em que será possível rolar a tela para baixo (equivalente à área das atts)
-            self.attsScrollArea = QtWidgets.QScrollArea(self.centralwidget)
-            self.attsScrollArea.setObjectName("attsScrollArea")
-            self.attsScrollArea.setGeometry(attsX, attsY + configsHeight, attsWidth, attsHeight)
-            self.style_scroll_bar(self.attsScrollArea)
-            self.attsScrollArea.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-            self.attsScrollArea.setWidgetResizable(True)
-        else:
-            self.attsScrollArea.setWidget(self.attsContainer)
-
-        if hasattr(self, "attsFilterContainer"):
-            self.attsFilterContainer.raise_()
                 
             return True
         return False
@@ -801,22 +695,22 @@ class GUI_MainWindow(QtWidgets.QWidget):
             back_button.load('gui/assets/images/up_arrow_disabled.svg')
 
     def style_scroll_bar(self, scroll_bar):
-        scroll_bar.setStyleSheet(f"""
-    QScrollBar:vertical {{
+        scroll_bar.setStyleSheet("""
+    QScrollBar:vertical {
         border: none;
         background: #f0f0f0;
         width: 10px;
-    }}
-    QScrollBar::handle:vertical {{
-        background: #2e2e2e; 
+    }
+    QScrollBar::handle:vertical {
+        background: #c0c0c0; 
         min-height: 20px;
-    }}
-    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {{
+    }
+    QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
         background: none;
-    }}
-    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {{
+    }
+    QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
         background: none;
-    }}
+    }
 """)
         
     def clear_search_bar(self, widget):
@@ -845,13 +739,11 @@ class MainWindow(QtWidgets.QMainWindow):
     
 def match_nicknames(prompt, lst, attributes):
     results = []
-    if prompt == '':
-        return results
     for container in lst:
         flag = 0
         if attributes:
             for attr in attributes:
-                if prompt.lower() in container.findChild(QtWidgets.QWidget, attr).text().lower():
+                if prompt != '' and prompt.lower() in container.findChild(QtWidgets.QWidget, attr).text().lower():
                     flag = 1
                     results.append(container)
                     break
@@ -880,7 +772,8 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     groups_members['acesso_a_base'] = read_table('acesso_a_base')
     groups_atts['acesso_a_base'] = read_table('acesso_a_base_atts')
-
+    # for i in range(4):
+    #     commit_changes('acesso_a_base_atts', 'Nick-aleatorio', 'entrou', '21/07/2024 - 12:00:00')
     for i in range(1, len(groups)):
         t_group = threading.Thread(target=update_realtime_list, args=(groups[i][0], groups_members, groups[i][0]))
         t_group.start()
