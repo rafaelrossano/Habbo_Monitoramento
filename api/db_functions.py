@@ -256,5 +256,3 @@ def set_all_tables():
     clear_atts_table('pracas_atts')
     clear_atts_table('acesso_a_base_atts')
     
-
-set_members_table('pracas')
