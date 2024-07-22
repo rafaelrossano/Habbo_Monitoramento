@@ -36,3 +36,4 @@ def run_client():
     while True:
         pass
 
+run_client()

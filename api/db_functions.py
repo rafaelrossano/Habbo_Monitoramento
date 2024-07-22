@@ -96,7 +96,7 @@ def read_table(table_name):
     conn = sqlite3.connect('database.db', check_same_thread=False)
     cursor = conn.cursor()
     try:
-        cursor.execute(f'SELECT * FROM {table_name}')
+        cursor.execute(f'SELECT * FROM "{table_name}"')
         
         table_output = cursor.fetchall()
 
@@ -256,3 +256,5 @@ def set_all_tables():
     clear_atts_table('pracas_atts')
     clear_atts_table('acesso_a_base_atts')
     
+
+set_members_table('pracas')
