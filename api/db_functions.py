@@ -107,6 +107,24 @@ def read_table(table_name):
         return output_list
     finally:
         conn.close()
+        
+
+def read_atts_table(table_name):
+    conn = sqlite3.connect('database.db', check_same_thread=False)
+    cursor = conn.cursor()
+    try:
+        cursor.execute(f'SELECT * FROM "{table_name}"')
+        
+        table_output = cursor.fetchall()
+
+        output_list = [{'nickname': profile[0], 'status': profile[1], 'date_time': profile[2]} for profile in table_output]
+        
+        if len(output_list) == 0:
+            return []
+        return output_list
+    finally:
+        conn.close()
+
 
 def insert_manually_to_atts_table(table_name, nickname, status, date_time):
     conn = sqlite3.connect('database.db', check_same_thread=False)
