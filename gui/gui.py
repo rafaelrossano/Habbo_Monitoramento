@@ -6,6 +6,7 @@ from gui_widgets import SearchWidget
 import socket
 import threading
 import sqlite3
+import time
 from functools import partial
 # from api.db_functions import read_table
 # from api.config import *
@@ -511,9 +512,9 @@ class GUI_MainWindow(QtWidgets.QWidget):
             atts_data = groups_atts.get(group)
         if atts_data is not None:
             if not self.joined_filter.isChecked():
-                atts_data = [att for att in atts_data if not att['missao'] == 'entrou']
+                atts_data = [att for att in atts_data if not att['type'] == 'entrou']
             if not self.left_filter.isChecked():
-                atts_data = [att for att in atts_data if not att['missao'] == 'saiu']
+                atts_data = [att for att in atts_data if not att['type'] == 'saiu']
         return atts_data
 
     # Carrega as informações do grupo selecionado (principal função da GUI)
@@ -585,7 +586,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 motto.setGeometry(groupMembersWidth // 5, 40, groupMembersWidth, 30)
                 motto.setFont(self.current_font)
                 motto.setStyleSheet("color: #c7c7c7;")
-                motto.setText(member['missao'])
+                motto.setText(member['mission'])
                 motto.show()
 
                 if member['isAdmin'] == '1':
@@ -670,7 +671,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 container.show()
 
                 self.current_font.setPointSize(11)
-                att_img_path = "gui/assets/images/joined_green.svg" if att['missao'] == 'entrou' else "gui/assets/images/left_red.svg"
+                att_img_path = "gui/assets/images/joined_green.svg" if att['type'] == 'entrou' else "gui/assets/images/left_red.svg"
                 attImg = QSvgWidget(att_img_path, container)
                 attImg.setObjectName("attImg")
                 attImg.setFixedSize(45, 45)
@@ -678,12 +679,13 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 attImg.show()
                 # Espaço destinado ao nome do membro
                 att_nickname = att['nickname']
-                att_action = 'entrou' if att['missao'] == 'entrou' else 'saiu'
+                att_action = 'entrou' if att['type'] == 'entrou' else 'saiu'
                 attName = QtWidgets.QLabel(container)
                 attName.setTextFormat(Qt.TextFormat.RichText)
                 attName.setObjectName("attName")
+                self.current_font.setBold(True)
                 attName.setFont(self.current_font)
-                attName.setText(f'<b>{att_nickname}</b>') # {att_action}')
+                attName.setText(att_nickname) # {att_action}')
                 attName.setTextInteractionFlags(Qt.TextInteractionFlag.TextSelectableByMouse)
                 attName.move(attsWidth // 20 + 45 + 20, int(15 + (45)/2 - attName.size().height()/2))
                 attName.show()
@@ -713,10 +715,10 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 datetimeLabel.setGeometry(attsWidth // 20, attContainerHeight - 30, attsWidth, 30)
                 datetimeLabel.setFont(self.current_font)
                 datetimeLabel.setStyleSheet("color: #c7c7c7;")
-                day = att['isAdmin'][:2]
-                month = date_displays[int(att['isAdmin'][3:5]) - 1]
-                year = att['isAdmin'][6:10]
-                time = att['isAdmin'][13:]
+                day = att['date_time'][:2]
+                month = date_displays[int(att['date_time'][3:5]) - 1]
+                year = att['date_time'][6:10]
+                time = att['date_time'][13:]
                 datetimeLabel.setText(f'{day} {month} {year} - {time}')
                 datetimeLabel.show()
 
@@ -911,18 +913,22 @@ def run_client():
     while True:
         pass
 
-def run_client_thread(window):
-        t = threading.Thread(target=run_client, args=(window,))
+def run_client_thread():
+        t = threading.Thread(target=run_client)
         t.start()
 
 def update_realtime_group_members(group):
-    group_id = groups[find_group_index(group)][1]
-    with groups_members_lock:
-        groups_members[group] = get_group_members(group_id)
+    while True:
+        group_id = groups[find_group_index(group)][1]
+        with groups_members_lock:
+            groups_members[group] = get_group_members(group_id)
+        time.sleep(10)
 
 def update_realtime_atts(group):
-    with groups_atts_lock:
-        groups_atts[group] = get_group_atts(group)
+    while True:
+        with groups_atts_lock:
+            groups_atts[group] = get_group_atts(group)
+        time.sleep(10)
 
 
 if __name__ == "__main__":
@@ -931,13 +937,14 @@ if __name__ == "__main__":
     groups_members['acesso_a_base'] = get_group_members(groups[0][1])
     groups_atts['acesso_a_base'] = get_group_atts(groups[0][0])
 
-    for i in range(1, len(groups)):
+    for i in range(0, len(groups)):
         t_group = threading.Thread(target=update_realtime_group_members, args=(groups[i][0],))
         t_group.start()
-        t_atts = threading.Thread(target=update_realtime_atts, args=(groups[i][0] + '_atts', groups_atts, groups[i][0]))
+        t_atts = threading.Thread(target=update_realtime_atts, args=(groups[i][0],))
         t_atts.start()
+
     main_window = MainWindow()
-    run_client_thread(main_window)
+    run_client_thread()
     main_window.show()
     sys.exit(app.exec())
 
