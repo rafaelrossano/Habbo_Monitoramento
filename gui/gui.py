@@ -502,9 +502,9 @@ class GUI_MainWindow(QtWidgets.QWidget):
 
         if members_data is not None:
             if not self.show_admins.isChecked():
-                members_data = [member for member in members_data if not (member['isAdmin'] == '1')]
+                members_data = [member for member in members_data if not (member['isAdmin'])]
             if self.admins_first.isChecked():
-                members_data = sorted(members_data, key=lambda x: x['isAdmin'] == '1', reverse=True)
+                members_data = sorted(members_data, key=lambda x: x['isAdmin'], reverse=True)
         return members_data
     
     def consult_atts(self, group):
@@ -589,7 +589,7 @@ class GUI_MainWindow(QtWidgets.QWidget):
                 motto.setText(member['mission'])
                 motto.show()
 
-                if member['isAdmin'] == '1':
+                if member['isAdmin']:
                     adm_crown_img = QtWidgets.QLabel(container)
                     adm_crown_img.setGeometry(QtCore.QRect(groupMembersWidth // 5 + user_name.size().width() + 10, 12, 20, 20))
                     adm_crown_img.setPixmap(QtGui.QPixmap('gui/assets/images/adm.png'))
